@@ -1,5 +1,5 @@
 # MasterBricklink
-<b><i>MasterBricklink, AFOL Tools for Bricklink on Google SpreadSheet</b></i>, nasce dalla mente di <b>GianCann</b> (tra il 2018 e il 2019) per semplificare la gestione del proprio inventario di mattoncini LEGO. Dopo aver ereditato il progetto, ho migliorato le funzionalità esistenti e ne ho introdotte di nuove, cercando di rendere la cartella di lavoro il più stand-alone possibile e fruibile anche ai meno pratici.<br></br>
+<b><i>MasterBricklink, AFOL Tools for Bricklink on Google SpreadSheet</b></i>, nasce dalla mente di <b>GianCann</b> (tra il 2018 e il 2019) per semplificare la gestione dell'inventario di mattoncini LEGO. Dopo aver ereditato il progetto, ho migliorato le funzionalità esistenti e ne ho introdotte di nuove, cercando di rendere la cartella di lavoro il più stand-alone possibile e fruibile anche ai meno pratici.<br></br>
 
 
 ## Installazione
@@ -21,7 +21,7 @@ Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare
 
 ## Changelog
 ### da 1.0.0 ad oggi (GitHub)
-1.0.1. ReadMe. (ZioTitanok)
+1.0.1. ReadMe. (ZioTitanok)<br>
 1.0.0: Introdotte funzionalità di creazione/ripristino dei fogli della cartella di lavoro. (ZioTitanok)<br>
 
 ### da 0.0.1 a 0.9.0 (pre-GitHub)
