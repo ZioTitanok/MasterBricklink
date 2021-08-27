@@ -31,7 +31,7 @@ Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare
 0.6.0: Non solo Parts: Minifigures, Sets e tutto il resto possono essere gestiti. (ZioTitanok)<br>
 0.5.0: Introdotte le funzionalità di Import tra Inventory, PartOut e Lab. (ZioTitanok)<br>
 0.4.0: Introdotto PartOut per il download dei part-out dei Sets. (ZioTitanok)<br>
-0.3.1: Introdotto XML Export (Upload, Upgrade) per la sincronizzazione manuale dell'Inventario su Bricklink. (ZioTitanok)
+0.3.1: Introdotto XML Export (Upload, Upgrade) per la sincronizzazione manuale dell'Inventario su Bricklink. (ZioTitanok)<br>
 0.3.0: Introdotto XML Export (Wanted) per la creazione manuale di WantedList su Bricklink (GianCann)<br>
 0.2.0: Miglioramento di Lab ed introduzione dei Database di Parts, Minifigures e Sets. (ZioTitanok)<br>
 0.1.0: Introdotto OAuth1 negli script (eliminato il PHP esterno). (GianCann)<br>
