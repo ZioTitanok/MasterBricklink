@@ -22,10 +22,10 @@ function LoadInventory(){
   var CategoryId = SheetInventory.getRange("F1").getValue();
   var ColorId = SheetInventory.getRange("F2").getValue();
   var StockRoom = SheetInventory.getRange("H2").getValue();
-  if (StockRoom == "NO"){StockRoom = "Y"};
-  if (StockRoom == "A"){StockRoom = "S"};
-  if (StockRoom == "B"){StockRoom = "B"};
-  if (StockRoom == "C"){StockRoom = "C"};
+  if (StockRoom == "NO") StockRoom = "Y";
+  if (StockRoom == "A") StockRoom = "S";
+  if (StockRoom == "B") StockRoom = "B";
+  if (StockRoom == "C") StockRoom = "C";
 
   // API Request
   var Url = 'https://api.bricklink.com/api/store/v1' + '/inventories';

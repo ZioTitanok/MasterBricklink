@@ -148,8 +148,8 @@ function ImportInventory() {
   var Mode = SheetLab.getRange("A2").getValue();
 
   if (Mode == "ADD"){
-    var data = SheetLab.getRange(LabMinRow, 2, SheetInventory.getLastRow(), 1).getValues().join('@').split('@');
-    LabMinRow = LabMinRow + data.filter(Boolean).length;
+    var Check = SheetLab.getRange(LabMinRow, 2, SheetInventory.getLastRow(), 1).getValues().join('@').split('@');
+    LabMinRow = LabMinRow + Check.filter(Boolean).length;
     } else if (Mode = "CLEAR"){
     ClearLab()
   }
@@ -244,6 +244,8 @@ function ClearLab(){
   ClearLabPrices()
   SheetLab.getRange("J2").clear({contentsOnly: true});
   SheetLab.getRange(LabMinRow, 1, LabMaxRow, 7).clear({contentsOnly: true});
+  SheetLab.getRange(LabMinRow, 15, LabMaxRow, 1).clear({contentsOnly: true});
+  SheetLab.getRange(LabMinRow, 27, LabMaxRow, 2).clear({contentsOnly: true});
 }
 
 // Function: Clear Lab (Prices)
