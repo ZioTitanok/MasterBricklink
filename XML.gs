@@ -26,27 +26,27 @@ function XMLWanted(){
       
       var StringWanted = "<ITEM>" + "<ITEMTYPE>"
       if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "PART"){
-        StringWanted = StringWanted + "P</ITEMTYPE>"
+        StringWanted += "P</ITEMTYPE>"
       } else if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "MINIFIG"){
-        StringWanted = StringWanted + "M</ITEMTYPE>"
+        StringWanted += "M</ITEMTYPE>"
       } else if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "SET"){
-        StringWanted = StringWanted + "S</ITEMTYPE>"
-        StringWanted = StringWanted + "<SUBCONDITION>" + Selection.getCell(CurrentRow,LabColumnCompleteness).getValue() + "</SUBCONDITION>"
+        StringWanted += "S</ITEMTYPE>"
+        StringWanted += "<SUBCONDITION>" + Selection.getCell(CurrentRow,LabColumnCompleteness).getValue() + "</SUBCONDITION>"
       }
 
-      StringWanted = StringWanted + "<ITEMID>" + Selection.getCell(CurrentRow,LabColumnItemNo).getValue() + "</ITEMID>";
-      StringWanted = StringWanted + "<COLOR>" + Selection.getCell(CurrentRow,LabColumnColorID).getValue() + "</COLOR>";
-      StringWanted = StringWanted + "<CONDITION>" + Selection.getCell(CurrentRow,LabColumnCondition).getValue() + "</CONDITION>";
+      StringWanted += "<ITEMID>" + Selection.getCell(CurrentRow,LabColumnItemNo).getValue() + "</ITEMID>";
+      StringWanted += "<COLOR>" + Selection.getCell(CurrentRow,LabColumnColorID).getValue() + "</COLOR>";
+      StringWanted += "<CONDITION>" + Selection.getCell(CurrentRow,LabColumnCondition).getValue() + "</CONDITION>";
       if (Selection.getCell(CurrentRow,LabColumnQty).getValue() != ""){
-        StringWanted = StringWanted + "<MINQTY>" + Selection.getCell(CurrentRow,LabColumnQty).getValue() + "</MINQTY>";
+        StringWanted += "<MINQTY>" + Selection.getCell(CurrentRow,LabColumnQty).getValue() + "</MINQTY>";
       }
       if (Selection.getCell(CurrentRow, LabColumnCondition).getValue() != ""){
-        StringWanted = StringWanted + "<CONDITION>" + Selection.getCell(CurrentRow, LabColumnCondition).getValue() + "</CONDITION>"
+        StringWanted += "<CONDITION>" + Selection.getCell(CurrentRow, LabColumnCondition).getValue() + "</CONDITION>"
       }
       if (Selection.getCell(CurrentRow,LabColumnRemarks).getValue() != ""){
-         StringWanted = StringWanted + "<REMARKS>" + Selection.getCell(CurrentRow,LabColumnRemarks).getValue() + "</REMARKS>";
+         StringWanted += "<REMARKS>" + Selection.getCell(CurrentRow,LabColumnRemarks).getValue() + "</REMARKS>";
       }
-      StringWanted = StringWanted + "</ITEM>";
+      StringWanted += "</ITEM>";
       
       OutputWanted[i] = StringWanted;
       i++;
@@ -97,33 +97,33 @@ function XMLUploadUpdate(){
       if (LotID != ""){
         // YES LotID: Update  
         if (Selection.getCell(CurrentRow,LabColumnQty).getValue() != "" || Selection.getCell(CurrentRow,LabColumnPrice).getValue() != "" || Selection.getCell(CurrentRow,LabColumnDescription).getValue() != "" || Selection.getCell(CurrentRow,LabColumnRemarks).getValue() != ""){
-        // LotID presente (se almeno uno dei paramentri è cambiato): Update
+
           var StringUpdate = "<ITEM>";
-          StringUpdate = StringUpdate + "<LOTID>" + Selection.getCell(CurrentRow,LabColumnLotID).getValue() + "</LOTID>";
+          StringUpdate += "<LOTID>" + Selection.getCell(CurrentRow,LabColumnLotID).getValue() + "</LOTID>";
           
           if (Selection.getCell(CurrentRow,LabColumnQty).getValue() != ""){
             if (Selection.getCell(CurrentRow, LabColumQtyInventory).getValue() + Selection.getCell(CurrentRow, LabColumnQty).getValue() == 0){
-              StringUpdate = StringUpdate + "<DELETE>Y</DELETE>"
+              StringUpdate += "<DELETE>Y</DELETE>"
             } else {
               if (Selection.getCell(CurrentRow,LabColumnQty).getValue() > 0){
                 var Sign = "+";
               } else {
                 var Sign = "";
               }
-              StringUpdate = StringUpdate + "<QTY>" + Sign + Selection.getCell(CurrentRow,LabColumnQty).getValue() + "</QTY>";
+              StringUpdate += "<QTY>" + Sign + Selection.getCell(CurrentRow,LabColumnQty).getValue() + "</QTY>";
             }
           }
 
           if (Selection.getCell(CurrentRow,LabColumnPrice).getValue() != ""){
-            StringUpdate = StringUpdate + "<PRICE>" + Selection.getCell(CurrentRow,LabColumnPrice).getValue() + "</PRICE>";
+            StringUpdate += "<PRICE>" + Selection.getCell(CurrentRow,LabColumnPrice).getValue() + "</PRICE>";
           }
           if (Selection.getCell(CurrentRow,LabColumnDescription).getValue() != ""){
-            StringUpdate = StringUpdate + "<DESCRIPTION>" + Selection.getCell(CurrentRow,LabColumnDescription).getValue() + "</DESCRIPTION>";
+            StringUpdate += "<DESCRIPTION>" + Selection.getCell(CurrentRow,LabColumnDescription).getValue() + "</DESCRIPTION>";
           }
           if (Selection.getCell(CurrentRow,LabColumnRemarks).getValue() != ""){
-            StringUpdate = StringUpdate + "<REMARKS>" + Selection.getCell(CurrentRow,LabColumnRemarks).getValue() + "</REMARKS>";
+            StringUpdate += "<REMARKS>" + Selection.getCell(CurrentRow,LabColumnRemarks).getValue() + "</REMARKS>";
           }
-          StringUpdate = StringUpdate + "</ITEM>";
+          StringUpdate += "</ITEM>";
           
           OutputUpdate[i] = StringUpdate;
           i++;
@@ -133,37 +133,37 @@ function XMLUploadUpdate(){
         // NO LotID: Upload        
         var StringUpload = "<ITEM>" + "<CATEGORY></CATEGORY>" + "<ITEMTYPE>"
         if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "PART"){
-          StringUpload = StringUpload + "P</ITEMTYPE>"
+          StringUpload += "P</ITEMTYPE>"
         } else if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "MINIFIG"){
-            StringUpload = StringUpload + "M</ITEMTYPE>"
+            StringUpload+= "M</ITEMTYPE>"
         } else if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "SET"){
-            StringUpload = StringUpload + "S</ITEMTYPE>"
-            StringUpload = StringUpload + "<SUBCONDITION>" + Selection.getCell(CurrentRow,LabColumnCompleteness).getValue() + "</SUBCONDITION>"
+            StringUpload += "S</ITEMTYPE>"
+            StringUpload += "<SUBCONDITION>" + Selection.getCell(CurrentRow,LabColumnCompleteness).getValue() + "</SUBCONDITION>"
         }
-        StringUpload = StringUpload + "<ITEMID>" + Selection.getCell(CurrentRow,LabColumnItemNo).getValue() + "</ITEMID>";
-        StringUpload = StringUpload + "<COLOR>" + Selection.getCell(CurrentRow,LabColumnColorID).getValue() + "</COLOR>";
-        StringUpload = StringUpload + "<CONDITION>" + Selection.getCell(CurrentRow,LabColumnCondition).getValue() + "</CONDITION>";
-        StringUpload = StringUpload + "<QTY>" + Selection.getCell(CurrentRow,LabColumnQty).getValue() + "</QTY>";
+        StringUpload += "<ITEMID>" + Selection.getCell(CurrentRow,LabColumnItemNo).getValue() + "</ITEMID>";
+        StringUpload += "<COLOR>" + Selection.getCell(CurrentRow,LabColumnColorID).getValue() + "</COLOR>";
+        StringUpload += "<CONDITION>" + Selection.getCell(CurrentRow,LabColumnCondition).getValue() + "</CONDITION>";
+        StringUpload += "<QTY>" + Selection.getCell(CurrentRow,LabColumnQty).getValue() + "</QTY>";
         
         if (Selection.getCell(CurrentRow,LabColumnPrice).getValue() == ""){
-          StringUpload = StringUpload + "<PRICE>" + Selection.getCell(CurrentRow,LabColumnPriceAvg).getValue() + "</PRICE>";
+          StringUpload += "<PRICE>" + Selection.getCell(CurrentRow,LabColumnPriceAvg).getValue() + "</PRICE>";
         } else {
-          StringUpload = StringUpload + "<PRICE>" + Selection.getCell(CurrentRow,LabColumnPrice).getValue() + "</PRICE>";
+          StringUpload += "<PRICE>" + Selection.getCell(CurrentRow,LabColumnPrice).getValue() + "</PRICE>";
         }
         
         if (Selection.getCell(CurrentRow,LabColumnDescription).getValue() != ""){
-          StringUpload = StringUpload + "<DESCRIPTION>" + Selection.getCell(CurrentRow,LabColumnDescription).getValue() + "</DESCRIPTION>";
+          StringUpload += "<DESCRIPTION>" + Selection.getCell(CurrentRow,LabColumnDescription).getValue() + "</DESCRIPTION>";
         }
         
         if (Selection.getCell(CurrentRow,LabColumnRemarks).getValue() != ""){
-          StringUpload = StringUpload + "<REMARKS>" + Selection.getCell(CurrentRow,LabColumnRemarks).getValue() + "</REMARKS>";
+          StringUpload += "<REMARKS>" + Selection.getCell(CurrentRow,LabColumnRemarks).getValue() + "</REMARKS>";
         }
         
         if (Selection.getCell(CurrentRow,LabColumnStock).getValue() != "NO"){
-          StringUpload = StringUpload + "<STOCKROOM>" + "Y" + "</STOCKROOM>";
-          StringUpload = StringUpload + "<STOCKROOMID>" + Selection.getCell(CurrentRow,LabColumnStock).getValue() + "</STOCKROOMID>";
+          StringUpload += "<STOCKROOM>" + "Y" + "</STOCKROOM>";
+          StringUpload += "<STOCKROOMID>" + Selection.getCell(CurrentRow,LabColumnStock).getValue() + "</STOCKROOMID>";
         }        
-        StringUpload = StringUpload + "</ITEM>";
+        StringUpload += "</ITEM>";
 
         OutputUpload[j] = StringUpload;
         j++;

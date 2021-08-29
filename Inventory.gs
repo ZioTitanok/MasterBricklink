@@ -22,10 +22,10 @@ function LoadInventory(){
   var CategoryId = SheetInventory.getRange("F1").getValue();
   var ColorId = SheetInventory.getRange("F2").getValue();
   var StockRoom = SheetInventory.getRange("H2").getValue();
-  if (StockRoom == "NO"){StockRoom = "Y"};
-  if (StockRoom == "A"){StockRoom = "S"};
-  if (StockRoom == "B"){StockRoom = "B"};
-  if (StockRoom == "C"){StockRoom = "C"};
+  if (StockRoom == "NO") StockRoom = "Y";
+  if (StockRoom == "A") StockRoom = "S";
+  if (StockRoom == "B") StockRoom = "B";
+  if (StockRoom == "C") StockRoom = "C";
 
   // API Request
   var Url = 'https://api.bricklink.com/api/store/v1' + '/inventories';
@@ -72,9 +72,9 @@ function LoadInventory(){
   }
   i++;
   
-  SheetInventory.getRange(4, 1, Inventory.length, 18).setValues(Inventory);
-  SheetInventory.getRange(4, 1, Inventory.length, 18).sort([2, 5, 3]);
-  SheetInventory.getRange(2, 18).setValue(new Date());
+  SheetInventory.getRange(InventoryMinRow, 1, Inventory.length, 18).setValues(Inventory);
+  SheetInventory.getRange(InventoryMinRow, 1, Inventory.length, 18).sort([2, 5, 3]);
+  SheetInventory.getRange(InventoryMinRow, 18).setValue(new Date());
 
   // UI
   var Ui = SpreadsheetApp.getUi();

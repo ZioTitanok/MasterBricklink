@@ -1,0 +1,16 @@
+{
+  "timeZone": "Europe/Paris",
+  "dependencies": {
+  },
+  "webapp": {
+    "access": "ANYONE",
+    "executeAs": "USER_ACCESSING"
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "oauthScopes": ["https://www.googleapis.com/auth/script.external_request", "https://www.googleapis.com/auth/spreadsheets"],
+  "runtimeVersion": "V8",
+  "sheets": {
+    "macros": [{
+    }]
+  }
+}

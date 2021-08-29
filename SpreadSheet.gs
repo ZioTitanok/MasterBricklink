@@ -47,7 +47,7 @@ function RegenerateDBColors() {
   SheetDBColors.setColumnWidths(2,3,75);
   SheetDBColors.setRowHeights(1, SheetDBColors.getMaxRows(), 21);
   SheetDBColors.setFrozenRows(1);
-  SheetDBColors.getRange(1,1, SheetDBColors.getMaxRows(), SheetDBColors.getMaxColumns()).setNumberFormat("@");
+  SheetDBColors.getRange(1,1, SheetDBColors.getMaxRows()-1, SheetDBColors.getMaxColumns()).setNumberFormat("@");
   SpreadsheetApp.flush();
 
   // Text
@@ -94,7 +94,7 @@ function RegenerateDBColors() {
 }
 
 // Function: Regenerate DB-Category
-function RegenerateDBCategory() {
+function RegenerateDBCategories() {
   RegenerateSheet("DB-Categories", '#727272', 1000, 3)
   SheetDBCategory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Categories");
 
@@ -104,7 +104,7 @@ function RegenerateDBCategory() {
   SheetDBCategory.setColumnWidth(3, 100);
   SheetDBCategory.setRowHeights(1, SheetDBCategory.getMaxRows(), 21);
   SheetDBCategory.setFrozenRows(1);
-  SheetDBCategory.getRange(1,1, SheetDBCategory.getMaxRows(), SheetDBCategory.getMaxColumns()).setNumberFormat("@");
+  SheetDBCategory.getRange(1,1, SheetDBCategory.getMaxRows()-1, SheetDBCategory.getMaxColumns()).setNumberFormat("@");
   SpreadsheetApp.flush();
   
   // Text
@@ -242,7 +242,7 @@ function RegenerateInventory() {
   SheetDBColors = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Colors");
   var ColorsRule = SpreadsheetApp.newDataValidation().requireValueInRange(SheetDBColors.getRange("A2:A")).build();
   SheetInventory.getRange("G2").setDataValidation(ColorsRule);
-  SheetInventory.getRange("F2").setValue("=IFERROR(VLOOKUP(G2, 'DB-Colori'!A:B,2,FALSE),\"\")")
+  SheetInventory.getRange("F2").setValue("=IFERROR(VLOOKUP(G2, 'DB-Colors'!A:B,2,FALSE),\"\")")
 
   var StockRoomRule = SpreadsheetApp.newDataValidation().requireValueInList(["NO", "A", "B", "C"]).build();
   SheetInventory.getRange("H2").setDataValidation(StockRoomRule);
@@ -318,6 +318,7 @@ function RegenerateLab() {
   SheetLab.setColumnWidths(2, 2, 150);
   SheetLab.setColumnWidths(4, 5, 50);
   SheetLab.setColumnWidth(9, 75);
+  SheetLab.setColumnWidth(10, 100);
   SheetLab.setColumnWidths(11, 11, 70);
   SheetLab.setColumnWidth(23, 150);
   SheetLab.setColumnWidth(24, 100);
@@ -325,7 +326,6 @@ function RegenerateLab() {
   SheetLab.setColumnWidths(29, 2, 200);
   SheetLab.setRowHeights(1, 2, 21)
   SheetLab.setRowHeight(3, 75);
-  SheetLab.insertRows(50, 9000);
   SheetLab.setRowHeights(4, SheetLab.getMaxRows()-4, 45)
   SheetLab.setFrozenRows(3);
 
@@ -353,7 +353,22 @@ function RegenerateLab() {
   SheetLab.getRange("A1:AD3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
   SheetLab.getRange("A4:AD").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
   SheetLab.getRange(1,1, SheetLab.getMaxRows(), SheetLab.getMaxColumns()).setNumberFormat("@");
+  SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
+  SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
+  SheetLab.getRange(LabMinRow, 12, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0.00[$€]");
+  SheetLab.getRange(LabMinRow, 13, SheetLab.getMaxRows()-LabMinRow, 2).setNumberFormat("##.##%"); 
+  SheetLab.getRange(LabMinRow, 15, SheetLab.getMaxRows()-LabMinRow, 5).setNumberFormat("#,##0.00[$€]");  
   SpreadsheetApp.flush();
+
+  var PercentageConditional = SpreadsheetApp.newConditionalFormatRule()
+    .setGradientMaxpointWithValue('#FFAFAF', SpreadsheetApp.InterpolationType.NUMBER, "100%")
+    .setGradientMidpointWithValue('#FFFFFF', SpreadsheetApp.InterpolationType.NUMBER, "0")
+    .setGradientMinpointWithValue('#AFAFFF', SpreadsheetApp.InterpolationType.NUMBER, "-100%")
+    .setRanges([SheetLab.getRange(LabMinRow, 13, SheetLab.getMaxRows(), 2)])
+    .build();
+  var PercentagesConditional = SheetLab.getConditionalFormatRules();
+  PercentagesConditional.push(PercentageConditional);
+  SheetLab.setConditionalFormatRules(PercentagesConditional);
 
   // Text
   var TitlesA = ["Mode", "Item Type", "Category", "ID", "Color","","", "ID", "Angle", "Last Row", "Zone", "","Price Guide"];
@@ -364,7 +379,7 @@ function RegenerateLab() {
 
   // Dropdowns
   var ModeRule = SpreadsheetApp.newDataValidation().requireValueInList(["ADD", "CLEAR"]).build();
-  SheetLab.getRange("A2").setDataValidation(ModeRule);
+  SheetLab.getRange("A2").setDataValidation(ModeRule).setValue("ADD");
 
   var ItemTypeRule = SpreadsheetApp.newDataValidation().requireValueInList(["PART", "MINIFIG", "SET","GEAR", "BOOK"]).build();
   SheetLab.getRange("B2").setDataValidation(ItemTypeRule);
@@ -385,18 +400,18 @@ function RegenerateLab() {
   var ColorsRule = SpreadsheetApp.newDataValidation().requireValueInRange(SheetDBColors.getRange("A2:A")).build();
   SheetLab.getRange("E2").setDataValidation(ColorsRule);
   SheetLab.getRange("C4:C").setDataValidation(ColorsRule);
-  SheetLab.getRange("H2").setValue("=IFERROR(VLOOKUP(E2, 'DB-Colori'!A:B,2,FALSE),\"\")");
+  SheetLab.getRange("H2").setValue("=IFERROR(VLOOKUP(E2, 'DB-Colors'!A:B,2,FALSE),\"\")");
 
   SpreadsheetApp.flush();
 
   var ImageRule = SpreadsheetApp.newDataValidation().requireValueInList(["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17"]).build();
-  SheetLab.getRange("I2").setDataValidation(ImageRule);
+  SheetLab.getRange("I2").setDataValidation(ImageRule).setValue("01");
 
   var ZoneRule = SpreadsheetApp.newDataValidation().requireValueInList(["Europe", "Worldwide"]).build();
   SheetLab.getRange("K2").setDataValidation(ZoneRule).setValue("Europe");
 
   var PriceRule = SpreadsheetApp.newDataValidation().requireValueInList(["Stock", "Sold"]).build();
-  SheetLab.getRange("M2").setDataValidation(PriceRule).setValue("Sold");
+  SheetLab.getRange("M2").setDataValidation(PriceRule).setValue("Stock");
 
   var ConditionRule = SpreadsheetApp.newDataValidation().requireValueInList(["N", "U"]).build();
   SheetLab.getRange("E4:E").setDataValidation(ConditionRule);
