@@ -72,9 +72,9 @@ function LoadInventory(){
   }
   i++;
   
-  SheetInventory.getRange(4, 1, Inventory.length, 18).setValues(Inventory);
-  SheetInventory.getRange(4, 1, Inventory.length, 18).sort([2, 5, 3]);
-  SheetInventory.getRange(2, 18).setValue(new Date());
+  SheetInventory.getRange(InventoryMinRow, 1, Inventory.length, 18).setValues(Inventory);
+  SheetInventory.getRange(InventoryMinRow, 1, Inventory.length, 18).sort([2, 5, 3]);
+  SheetInventory.getRange(InventoryMinRow, 18).setValue(new Date());
 
   // UI
   var Ui = SpreadsheetApp.getUi();

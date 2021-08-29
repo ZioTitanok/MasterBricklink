@@ -13,8 +13,6 @@ var LabColumnPriceMin = 16;
 var LabColumnPriceAvg = 17;
 var LabColumnPriceAvgQty = 18;
 var LabColumnPriceMax = 19;
-var LabColumnPriceLot = 20;
-var LabColumnPriceQty = 21;
 var LabColumnLotID = 22;
 var LabColumnDescription = 27;
 var LabColumnRemarks = 28;
@@ -97,13 +95,13 @@ function LoadPriceHistory(SheetLab, Row, PriceType, PriceRegion, ConsumerKey, Co
   var CellCondition = Selection.getCell(Row,LabColumnCondition).getValue();
 
   if (CellItemType == "PART"){
-    var ItemType = 'PART'
+    var ItemType = 'PART';
     var Url = 'https://api.bricklink.com/api/store/v1' + '/items/part/' + CellCode + '/price';
   } else if (CellItemType == "MINIFIG"){
-    var ItemType = 'MINIFIG'
+    var ItemType = 'MINIFIG';
     var Url = 'https://api.bricklink.com/api/store/v1' + '/items/minifig/' + CellCode + '/price';
   } else if (CellItemType == "SET"){
-    var ItemType = 'SET'
+    var ItemType = 'SET';
     var Url = 'https://api.bricklink.com/api/store/v1' + '/items/set/' + CellCode + '/price';
     CellColorID = "";
   }
@@ -125,12 +123,9 @@ function LoadPriceHistory(SheetLab, Row, PriceType, PriceRegion, ConsumerKey, Co
 
   // Output  
   var PriceGuide = JSON.parse(urlFetch.fetch(Url, Params, Options));
-  SheetLab.getRange(Row, LabColumnPriceMin).setValue(PriceGuide.data.min_price);
-  SheetLab.getRange(Row, LabColumnPriceAvg).setValue(PriceGuide.data.avg_price);
-  SheetLab.getRange(Row, LabColumnPriceAvgQty).setValue(PriceGuide.data.qty_avg_price);
-  SheetLab.getRange(Row, LabColumnPriceMax).setValue(PriceGuide.data.max_price);
-  SheetLab.getRange(Row, LabColumnPriceLot).setValue(PriceGuide.data.unit_quantity);
-  SheetLab.getRange(Row, LabColumnPriceQty).setValue(PriceGuide.data.total_quantity);
+  var Output = [PriceGuide.data.min_price, PriceGuide.data.avg_price, PriceGuide.data.qty_avg_price, PriceGuide.data.min_price, PriceGuide.data.avg_price, PriceGuide.data.qty_avg_price];
+  SheetLab.getRange(Row, LabColumnPriceMin, 1, 6).setValues([Output]);
+
 }
 
 // Function: Import Inventory in Lab
