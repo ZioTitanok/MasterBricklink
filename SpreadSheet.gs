@@ -22,7 +22,7 @@ function RegenerateSettings() {
   SpreadsheetApp.flush();
 
   // Text  
-  var ColumnA = [["API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"],["Lab"],["Lab Active"],["Row Batch"]];
+  var ColumnA = [["API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"],["Lab"],["Lab Active"],["Prices Row Max (Bulk/Batch)"]];
   SheetSettings.getRange("A1:A9").setValues(ColumnA);
   SheetSettings.getRange("B9").setValue("1000");
 
@@ -371,7 +371,7 @@ function RegenerateLab() {
   SheetLab.setConditionalFormatRules(PercentagesConditional);
 
   // Text
-  var TitlesA = ["Mode", "Item Type", "Category", "ID", "Color","","", "ID", "Angle", "Last Row", "Zone", "","Price Guide"];
+  var TitlesA = ["Mode", "Item Type", "Category", "ID", "Color","","", "ID", "Angle", "Last Worked Row", "Zone", "","Price Guide"];
   SheetLab.getRange("A1:M1").setValues([TitlesA]);
 
   var TitlesC = ["Item Type", "Code", "Color Name", "Qty", "N / U", "Complete?", "Stock?", "IDCol", "Immagine", "Item Name", "On BL", "Price Inv.", "%Avg", "% Avg/Qty", "Prezzo (O)", "Min", "Avg", "Avg/Qty", "Max", "Lotti", "Item Avaiable", "Link: LotID", "Link: Catalogo", "Link: Inventario", "Descrizione", "Remarks", "Descrizione (O)", "Remark (O)", "Date Created", "INDEX"];
