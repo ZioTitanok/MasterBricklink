@@ -75,7 +75,7 @@ function LoadPricesBulk(){
       urlFetch = OAuth1.withAccessToken(ConsumerKey, ConsumerSecret, TokenValue, TokenSecret);
 
       var PriceGuide = JSON.parse(urlFetch.fetch(Url, Params, Options));
-      Output[i] = [PriceGuide.data.min_priceto, 
+      Output[i] = [PriceGuide.data.min_price, 
                   PriceGuide.data.avg_price, 
                   PriceGuide.data.qty_avg_price, 
                   PriceGuide.data.max_price,
