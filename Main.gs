@@ -13,8 +13,9 @@ function onOpen() {
       .addItem('Clear PartOut', 'ClearPartOut'))
                 
     .addSubMenu(SpreadsheetApp.getUi().createMenu('Lab')
-                .addItem('Update Rows (Prices)', 'LoadPricesBatch')
-                .addItem('Update Row (Prices)', 'LoadPricesSingle')
+                .addItem('Update Prices (Bulk)', 'LoadPricesBulk')
+                .addItem('Update Prices (Rows)', 'LoadPricesRows')
+                .addItem('Update Prices (Row)', 'LoadPricesRow')
                 .addSeparator()
                 .addItem('Import Inventory','ImportInventory')
                 .addItem('Import PartOut', 'ImportPartOut')

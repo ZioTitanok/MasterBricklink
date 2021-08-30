@@ -17,8 +17,78 @@ var LabColumnLotID = 22;
 var LabColumnDescription = 27;
 var LabColumnRemarks = 28;
 
-// Function: Download Prices (Batch)
-function LoadPricesBatch(){
+// Function: Download Prices (Bulk)
+function LoadPricesBulk(){
+  var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
+  var ConsumerKey = SheetSettings.getRange("B3").getValue();
+  var ConsumerSecret = SheetSettings.getRange("B4").getValue();
+  var TokenValue = SheetSettings.getRange("B5").getValue();
+  var TokenSecret = SheetSettings.getRange("B6").getValue();
+  var LabActive = SheetSettings.getRange("B8").getValue();
+  var MaxRow = SheetSettings.getRange("B9").getValue()
+  var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
+
+  // Data
+  var PriceType = SheetLab.getRange("M2").getValue();
+  var PriceRegion = SheetLab.getRange("K2").getValue();
+  if (PriceRegion=="Worldwide") PriceRegion="";
+  var Cell = SpreadsheetApp.getActiveSheet().getActiveCell();
+  var StartingRow = Cell.getRow();
+
+  if (StartingRow < LabMinRow) return;
+  
+  var Check = SheetLab.getRange(StartingRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
+  if (Check.filter(Boolean).length <= MaxRow) {
+    Input = SheetLab.getRange(StartingRow, 1, Check.filter(Boolean).length, 8).getValues();
+  } else {
+    Input = SheetLab.getRange(StartingRow, 1, MaxRow, 8).getValues();
+  }
+
+  var Output = [];
+  for (var i in Input){
+      if (Input[i][LabColumnItemType-1] == "PART"){
+        var ItemType = 'PART';
+        var Url = 'https://api.bricklink.com/api/store/v1' + '/items/part/' + Input[i][LabColumnItemNo-1] + '/price';
+      } else if (Input[i][LabColumnItemType-1] == "MINIFIG"){
+        var ItemType = 'MINIFIG';
+        var Url = 'https://api.bricklink.com/api/store/v1' + '/items/minifig/' + Input[i][LabColumnItemNo-1] + '/price';
+      } else if (Input[i][LabColumnItemType-1] == "SET"){
+        var ItemType = 'SET';
+        var Url = 'https://api.bricklink.com/api/store/v1' + '/items/set/' + Input[i][LabColumnItemNo-1] + '/price';
+        CellColorID = "";
+      }
+
+      // API Request
+      var Options = {method: 'GET',contentType: 'application/json'};
+      var Params = {
+        no: Input[i][LabColumnItemNo-1],
+        color_id: Input[i][LabColumnColorID-1],
+        type: ItemType,
+        new_or_used: Input[i][LabColumnCondition-1],
+        guide_type: PriceType,
+        region: PriceRegion,
+        currency_code: 'EUR',
+        vat: 'Y'
+      }; 
+              
+      urlFetch = OAuth1.withAccessToken(ConsumerKey, ConsumerSecret, TokenValue, TokenSecret);
+
+      var PriceGuide = JSON.parse(urlFetch.fetch(Url, Params, Options));
+      Output[i] = [PriceGuide.data.min_price, PriceGuide.data.avg_price, PriceGuide.data.qty_avg_price, PriceGuide.data.max_price, PriceGuide.data.unit_quantity, PriceGuide.data.total_quantity];
+  }
+ 
+  SheetLab.getRange(StartingRow, LabColumnPriceMin, Output.length, 6).setValues(Output);  
+  
+  // UI
+  var WorkedRows = Output.length;
+  SheetLab.getRange("J2").setValue(StartingRow+Output.length-1);
+  var Ui = SpreadsheetApp.getUi()
+  Ui.alert('Lab', 'Updated ' + WorkedRows + ' rows!', Ui.ButtonSet.OK);
+}
+
+
+// Function: Download Prices (Rows)
+function LoadPricesRows(){
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
   var ConsumerKey = SheetSettings.getRange("B3").getValue();
   var ConsumerSecret = SheetSettings.getRange("B4").getValue();
@@ -55,8 +125,8 @@ function LoadPricesBatch(){
   Ui.alert('Lab', 'Updated ' + WorkedRows + ' rows!', Ui.ButtonSet.OK);
 }
 
-// Function: Download Prices (Single)
-function LoadPricesSingle(){
+// Function: Download Prices (Row)
+function LoadPricesRow(){
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
   var ConsumerKey = SheetSettings.getRange("B3").getValue();
   var ConsumerSecret = SheetSettings.getRange("B4").getValue();
@@ -123,7 +193,7 @@ function LoadPriceHistory(SheetLab, Row, PriceType, PriceRegion, ConsumerKey, Co
 
   // Output  
   var PriceGuide = JSON.parse(urlFetch.fetch(Url, Params, Options));
-  var Output = [PriceGuide.data.min_price, PriceGuide.data.avg_price, PriceGuide.data.qty_avg_price, PriceGuide.data.min_price, PriceGuide.data.avg_price, PriceGuide.data.qty_avg_price];
+  var Output = [PriceGuide.data.min_price, PriceGuide.data.avg_price, PriceGuide.data.qty_avg_price, PriceGuide.data.max_price, PriceGuide.data.unit_quantity, PriceGuide.data.total_quantity];
   SheetLab.getRange(Row, LabColumnPriceMin, 1, 6).setValues([Output]);
 
 }
