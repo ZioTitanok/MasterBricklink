@@ -49,8 +49,9 @@ function LoadPartOut(){
                  ]    
   }
 
-  SheetPartOut.getRange(PartOutMinRow, 1, Partout.length, 8).setValues(Partout);
-  SheetPartOut.getRange(4, 1, Partout.length, 8).sort([2, 5, 3]);
+  SheetPartOut.getRange(PartOutMinRow, 1, Partout.length, 8).setValues(Partout).setNumberFormat('@STRING@');
+  SpreadsheetApp.flush();
+  SheetPartOut.getRange(4, 1, Partout.length, 9).sort([2, 9, 4]);
 
   // UI
   var Ui = SpreadsheetApp.getUi();

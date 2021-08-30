@@ -78,7 +78,7 @@ function LoadInventory(){
   i++;
   
   SheetInventory.getRange(InventoryMinRow, 1, Inventory.length, 18).setValues(Inventory);
-  SheetInventory.getRange(InventoryMinRow, 1, Inventory.length, 18).sort([2, 5, 3]);
+  SheetInventory.getRange(InventoryMinRow, 1, Inventory.length, 18).sort([2, 7, 5]);
   SheetInventory.getRange(InventoryMinRow, 18).setValue(new Date());
 
   // UI

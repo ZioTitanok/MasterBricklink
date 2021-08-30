@@ -2,6 +2,7 @@
 var LabMinRow = 4;
 var LabColumnItemType = 1;
 var LabColumnItemNo = 2;
+var LabColumnColorName = 3;
 var LabColumnQty = 4;
 var LabColumnCondition = 5;
 var LabColumnCompleteness = 6;
@@ -37,9 +38,9 @@ function LoadPricesBulk(){
 
   if (StartingRow < LabMinRow) return;
   
-  var Check = SheetLab.getRange(StartingRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
-  if (Check.filter(Boolean).length <= MaxRow) {
-    Input = SheetLab.getRange(StartingRow, 1, Check.filter(Boolean).length, 8).getValues();
+  var LabUsedRows = SheetLab.getRange(StartingRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
+  if (LabUsedRows.filter(Boolean).length <= MaxRow) {
+    Input = SheetLab.getRange(StartingRow, 1, LabUsedRows.filter(Boolean).length, 8).getValues();
   } else {
     Input = SheetLab.getRange(StartingRow, 1, MaxRow, 8).getValues();
   }
@@ -74,10 +75,10 @@ function LoadPricesBulk(){
       urlFetch = OAuth1.withAccessToken(ConsumerKey, ConsumerSecret, TokenValue, TokenSecret);
 
       var PriceGuide = JSON.parse(urlFetch.fetch(Url, Params, Options));
-      Output[i] = [PriceGuide.data.min_price, 
-                  PriceGuide.data.avg_price, 
-                  PriceGuide.data.qty_avg_price, 
-                  PriceGuide.data.max_price,
+      Output[i] = [PriceGuide.data.min_priceto.toFixed(2), 
+                  PriceGuide.data.avg_price.toFixed(2), 
+                  PriceGuide.data.qty_avg_price.toFixed(2), 
+                  PriceGuide.data.max_price.toFixed(2),
                   PriceGuide.data.unit_quantity, 
                   PriceGuide.data.total_quantity];
   }
@@ -204,7 +205,7 @@ function LoadPriceHistory(SheetLab, Row, PriceType, PriceRegion, ConsumerKey, Co
                 PriceGuide.data.max_price, 
                 PriceGuide.data.unit_quantity, 
                 PriceGuide.data.total_quantity];
-  SheetLab.getRange(Row, LabColumnPriceMin, 1, 6).setValues([Output]);
+  SheetLab.getRange(Row, LabColumnPriceMin, 1, 6).setValues([Output]).toFixed(2);
 
 }
 
@@ -223,36 +224,27 @@ function ImportInventory() {
   var Mode = SheetLab.getRange("A2").getValue();
 
   if (Mode == "ADD"){
-    var Check = SheetLab.getRange(LabMinRow, 2, SheetInventory.getLastRow(), 1).getValues().join('@').split('@');
-    LabMinRow = LabMinRow + Check.filter(Boolean).length;
-    } else if (Mode = "CLEAR"){
-    ClearLab()
-  }
+    var LabUsedRows = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
+    LabMinRow = LabMinRow + LabUsedRows.filter(Boolean).length;
+    } else if (Mode = "CLEAR"){ ClearLab() }
 
   // Output, For Loop
-  var Data = [];
-  Data = SheetInventory.getRange(4, 1, SheetInventory.getLastRow(), 18).getValues();
-  var j = 0;
+  var InventoryUsedRows = SheetInventory.getRange(4, 1, SheetInventory.getLastRow(), 1).getValues().join('@').split('@');
+  var Data = SheetInventory.getRange(4, 1, InventoryUsedRows.filter(Boolean).length, 18).getValues();
 
-  for (var i=0; i < Data.length; i++){
-    if (Data[i][1] == ""){
-      break;
-    } else {      
-      if (Data[i][1] == ItemType || ItemType == ""){
-        if (Data[i][3] == CategoryId || CategoryId == "-1"){
-          if (Data[i][5] == ColorId || ColorId == ""){
-            SheetLab.getRange(j+LabMinRow,1).setValue(Data[i][1]);
-            SheetLab.getRange(j+LabMinRow,2).setValue(Data[i][2]);
-            SheetLab.getRange(j+LabMinRow,3).setValue(Data[i][6]);
-            SheetLab.getRange(j+LabMinRow,5).setValue(Data[i][12]);
-            SheetLab.getRange(j+LabMinRow,6).setValue(Data[i][13]);
-            SheetLab.getRange(j+LabMinRow,7).setValue(Data[i][15]);
-            j++
-          }
+  var Output = [];
+  var j = 0;
+  for (var i in Data){
+    if (Data[i][1] == ItemType || ItemType == ""){
+      if (Data[i][3] == CategoryId || CategoryId == "-1"){
+        if (Data[i][5] == ColorId || ColorId == ""){
+          Output[j] = [Data[i][1], Data[i][2], Data[i][6], "", Data[i][12], Data[i][13], Data[i][15]];
+          j++
         }
       }
     }
   }
+  SheetLab.getRange(LabMinRow, 1, Output.length,7).setValues(Output);
 
   // UI
   var Ui = SpreadsheetApp.getUi();
@@ -272,36 +264,31 @@ function ImportPartOut() {
   var CategoryId = SheetLab.getRange("D2").getValue();
   var ColorName = SheetLab.getRange("E2").getValue();
   var Mode = SheetLab.getRange("A2").getValue();
-  var Conditions = SheetPartOut.getRange("I2").getValue();
+  var Conditions = SheetPartOut.getRange("E2").getValue();
+  var StockRoom = SheetPartOut.getRange("F2").getValue()
 
   if (Mode == "ADD"){
-    var data = SheetLab.getRange(LabMinRow, 2, SheetInventory.getLastRow(), 1).getValues().join('@').split('@');
-    LabMinRow = LabMinRow + data.filter(Boolean).length;
-    } else if (Mode = "CLEAR"){
-    ClearLab()
-  }
+    var LabUsedRows = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
+    LabMinRow = LabMinRow + LabUsedRows.filter(Boolean).length;
+    } else if (Mode = "CLEAR"){ ClearLab() }
 
-  // Output, For Loop
-  var Data = [];
-  Data = SheetPartOut.getRange(4, 1, SheetPartOut.getLastRow(), 9).getValues();
+  // Output
+  var PartOutUsedRows = SheetPartOut.getRange(4, 1, SheetPartOut.getLastRow(), 1).getValues().join('@').split('@');
+  var Data = SheetPartOut.getRange(4, 1, PartOutUsedRows.filter(Boolean).length, 9).getValues();
+
+ var Output = [];
   var j = 0;
-
-  for (var i=0; i < Data.length; i++){  
+  for (var i in Data){
     if (Data[i][1] == ItemType || ItemType == ""){
       if (Data[i][4] == CategoryId || CategoryId == "-1"){
-        if (Data[i][5] == ColorName || ColorName == ""){
-          SheetLab.getRange(j+LabMinRow,1).setValue(Data[i][1]);
-          SheetLab.getRange(j+LabMinRow,2).setValue(Data[i][2]);
-          SheetLab.getRange(j+LabMinRow,3).setValue(Data[i][8]);
-          SheetLab.getRange(j+LabMinRow,4).setValue(Data[i][6])
-          SheetLab.getRange(j+LabMinRow,5).setValue(Conditions);
-          SheetLab.getRange(j+LabMinRow,6).setValue("X");
-          SheetLab.getRange(j+LabMinRow,7).setValue("NO");
+        if (Data[i][8] == ColorName || ColorName == ""){
+          Output[j] = [Data[i][1], Data[i][2], Data[i][8], Data[i][6], Conditions, "", StockRoom];
           j++
         }
       }
     }
   }
+  SheetLab.getRange(LabMinRow, 1, Output.length,7).setValues(Output);
 
   // UI
   var Ui = SpreadsheetApp.getUi();

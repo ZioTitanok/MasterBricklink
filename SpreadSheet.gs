@@ -7,7 +7,7 @@ function RegenerateSettings() {
   SheetSettings.setColumnWidth(1, 200);
   SheetSettings.setColumnWidth(2, 350);
   SheetSettings.setRowHeights(1, SheetSettings.getMaxRows(), 21)
-  SheetSettings.getRange(1,1, SheetSettings.getMaxRows(), SheetSettings.getMaxColumns()).setNumberFormat("@");
+  SheetSettings.getRange(1,1, SheetSettings.getMaxRows(), SheetSettings.getMaxColumns()).setNumberFormat('@STRING@');
   
   SheetSettings.getRange("A1:B2").setBorder(true, true, true, true, null, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetSettings.getRange("A1:B1").mergeAcross().setHorizontalAlignment("Center").setFontWeight("bold");
@@ -47,7 +47,7 @@ function RegenerateDBColors() {
   SheetDBColors.setColumnWidths(2,3,75);
   SheetDBColors.setRowHeights(1, SheetDBColors.getMaxRows(), 21);
   SheetDBColors.setFrozenRows(1);
-  SheetDBColors.getRange(1,1, SheetDBColors.getMaxRows(), SheetDBColors.getMaxColumns()).setNumberFormat("@");
+  SheetDBColors.getRange(1,1, SheetDBColors.getMaxRows(), SheetDBColors.getMaxColumns()).setNumberFormat('@STRING@');
   SpreadsheetApp.flush();
 
   // Text
@@ -104,7 +104,7 @@ function RegenerateDBCategories() {
   SheetDBCategory.setColumnWidth(3, 100);
   SheetDBCategory.setRowHeights(1, SheetDBCategory.getMaxRows(), 21);
   SheetDBCategory.setFrozenRows(1);
-  SheetDBCategory.getRange(1,1, SheetDBCategory.getMaxRows(), SheetDBCategory.getMaxColumns()).setNumberFormat("@");
+  SheetDBCategory.getRange(1,1, SheetDBCategory.getMaxRows(), SheetDBCategory.getMaxColumns()).setNumberFormat('@STRING@');
   SpreadsheetApp.flush();
   
   // Text
@@ -160,7 +160,7 @@ function RegenerateDBItems() {
   SheetDBPart.setColumnWidth(4, 2000);
   SheetDBPart.setRowHeights(1, SheetDBPart.getMaxRows(), 21);
   SheetDBPart.setFrozenRows(1);
-  SheetDBPart.getRange(1,1, SheetDBPart.getMaxRows(), SheetDBPart.getMaxColumns()).setNumberFormat("@");
+  SheetDBPart.getRange(1,1, SheetDBPart.getMaxRows(), SheetDBPart.getMaxColumns()).setNumberFormat('@STRING@');
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBPart.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
@@ -173,7 +173,7 @@ function RegenerateDBItems() {
   SheetDBMinifigure.setColumnWidth(4, 1000);
   SheetDBMinifigure.setRowHeights(1, SheetDBMinifigure.getMaxRows(), 21);
   SheetDBMinifigure.setFrozenRows(1);
-  SheetDBMinifigure.getRange(1,1, SheetDBMinifigure.getMaxRows(), SheetDBMinifigure.getMaxColumns()).setNumberFormat("@");
+  SheetDBMinifigure.getRange(1,1, SheetDBMinifigure.getMaxRows(), SheetDBMinifigure.getMaxColumns()).setNumberFormat('@STRING@');
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBMinifigure.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
@@ -186,7 +186,7 @@ function RegenerateDBItems() {
   SheetDBSet.setColumnWidth(4, 7500);
   SheetDBSet.setRowHeights(1, SheetDBSet.getMaxRows(), 21);
   SheetDBSet.setFrozenRows(1);
-  SheetDBSet.getRange(1,1, SheetDBSet.getMaxRows(), SheetDBSet.getMaxColumns()).setNumberFormat("@");
+  SheetDBSet.getRange(1,1, SheetDBSet.getMaxRows(), SheetDBSet.getMaxColumns()).setNumberFormat('@STRING@');
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBSet.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
@@ -221,7 +221,7 @@ function RegenerateInventory() {
   SheetInventory.getRange("A3:R3").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetInventory.getRange("A1:R3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
 
-  SheetInventory.getRange(1,1, SheetInventory.getMaxRows(), SheetInventory.getMaxColumns()).setNumberFormat("@");
+  SheetInventory.getRange(1,1, SheetInventory.getMaxRows(), SheetInventory.getMaxColumns()).setNumberFormat('@STRING@');
   SheetInventory.getRange(4, 10, SheetLab.SheetInventory()-4, 1).setNumberFormat("##0.00[$€]");
 
   SheetInventory.getRange("A1:R2").setBackground('#D9D9D9');
@@ -277,21 +277,19 @@ function RegeneratePartOut() {
   SheetPartOut.setRowHeight(3, 75);
   SheetPartOut.setFrozenRows(3);
 
-  SheetPartOut.getRange("A1:D2").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
-  SheetPartOut.getRange("I1:I2").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
+  SheetPartOut.getRange("A1:F2").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetPartOut.getRange("A3:I3").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetPartOut.getRange("A1:I3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
 
-   SheetPartOut.getRange(1,1, SheetPartOut.getMaxRows(), SheetPartOut.getMaxColumns()).setNumberFormat("@");
+   SheetPartOut.getRange(1,1, SheetPartOut.getMaxRows(), SheetPartOut.getMaxColumns()).setNumberFormat('@STRING@');
 
   SheetPartOut.getRange("A1:I2").setBackground('#D9D9D9');
-  SheetPartOut.getRange("A2:D2").setBackground('#A4C2F4');
-  SheetPartOut.getRange("I2").setBackground('#A4C2F4');
+  SheetPartOut.getRange("A2:F2").setBackground('#A4C2F4');
   SheetPartOut.getRange("A3:I3").setBackground('#FFF2CC').setTextRotation(45).setWrap(true);
   SpreadsheetApp.flush();
 
   // Text
-  var TitlesA = ["Set", "Variant", "Break Minifig", "Set Name", "", "", "", "","Condition"];
+  var TitlesA = ["Set", "Variant", "Break Minifig", "Set Name", "Condition", "StockRoom", "", "",""];
   SheetPartOut.getRange("A1:I1").setValues([TitlesA]);
 
   var TitlesC = ["i", "Item Type", "Item Code", "Item Name", "Category ID", "Color ID", "Qty", "Match No", "Color Name"];
@@ -305,7 +303,10 @@ function RegeneratePartOut() {
   SheetPartOut.getRange("C2").setDataValidation(BreakMinifigRule);
 
   var ConditionRule = SpreadsheetApp.newDataValidation().requireValueInList(["N", "U"]).build();
-  SheetPartOut.getRange("I2").setDataValidation(ConditionRule);
+  SheetPartOut.getRange("E2").setDataValidation(ConditionRule);
+
+  var StockRoomRule = SpreadsheetApp.newDataValidation().requireValueInList(["NO", "A", "B", "C"]).build();
+  SheetPartOut.getRange("F2").setDataValidation(StockRoomRule);
   SpreadsheetApp.flush();
 
   // Formula
@@ -337,7 +338,7 @@ function RegenerateLab() {
   SheetLab.setColumnWidths(29, 2, 200);
   SheetLab.setRowHeights(1, 2, 21)
   SheetLab.setRowHeight(3, 75);
-  SheetLab.setRowHeights(4, SheetLab.getMaxRows()-4, 45)
+  SheetLab.setRowHeights(4, SheetLab.getMaxRows()-3, 45)
   SheetLab.setFrozenRows(3);
 
   SheetLab.getRange("E1:G1").mergeAcross()
@@ -363,12 +364,12 @@ function RegenerateLab() {
 
   SheetLab.getRange("A1:AD3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
   SheetLab.getRange("A4:AD").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
-  SheetLab.getRange(1,1, SheetLab.getMaxRows(), SheetLab.getMaxColumns()).setNumberFormat("@");
+  SheetLab.getRange(1,1, SheetLab.getMaxRows(), SheetLab.getMaxColumns()).setNumberFormat('@STRING@');
   SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
   SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
   SheetLab.getRange(LabMinRow, 12, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0.00[$€]");
   SheetLab.getRange(LabMinRow, 13, SheetLab.getMaxRows()-LabMinRow, 2).setNumberFormat("##0.##%"); 
-  SheetLab.getRange(LabMinRow, 15, SheetLab.getMaxRows()-LabMinRow, 5).setNumberFormat("#,##0.00[$€]");  
+  SheetLab.getRange(LabMinRow, 15, SheetLab.getMaxRows()-LabMinRow, 5).setNumberFormat("##0.00[$€]");  
   SpreadsheetApp.flush();
 
   var PercentageConditional = SpreadsheetApp.newConditionalFormatRule()
