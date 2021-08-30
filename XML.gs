@@ -12,8 +12,8 @@ function XMLWanted(){
   SheetXml.getRange(2,1).setValue('<INVENTORY>');  
 
   var Input = [];
-  var Check = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
-  Input = SheetLab.getRange(LabMinRow, 1, Check.filter(Boolean).length, 28).getValues();
+  var LabUsedRows = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
+  Input = SheetLab.getRange(LabMinRow, 1, LabUsedRows.filter(Boolean).length, 28).getValues();
 
   var OutputWanted = [];
   for (var i in Input){
@@ -71,8 +71,8 @@ function XMLUploadUpdate(){
   SheetXml.getRange(2,2).setValue('<INVENTORY>');
 
   var Input = [];
-  var Check = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
-  Input = SheetLab.getRange(LabMinRow, 1, Check.filter(Boolean).length, 28).getValues();
+  var LabUsedRows = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
+  Input = SheetLab.getRange(LabMinRow, 1, LabUsedRows.filter(Boolean).length, 28).getValues();
 
   var OutputUpdate = [];
   var OutputUpload = [];
@@ -81,36 +81,38 @@ function XMLUploadUpdate(){
 
   for (var i in Input){
     // YES LotID: Update
-    if ((Input[i][LabColumnLotID-1] != "") && (Input[i][LabColumnQty-1] != "" || Input[i][LabColumnPrice-1] != "" || Input[i][LabColumnDescription-1] != "" || Input[i][LabColumnRemarks-1] != "")){
+    if (Input[i][LabColumnLotID-1] != ""){
+      if (Input[i][LabColumnQty-1] != "" || Input[i][LabColumnPrice-1] != "" || Input[i][LabColumnDescription-1] != "" || Input[i][LabColumnRemarks-1] != ""){
 
-      var StringUpdate = "<ITEM>";
-      StringUpdate += "<LOTID>" + Input[i][LabColumnLotID-1] + "</LOTID>";
+        var StringUpdate = "<ITEM>";
+        StringUpdate += "<LOTID>" + Input[i][LabColumnLotID-1] + "</LOTID>";
 
-      if (Input[i][LabColumnQty-1] != ""){
-        if (Input[i][LabColumQtyInventory-1] + Input[i][LabColumnQty-1] == 0){
-          StringUpdate += "<DELETE>Y</DELETE>"
-        } else {
-          if (Input[i][LabColumnQty-1] > 0){
-            var Sign = "+";
+        if (Input[i][LabColumnQty-1] != ""){
+          if (Input[i][LabColumQtyInventory-1] + Input[i][LabColumnQty-1] == 0){
+            StringUpdate += "<DELETE>Y</DELETE>"
           } else {
-            var Sign = "";
+            if (Input[i][LabColumnQty-1] > 0){
+              var Sign = "+";
+            } else {
+              var Sign = "";
+            }
+            StringUpdate += "<QTY>" + Sign + Input[i][LabColumnQty-1] + "</QTY>";
           }
-          StringUpdate += "<QTY>" + Sign + Input[i][LabColumnQty-1] + "</QTY>";
         }
+        if (Input[i][LabColumnPrice-1] != ""){
+          StringUpdate += "<PRICE>" + +Input[i][LabColumnPrice-1].toFixed(2) + "</PRICE>";
+        }
+        if (Input[i][LabColumnDescription-1] != ""){
+          StringUpdate += "<DESCRIPTION>" + Input[i][LabColumnDescription-1] + "</DESCRIPTION>";
+        }
+        if (Input[i][LabColumnRemarks-1] != ""){
+          StringUpdate += "<REMARKS>" + Input[i][LabColumnRemarks-1] + "</REMARKS>";
+        }
+        StringUpdate += "</ITEM>";
+        
+        OutputUpdate[j] = [StringUpdate];
+        j++;
       }
-      if (Input[i][LabColumnPrice-1] != ""){
-        StringUpdate += "<PRICE>" + Input[i][LabColumnPrice-1] + "</PRICE>";
-      }
-      if (Input[i][LabColumnDescription-1] != ""){
-        StringUpdate += "<DESCRIPTION>" + Input[i][LabColumnDescription-1] + "</DESCRIPTION>";
-      }
-      if (Input[i][LabColumnRemarks-1] != ""){
-        StringUpdate += "<REMARKS>" + Input[i][LabColumnRemarks-1] + "</REMARKS>";
-      }
-      StringUpdate += "</ITEM>";
-      
-      OutputUpdate[j] = [StringUpdate];
-      j++;
 
     } else {
       // NO LotID: Upload        
@@ -129,9 +131,9 @@ function XMLUploadUpdate(){
       StringUpload += "<QTY>" + Input[i][LabColumnQty-1] + "</QTY>";
       
       if (Input[i][LabColumnPrice-1] == ""){
-        StringUpload += "<PRICE>" + Input[i][LabColumnPriceAvg-1] + "</PRICE>";
+        StringUpload += "<PRICE>" + +Input[i][LabColumnPriceAvg-1].toFixed(2) + "</PRICE>";
       } else {
-        StringUpload += "<PRICE>" + Input[i][LabColumnPrice-1] + "</PRICE>";
+        StringUpload += "<PRICE>" + +Input[i][LabColumnPrice-1].toFixed(2) + "</PRICE>";
       }
           
       if (Input[i][LabColumnDescription-1] != ""){
