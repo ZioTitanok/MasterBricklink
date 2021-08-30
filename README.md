@@ -21,7 +21,7 @@ Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare
 
 ## Changelog
 ### da 1.0.0 ad oggi (GitHub)
-1.1.0: Miglioramento delle performance nella generazione degli XML. (ZioTitanok) <br>
+1.1.0: Miglioramento delle performance nella generazione degli XML e nel download delle Price Guide. (ZioTitanok)<br>
 1.0.1: ReadMe e Minor Fixes. (ZioTitanok)<br>
 1.0.0: Introdotte funzionalità di creazione/ripristino dei fogli della cartella di lavoro. (ZioTitanok)<br>
 
