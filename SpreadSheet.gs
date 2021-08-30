@@ -318,7 +318,7 @@ function RegenerateLab() {
   SheetLab.setColumnWidths(2, 2, 150);
   SheetLab.setColumnWidths(4, 5, 50);
   SheetLab.setColumnWidth(9, 75);
-  SheetLab.setColumnWidth(10, 100);
+  SheetLab.setColumnWidth(10, 150);
   SheetLab.setColumnWidths(11, 11, 70);
   SheetLab.setColumnWidth(23, 150);
   SheetLab.setColumnWidth(24, 100);
