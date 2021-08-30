@@ -74,7 +74,12 @@ function LoadPricesBulk(){
       urlFetch = OAuth1.withAccessToken(ConsumerKey, ConsumerSecret, TokenValue, TokenSecret);
 
       var PriceGuide = JSON.parse(urlFetch.fetch(Url, Params, Options));
-      Output[i] = [PriceGuide.data.min_price, PriceGuide.data.avg_price, PriceGuide.data.qty_avg_price, PriceGuide.data.max_price, PriceGuide.data.unit_quantity, PriceGuide.data.total_quantity];
+      Output[i] = [PriceGuide.data.min_price, 
+                  PriceGuide.data.avg_price, 
+                  PriceGuide.data.qty_avg_price, 
+                  PriceGuide.data.max_price,
+                  PriceGuide.data.unit_quantity, 
+                  PriceGuide.data.total_quantity];
   }
  
   SheetLab.getRange(StartingRow, LabColumnPriceMin, Output.length, 6).setValues(Output);  
@@ -193,7 +198,12 @@ function LoadPriceHistory(SheetLab, Row, PriceType, PriceRegion, ConsumerKey, Co
 
   // Output  
   var PriceGuide = JSON.parse(urlFetch.fetch(Url, Params, Options));
-  var Output = [PriceGuide.data.min_price, PriceGuide.data.avg_price, PriceGuide.data.qty_avg_price, PriceGuide.data.max_price, PriceGuide.data.unit_quantity, PriceGuide.data.total_quantity];
+  var Output = [PriceGuide.data.min_price, 
+                PriceGuide.data.avg_price, 
+                PriceGuide.data.qty_avg_price, 
+                PriceGuide.data.max_price, 
+                PriceGuide.data.unit_quantity, 
+                PriceGuide.data.total_quantity];
   SheetLab.getRange(Row, LabColumnPriceMin, 1, 6).setValues([Output]);
 
 }

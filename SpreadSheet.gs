@@ -22,7 +22,7 @@ function RegenerateSettings() {
   SpreadsheetApp.flush();
 
   // Text  
-  var ColumnA = [["API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"],["Lab"],["Lab Active"],["Prices Row Max (Bulk/Batch)"]];
+  var ColumnA = [["API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"], ["Lab"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
   SheetSettings.getRange("A1:A9").setValues(ColumnA);
   SheetSettings.getRange("B9").setValue("1000");
 
@@ -228,7 +228,7 @@ function RegenerateInventory() {
   var TitlesA = ["Part", "Minifig", "Set", "All", "Category Name", "=IFERROR(VLOOKUP(E2, 'DB-Categories'!B2:C,2,FALSE),\"-1\")", "Color Name", "StockRoom", "", "", "", "", "", "", "", "", "","Last Download"];
   SheetInventory.getRange("A1:R1").setValues([TitlesA]);
   
-  var TitlesC = ["i", "Item Type", "Item Code", "Category ID", "Item Name", "Color ID", "Color Name", "INDEX (Type + Cod + ColID + Cond + Completeness + StockID)", "Qty", "Price", "Description", "Remarks",	"Condition", "Completeness", "Is Stock?", "Stock ID", "Inventory ID", "Date Created"];
+  var TitlesC = ["i", "Item Type", "Item Code", "Category ID", "Item Name", "Color ID", "Color Name", "Index", "Qty", "Price", "Description", "Remarks",	"Condition", "Completeness", "Is Stock?", "Stock ID", "Inventory ID", "Date Created"];
   SheetInventory.getRange("A3:R3").setValues([TitlesC]);
 
   // Dropdowns
@@ -374,7 +374,7 @@ function RegenerateLab() {
   var TitlesA = ["Mode", "Item Type", "Category", "ID", "Color","","", "ID", "Angle", "Last Worked Row", "Zone", "","Price Guide"];
   SheetLab.getRange("A1:M1").setValues([TitlesA]);
 
-  var TitlesC = ["Item Type", "Code", "Color Name", "Qty", "N / U", "Complete?", "Stock?", "IDCol", "Immagine", "Item Name", "On BL", "Price Inv.", "%Avg", "% Avg/Qty", "Prezzo (O)", "Min", "Avg", "Avg/Qty", "Max", "Lotti", "Item Avaiable", "Link: LotID", "Link: Catalogo", "Link: Inventario", "Descrizione", "Remarks", "Descrizione (O)", "Remark (O)", "Date Created", "INDEX"];
+  var TitlesC = ["Item Type", "Code", "Color Name", "Qty", "N / U", "Complete?", "Stock?", "IDCol", "Immagine", "Item Name", "On BL", "Price Inv.", "%Avg", "% Avg/Qty", "Prezzo (O)", "Min", "Avg", "Avg/Qty", "Max", "Lotti", "Item Avaiable", "Link: LotID", "Link: Catalogo", "Link: Inventario", "Descrizione", "Remarks", "Descrizione (O)", "Remark (O)", "Date Created", "Index"];
   SheetLab.getRange("A3:AD3").setValues([TitlesC]);
 
   // Dropdowns
@@ -473,7 +473,7 @@ function RegenerateLab() {
   SheetLab.getRange("AC4").setValue("=IFERROR(VLOOKUP(AD4, Inventory!$H:$R,11,FALSE),\"\")");
   SheetLab.getRange("AC4").copyTo(SheetLab.getRange("AC5:AC"));
 
-  SheetLab.getRange("AD4").setValue("=A4 & \"_\" & B4 & \"_\" & H4 & \"_\" & E4 & \"_\" & F4 & \"_\" & G4");
+  SheetLab.getRange("AD4").setValue("=IFERROR(IFS(A4 = \"PART\", A4 & \"_\" & B4 & \"_\" & H4 & \"_\" & E4 & \"_\" & G4, A4 = \"MINIFIG\", A4 & \"_\" & B4 & \"_\" & E4 & \"_\" & G4, A4 = \"SET\", A4 & \"_\" & B4 & \"_\" & E4 & \"_\" & F4 & \"_\" & G4),\"\")");
   SheetLab.getRange("AD4").copyTo(SheetLab.getRange("AD5:AD"));
   SpreadsheetApp.flush();
 
@@ -490,6 +490,8 @@ function RegenerateXML() {
   var SheetXML = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("XML")
   SheetXML.setColumnWidths(1, 2, 850);
   SheetXML.setRowHeights(1, SheetXML.getMaxRows(), 21)
+  SheetXML.getRange("A1:B1").setBackground('#D9D9D9').setFontWeight("bold");
+  SheetXML.setFrozenRows(1);
 
   // UI
   var Ui = SpreadsheetApp.getUi();
