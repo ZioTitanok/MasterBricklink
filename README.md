@@ -36,7 +36,7 @@ v0.3.1: Introdotto XML Export (Upload, Upgrade) per la sincronizzazione manuale 
 v0.3.0: Introdotto XML Export (Wanted) per la creazione manuale di WantedList su Bricklink (GianCann)<br>
 v0.2.0: Miglioramento di Lab ed introduzione dei Database di Parts, Minifigures e Sets. (ZioTitanok)<br>
 v0.1.0: Introdotto OAuth1 negli script (eliminato il PHP esterno). (GianCann)<br>
-v0.0.2: Introdotto Inventory con download dell'Inventary da Bricklink (via PHP esterno). (GianCann)<br>
+v0.0.2: Introdotto Inventory con download dell'Inventory da Bricklink (via PHP esterno). (GianCann)<br>
 v0.0.1: Introdotto Lab con download delle Price Guide delle Parts (via PHP esterno). (GianCann)<br>
 
 ## Dedica
