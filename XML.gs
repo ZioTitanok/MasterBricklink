@@ -3,58 +3,50 @@ function XMLWanted(){
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
   var LabActive = SheetSettings.getRange("B8").getValue()
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
-  
   var SheetXml = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('XML');
-  var Selection = SheetLab.getDataRange();
-  var StartingRow = 4;
-  var EndingRow = SheetLab.getMaxRows();
  
   ClearXML()
-  
+
   // Output, For Loop
   SheetXml.getRange(1,1).setValue('XML Wanted');
   SheetXml.getRange(2,1).setValue('<INVENTORY>');  
-  var i = 1;
+
+  var Input = [];
+  var Check = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
+  Input = SheetLab.getRange(LabMinRow, 1, Check.filter(Boolean).length, 28).getValues();
+
   var OutputWanted = [];
-
-  for (var CurrentRow = StartingRow; CurrentRow <= EndingRow; CurrentRow++){
-    var CellCodice = Selection.getCell(CurrentRow,LabColumnItemNo).getValue();
+  for (var i in Input){
+    var StringWanted = "<ITEM>" + "<ITEMTYPE>";
     
-    if (CellCodice == ""){
-      break;
-    } else {
-      
-      var StringWanted = "<ITEM>" + "<ITEMTYPE>"
-      if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "PART"){
-        StringWanted += "P</ITEMTYPE>"
-      } else if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "MINIFIG"){
-        StringWanted += "M</ITEMTYPE>"
-      } else if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "SET"){
-        StringWanted += "S</ITEMTYPE>"
-        StringWanted += "<SUBCONDITION>" + Selection.getCell(CurrentRow,LabColumnCompleteness).getValue() + "</SUBCONDITION>"
-      }
+    if (Input[i][LabColumnItemType-1] == "PART"){
+      StringWanted += "P</ITEMTYPE>"
+    } else if (Input[i][LabColumnItemType-1] == "MINIFIG"){
+      StringWanted += "M</ITEMTYPE>"
+    } else if (Input[i][LabColumnItemType-1] == "SET"){
+      StringWanted += "S</ITEMTYPE>";
+      StringWanted += "<SUBCONDITION>" + Input[i][LabColumnCompleteness-1] + "</SUBCONDITION>"
+    }
 
-      StringWanted += "<ITEMID>" + Selection.getCell(CurrentRow,LabColumnItemNo).getValue() + "</ITEMID>";
-      StringWanted += "<COLOR>" + Selection.getCell(CurrentRow,LabColumnColorID).getValue() + "</COLOR>";
-      StringWanted += "<CONDITION>" + Selection.getCell(CurrentRow,LabColumnCondition).getValue() + "</CONDITION>";
-      if (Selection.getCell(CurrentRow,LabColumnQty).getValue() != ""){
-        StringWanted += "<MINQTY>" + Selection.getCell(CurrentRow,LabColumnQty).getValue() + "</MINQTY>";
-      }
-      if (Selection.getCell(CurrentRow, LabColumnCondition).getValue() != ""){
-        StringWanted += "<CONDITION>" + Selection.getCell(CurrentRow, LabColumnCondition).getValue() + "</CONDITION>"
-      }
-      if (Selection.getCell(CurrentRow,LabColumnRemarks).getValue() != ""){
-         StringWanted += "<REMARKS>" + Selection.getCell(CurrentRow,LabColumnRemarks).getValue() + "</REMARKS>";
-      }
-      StringWanted += "</ITEM>";
-      
-      OutputWanted[i] = StringWanted;
-      i++;
-      }
+    StringWanted += "<ITEMID>" + Input[i][LabColumnItemNo-1] + "</ITEMID>";
+    StringWanted += "<COLOR>" + Input[i][LabColumnColorID-1] + "</COLOR>";
+    StringWanted += "<CONDITION>" + Input[i][LabColumnCondition-1] + "</CONDITION>";
+    if (Input[i][LabColumnQty-1] != ""){
+      StringWanted += "<MINQTY>" + Input[i][LabColumnQty-1] + "</MINQTY>";
+    }
+    if (Input[i][LabColumnCondition-1] != ""){
+      StringWanted += "<CONDITION>" + Input[i][LabColumnCondition-1] + "</CONDITION>"
+    }
+    if (Input[i][LabColumnRemarks-1] != ""){
+       StringWanted += "<REMARKS>" + Input[i][LabColumnRemarks-1] + "</REMARKS>";
+    }
+    StringWanted += "</ITEM>";
+    
+    OutputWanted[i] = [StringWanted];
   }
-
-  for (var k=1; k <= OutputWanted.length; k++) SheetXml.getRange(k+2,1).setValue(OutputWanted[k]);
-  SheetXml.getRange(k+1,1).setValue('</INVENTORY>');
+  
+  SheetXml.getRange(3, 1, OutputWanted.length, 1).setValues(OutputWanted);
+  SheetXml.getRange(OutputWanted.length+3,1).setValue('</INVENTORY>');
 
   // UI
   var Ui = SpreadsheetApp.getUi();
@@ -66,12 +58,9 @@ function XMLWanted(){
 function XMLUploadUpdate(){
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
   var LabActive = SheetSettings.getRange("B8").getValue()
-  var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
-  
+  var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);  
   var SheetXml = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('XML');
-  var Selection = SheetLab.getDataRange();
-  var StartingRow = 4;
-  var EndingRow = SheetLab.getMaxRows();
+
 
   ClearXML()
   
@@ -80,102 +69,99 @@ function XMLUploadUpdate(){
   SheetXml.getRange(1,2).setValue('XML Upload');
   SheetXml.getRange(2,1).setValue('<INVENTORY>');
   SheetXml.getRange(2,2).setValue('<INVENTORY>');
-  var i = 1;
-  var j = 1;
+
+  var Input = [];
+  var Check = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
+  Input = SheetLab.getRange(LabMinRow, 1, Check.filter(Boolean).length, 28).getValues();
+
   var OutputUpdate = [];
   var OutputUpload = [];
+  var j = 0;
+  var k = 0;
 
-  for (var CurrentRow = StartingRow; CurrentRow < EndingRow; CurrentRow++) {
-    
-    var CellCode = Selection.getCell(CurrentRow,LabColumnItemNo).getValue();
-    var LotID = Selection.getCell(CurrentRow,LabColumnLotID).getValue();
-    
-    if (CellCode == ""){
-      break;
-    } else {
-                 
-      if (LotID != ""){
-        // YES LotID: Update  
-        if (Selection.getCell(CurrentRow,LabColumnQty).getValue() != "" || Selection.getCell(CurrentRow,LabColumnPrice).getValue() != "" || Selection.getCell(CurrentRow,LabColumnDescription).getValue() != "" || Selection.getCell(CurrentRow,LabColumnRemarks).getValue() != ""){
+  for (var i in Input){
+    // YES LotID: Update
+    if ((Input[i][LabColumnLotID-1] != "") && (Input[i][LabColumnQty-1] != "" || Input[i][LabColumnPrice-1] != "" || Input[i][LabColumnDescription-1] != "" || Input[i][LabColumnRemarks-1] != "")){
 
-          var StringUpdate = "<ITEM>";
-          StringUpdate += "<LOTID>" + Selection.getCell(CurrentRow,LabColumnLotID).getValue() + "</LOTID>";
-          
-          if (Selection.getCell(CurrentRow,LabColumnQty).getValue() != ""){
-            if (Selection.getCell(CurrentRow, LabColumQtyInventory).getValue() + Selection.getCell(CurrentRow, LabColumnQty).getValue() == 0){
-              StringUpdate += "<DELETE>Y</DELETE>"
-            } else {
-              if (Selection.getCell(CurrentRow,LabColumnQty).getValue() > 0){
-                var Sign = "+";
-              } else {
-                var Sign = "";
-              }
-              StringUpdate += "<QTY>" + Sign + Selection.getCell(CurrentRow,LabColumnQty).getValue() + "</QTY>";
-            }
-          }
+      var StringUpdate = "<ITEM>";
+      StringUpdate += "<LOTID>" + Input[i][LabColumnLotID-1] + "</LOTID>";
 
-          if (Selection.getCell(CurrentRow,LabColumnPrice).getValue() != ""){
-            StringUpdate += "<PRICE>" + Selection.getCell(CurrentRow,LabColumnPrice).getValue() + "</PRICE>";
-          }
-          if (Selection.getCell(CurrentRow,LabColumnDescription).getValue() != ""){
-            StringUpdate += "<DESCRIPTION>" + Selection.getCell(CurrentRow,LabColumnDescription).getValue() + "</DESCRIPTION>";
-          }
-          if (Selection.getCell(CurrentRow,LabColumnRemarks).getValue() != ""){
-            StringUpdate += "<REMARKS>" + Selection.getCell(CurrentRow,LabColumnRemarks).getValue() + "</REMARKS>";
-          }
-          StringUpdate += "</ITEM>";
-          
-          OutputUpdate[i] = StringUpdate;
-          i++;
-        }
-        
-      } else {
-        // NO LotID: Upload        
-        var StringUpload = "<ITEM>" + "<CATEGORY></CATEGORY>" + "<ITEMTYPE>"
-        if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "PART"){
-          StringUpload += "P</ITEMTYPE>"
-        } else if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "MINIFIG"){
-            StringUpload+= "M</ITEMTYPE>"
-        } else if (Selection.getCell(CurrentRow,LabColumnItemType).getValue() == "SET"){
-            StringUpload += "S</ITEMTYPE>"
-            StringUpload += "<SUBCONDITION>" + Selection.getCell(CurrentRow,LabColumnCompleteness).getValue() + "</SUBCONDITION>"
-        }
-        StringUpload += "<ITEMID>" + Selection.getCell(CurrentRow,LabColumnItemNo).getValue() + "</ITEMID>";
-        StringUpload += "<COLOR>" + Selection.getCell(CurrentRow,LabColumnColorID).getValue() + "</COLOR>";
-        StringUpload += "<CONDITION>" + Selection.getCell(CurrentRow,LabColumnCondition).getValue() + "</CONDITION>";
-        StringUpload += "<QTY>" + Selection.getCell(CurrentRow,LabColumnQty).getValue() + "</QTY>";
-        
-        if (Selection.getCell(CurrentRow,LabColumnPrice).getValue() == ""){
-          StringUpload += "<PRICE>" + Selection.getCell(CurrentRow,LabColumnPriceAvg).getValue() + "</PRICE>";
+      if (Input[i][LabColumnQty-1] != ""){
+        if (Input[i][LabColumQtyInventory-1] + Input[i][LabColumnQty-1] == 0){
+          StringUpdate += "<DELETE>Y</DELETE>"
         } else {
-          StringUpload += "<PRICE>" + Selection.getCell(CurrentRow,LabColumnPrice).getValue() + "</PRICE>";
+          if (Input[i][LabColumnQty-1] > 0){
+            var Sign = "+";
+          } else {
+            var Sign = "";
+          }
+          StringUpdate += "<QTY>" + Sign + Input[i][LabColumnQty-1] + "</QTY>";
         }
-        
-        if (Selection.getCell(CurrentRow,LabColumnDescription).getValue() != ""){
-          StringUpload += "<DESCRIPTION>" + Selection.getCell(CurrentRow,LabColumnDescription).getValue() + "</DESCRIPTION>";
-        }
-        
-        if (Selection.getCell(CurrentRow,LabColumnRemarks).getValue() != ""){
-          StringUpload += "<REMARKS>" + Selection.getCell(CurrentRow,LabColumnRemarks).getValue() + "</REMARKS>";
-        }
-        
-        if (Selection.getCell(CurrentRow,LabColumnStock).getValue() != "NO"){
-          StringUpload += "<STOCKROOM>" + "Y" + "</STOCKROOM>";
-          StringUpload += "<STOCKROOMID>" + Selection.getCell(CurrentRow,LabColumnStock).getValue() + "</STOCKROOMID>";
-        }        
-        StringUpload += "</ITEM>";
-
-        OutputUpload[j] = StringUpload;
-        j++;
       }
+      if (Input[i][LabColumnPrice-1] != ""){
+        StringUpdate += "<PRICE>" + Input[i][LabColumnPrice-1] + "</PRICE>";
+      }
+      if (Input[i][LabColumnDescription-1] != ""){
+        StringUpdate += "<DESCRIPTION>" + Input[i][LabColumnDescription-1] + "</DESCRIPTION>";
+      }
+      if (Input[i][LabColumnRemarks-1] != ""){
+        StringUpdate += "<REMARKS>" + Input[i][LabColumnRemarks-1] + "</REMARKS>";
+      }
+      StringUpdate += "</ITEM>";
+      
+      OutputUpdate[j] = [StringUpdate];
+      j++;
+
+    } else {
+      // NO LotID: Upload        
+      var StringUpload = "<ITEM>" + "<CATEGORY></CATEGORY>" + "<ITEMTYPE>"
+      if (Input[i][LabColumnItemType-1] == "PART"){
+        StringUpload += "P</ITEMTYPE>"
+      } else if (Input[i][LabColumnItemType-1] == "MINIFIG"){
+          StringUpload+= "M</ITEMTYPE>"
+      } else if (Input[i][LabColumnItemType-1] == "SET"){
+          StringUpload += "S</ITEMTYPE>"
+          StringUpload += "<SUBCONDITION>" + Input[i][LabColumnCompleteness-1] + "</SUBCONDITION>"
+      }
+      StringUpload += "<ITEMID>" + Input[i][LabColumnItemNo-1] + "</ITEMID>";
+      StringUpload += "<COLOR>" + Input[i][LabColumnColorID-1] + "</COLOR>";
+      StringUpload += "<CONDITION>" + Input[i][LabColumnCondition-1] + "</CONDITION>";
+      StringUpload += "<QTY>" + Input[i][LabColumnQty-1] + "</QTY>";
+      
+      if (Input[i][LabColumnPrice-1] == ""){
+        StringUpload += "<PRICE>" + Input[i][LabColumnPriceAvg-1] + "</PRICE>";
+      } else {
+        StringUpload += "<PRICE>" + Input[i][LabColumnPrice-1] + "</PRICE>";
+      }
+          
+      if (Input[i][LabColumnDescription-1] != ""){
+        StringUpload += "<DESCRIPTION>" + Input[i][LabColumnDescription-1] + "</DESCRIPTION>";
+      }
+          
+      if (Input[i][LabColumnRemarks-1] != ""){
+        StringUpload += "<REMARKS>" + Input[i][LabColumnRemarks-1] + "</REMARKS>";
+      }
+      
+      if (Input[i][LabColumnStock-1] != "NO"){
+        StringUpload += "<STOCKROOM>" + "Y" + "</STOCKROOM>";
+        StringUpload += "<STOCKROOMID>" + Input[i][LabColumnStock-1] + "</STOCKROOMID>";
+      }        
+      StringUpload += "</ITEM>";
+
+      OutputUpload[k] = [StringUpload];
+      k++;
     }
   }
 
-  for (var k=1; k <= OutputUpdate.length; k++) SheetXml.getRange(k+2,1).setValue(OutputUpdate[k]);
-  SheetXml.getRange(k+1,1).setValue('</INVENTORY>');
+  if (OutputUpdate.length > 0){
+    SheetXml.getRange(3, 1, OutputUpdate.length, 1).setValues(OutputUpdate);
+    SheetXml.getRange(OutputUpdate.length+3,1).setValue('</INVENTORY>');
+  } else { SheetXml.getRange(3,1).setValue('</INVENTORY>') };
 
-  for (var l=1; l <= OutputUpload.length; l++) SheetXml.getRange(l+2,2).setValue(OutputUpload[l]);
-  SheetXml.getRange(l+1,2).setValue('</INVENTORY>');
+  if (OutputUpload.length > 0){
+    SheetXml.getRange(3, 2, OutputUpload.length, 1).setValues(OutputUpload);
+    SheetXml.getRange(OutputUpload.length+3,2).setValue('</INVENTORY>');
+  } else { SheetXml.getRange(3,2).setValue('</INVENTORY>') };
 
   // UI
   var Ui = SpreadsheetApp.getUi();
