@@ -18,7 +18,7 @@ function RegenerateSettings() {
 
   SheetSettings.getRange("A1:B9").setBackground('#D9D9D9');
   SheetSettings.getRange("B3:B6").setBackground('#A4C2F4');
-  SheetSettings.getRange("B9").setBackground('#A4C2F4');
+  SheetSettings.getRange("B8:B9").setBackground('#A4C2F4');
   SpreadsheetApp.flush();
 
   // Text  
@@ -47,7 +47,7 @@ function RegenerateDBColors() {
   SheetDBColors.setColumnWidths(2,3,75);
   SheetDBColors.setRowHeights(1, SheetDBColors.getMaxRows(), 21);
   SheetDBColors.setFrozenRows(1);
-  SheetDBColors.getRange(1,1, SheetDBColors.getMaxRows()-1, SheetDBColors.getMaxColumns()).setNumberFormat("@");
+  SheetDBColors.getRange(1,1, SheetDBColors.getMaxRows(), SheetDBColors.getMaxColumns()).setNumberFormat("@");
   SpreadsheetApp.flush();
 
   // Text
@@ -104,7 +104,7 @@ function RegenerateDBCategories() {
   SheetDBCategory.setColumnWidth(3, 100);
   SheetDBCategory.setRowHeights(1, SheetDBCategory.getMaxRows(), 21);
   SheetDBCategory.setFrozenRows(1);
-  SheetDBCategory.getRange(1,1, SheetDBCategory.getMaxRows()-1, SheetDBCategory.getMaxColumns()).setNumberFormat("@");
+  SheetDBCategory.getRange(1,1, SheetDBCategory.getMaxRows(), SheetDBCategory.getMaxColumns()).setNumberFormat("@");
   SpreadsheetApp.flush();
   
   // Text
@@ -160,6 +160,7 @@ function RegenerateDBItems() {
   SheetDBPart.setColumnWidth(4, 2000);
   SheetDBPart.setRowHeights(1, SheetDBPart.getMaxRows(), 21);
   SheetDBPart.setFrozenRows(1);
+  SheetDBPart.getRange(1,1, SheetDBPart.getMaxRows(), SheetDBPart.getMaxColumns()).setNumberFormat("@");
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBPart.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
@@ -172,6 +173,7 @@ function RegenerateDBItems() {
   SheetDBMinifigure.setColumnWidth(4, 1000);
   SheetDBMinifigure.setRowHeights(1, SheetDBMinifigure.getMaxRows(), 21);
   SheetDBMinifigure.setFrozenRows(1);
+  SheetDBMinifigure.getRange(1,1, SheetDBMinifigure.getMaxRows(), SheetDBMinifigure.getMaxColumns()).setNumberFormat("@");
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBMinifigure.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
@@ -184,6 +186,7 @@ function RegenerateDBItems() {
   SheetDBSet.setColumnWidth(4, 7500);
   SheetDBSet.setRowHeights(1, SheetDBSet.getMaxRows(), 21);
   SheetDBSet.setFrozenRows(1);
+  SheetDBSet.getRange(1,1, SheetDBSet.getMaxRows(), SheetDBSet.getMaxColumns()).setNumberFormat("@");
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBSet.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
@@ -217,6 +220,9 @@ function RegenerateInventory() {
   SheetInventory.getRange("R1:R2").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetInventory.getRange("A3:R3").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetInventory.getRange("A1:R3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
+
+  SheetInventory.getRange(1,1, SheetInventory.getMaxRows(), SheetInventory.getMaxColumns()).setNumberFormat("@");
+  SheetInventory.getRange(4, 10, SheetLab.SheetInventory()-4, 1).setNumberFormat("##0.00[$€]");
 
   SheetInventory.getRange("A1:R2").setBackground('#D9D9D9');
   SheetInventory.getRange("A2:E2").setBackground('#A4C2F4');
@@ -276,6 +282,8 @@ function RegeneratePartOut() {
   SheetPartOut.getRange("A3:I3").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetPartOut.getRange("A1:I3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
 
+   SheetPartOut.getRange(1,1, SheetPartOut.getMaxRows(), SheetPartOut.getMaxColumns()).setNumberFormat("@");
+
   SheetPartOut.getRange("A1:I2").setBackground('#D9D9D9');
   SheetPartOut.getRange("A2:D2").setBackground('#A4C2F4');
   SheetPartOut.getRange("I2").setBackground('#A4C2F4');
@@ -302,6 +310,9 @@ function RegeneratePartOut() {
 
   // Formula
   SheetPartOut.getRange("D2").setValue("=IFERROR(VLOOKUP(CONCATENATE(A2 & B2), 'DB-Set'!C:D, 2, FALSE),\"\")");
+
+  SheetPartOut.getRange("I4").setValue("=IF(ISBLANK(A4),\"\",IFERROR(VLOOKUP(F4, 'DB-Colors'!$B$2:$E,4,FALSE),\"\"))");
+  SheetPartOut.getRange("I4").copyTo(SheetPartOut.getRange("I5:I"));
 
   // UI
   var Ui = SpreadsheetApp.getUi();
@@ -356,7 +367,7 @@ function RegenerateLab() {
   SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
   SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
   SheetLab.getRange(LabMinRow, 12, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0.00[$€]");
-  SheetLab.getRange(LabMinRow, 13, SheetLab.getMaxRows()-LabMinRow, 2).setNumberFormat("##.##%"); 
+  SheetLab.getRange(LabMinRow, 13, SheetLab.getMaxRows()-LabMinRow, 2).setNumberFormat("##0.##%"); 
   SheetLab.getRange(LabMinRow, 15, SheetLab.getMaxRows()-LabMinRow, 5).setNumberFormat("#,##0.00[$€]");  
   SpreadsheetApp.flush();
 
