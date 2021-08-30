@@ -4,7 +4,7 @@
 
 ## Installazione
 Per iniziare, in una cartella di lavoro di Google Sheets, è necessario importare i vari script utilizzando "Strumenti--> Editor di Script".
-Dopo aver importato manualmente i Database di Parts, Minifigures e Sets (scaricabili da Bricklink) si procede in modo automatizzato. Generato Settings, correttamente compliato con i dati necessari per le API Bricklink, si possono creare i Database di Categorie e Colori. E' ora possibile generare tutti gli altri fogli della cartella di lavoro.
+Dopo aver importato manualmente i Database di Parts, Minifigures e Sets (scaricabili da Bricklink) si procede in modo automatizzato. Generato Settings, da compilarsi correttamente con i dati necessari per le API Bricklink, si possono creare i Database di Categorie e Colori. E' ora possibile generare tutti gli altri fogli della cartella di lavoro.
 
 
 ## To Do List
