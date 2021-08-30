@@ -3,8 +3,8 @@
 
 
 ## Installazione
-Per iniziare, in una cartella di lavoro di Google Sheets, è necessario importare i vari script utilizzando "Strumenti--> Editor di Script".
-Dopo aver importato manualmente i Database di Parts, Minifigures e Sets (scaricabili da Bricklink) si procede in modo automatizzato. Generato Settings, correttamente compliato con i dati necessari per le API Bricklink, si possono creare i Database di Categorie e Colori. E' ora possibile generare tutti gli altri fogli della cartella di lavoro.
+Per iniziare, in una cartella di lavoro di Google Sheets, è necessario importare i vari script utilizzando (Editor di Script/App Script).
+Dopo aver importato manualmente i Database di Parts, Minifigures e Sets (scaricabili da Bricklink) si procede in modo automatizzato. Generato Settings, da compilarsi correttamente con i dati necessari per le API Bricklink, si possono creare i Database di Categorie e Colori. E' ora possibile generare tutti gli altri fogli della cartella di lavoro: Inventory, PartOut, XML e Lab.
 
 
 ## To Do List
@@ -21,23 +21,24 @@ Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare
 
 ## Changelog
 ### da 1.0.0 ad oggi (GitHub)
-1.1.0: Miglioramento delle performance nella generazione degli XML. (ZioTitanok) <br>
-1.0.1: ReadMe e Minor Fixes. (ZioTitanok)<br>
-1.0.0: Introdotte funzionalità di creazione/ripristino dei fogli della cartella di lavoro. (ZioTitanok)<br>
+v1.2.0: Miglioramento delle performance degli Import. Aggiornamento minore di PartOut. (ZioTitanok)<br>
+v1.1.0: Miglioramento delle performance nella generazione degli XML e nel download delle Price Guide. (ZioTitanok)<br>
+v1.0.1: ReadMe e Minor Fixes. (ZioTitanok)<br>
+v1.0.0: Introdotte funzionalità di creazione/ripristino dei fogli della cartella di lavoro. (ZioTitanok)<br>
 
 ### da 0.0.1 a 0.9.0 (pre-GitHub)
-0.9.0: Aggiornamento automatico dei Database Categorie e Colori. (ZioTitanok)<br>
-0.8.0: Introdotti i filtri in Inventory, PartOut e Lab. (ZioTitanok)<br>
-0.7.0: Introduzione dei Settings e di altre funzioni minori per al user experience. (ZioTitanok)<br>
-0.6.0: Non solo Parts: Minifigures, Sets e tutto il resto possono essere gestiti. (ZioTitanok)<br>
-0.5.0: Introdotte le funzionalità di Import tra Inventory, PartOut e Lab. (ZioTitanok)<br>
-0.4.0: Introdotto PartOut per il download dei part-out dei Sets. (ZioTitanok)<br>
-0.3.1: Introdotto XML Export (Upload, Upgrade) per la sincronizzazione manuale dell'Inventario su Bricklink. (ZioTitanok)<br>
-0.3.0: Introdotto XML Export (Wanted) per la creazione manuale di WantedList su Bricklink (GianCann)<br>
-0.2.0: Miglioramento di Lab ed introduzione dei Database di Parts, Minifigures e Sets. (ZioTitanok)<br>
-0.1.0: Introdotto OAuth1 negli script (eliminato il PHP esterno). (GianCann)<br>
-0.0.2: Introdotto Inventory con download dell'Inventary da Bricklink (via PHP esterno). (GianCann)<br>
-0.0.1: Introdotto Lab con download delle Price Guide delle Parts (via PHP esterno). (GianCann)<br>
+v0.9.0: Aggiornamento automatico dei Database Categorie e Colori. (ZioTitanok)<br>
+v0.8.0: Introdotti i filtri in Inventory, PartOut e Lab. (ZioTitanok)<br>
+v0.7.0: Introduzione dei Settings e di altre funzioni minori per al user experience. (ZioTitanok)<br>
+v0.6.0: Non solo Parts: Minifigures, Sets e tutto il resto possono essere gestiti. (ZioTitanok)<br>
+v0.5.0: Introdotte le funzionalità di Import tra Inventory, PartOut e Lab. (ZioTitanok)<br>
+v0.4.0: Introdotto PartOut per il download dei part-out dei Sets. (ZioTitanok)<br>
+v0.3.1: Introdotto XML Export (Upload/Upgrade) per la sincronizzazione manuale dell'Inventario su Bricklink. (ZioTitanok)<br>
+v0.3.0: Introdotto XML Export (Wanted) per la creazione manuale di WantedList su Bricklink (GianCann)<br>
+v0.2.0: Miglioramento di Lab ed introduzione dei Database di Parts, Minifigures e Sets. (ZioTitanok)<br>
+v0.1.0: Introdotto OAuth1 negli script (eliminato il PHP esterno). (GianCann)<br>
+v0.0.2: Introdotto Inventory con download dell'Inventory da Bricklink (via PHP esterno). (GianCann)<br>
+v0.0.1: Introdotto Lab con download delle Price Guide delle Parts (via PHP esterno). (GianCann)<br>
 
 ## Dedica
 Alla memoria di GianCann, che sicuramente avrebbe fatto un lavoro migliore del mio nel portare avanti questo progetto.

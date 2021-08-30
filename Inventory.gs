@@ -47,8 +47,13 @@ function LoadInventory(){
     var OutputStockRoom = OutputInventory.data[i].stock_room_id;
     if (OutputInventory.data[i].stock_room_id == undefined) OutputStockRoom = "NO";
 
-    var OutputCompleteness = OutputInventory.data[i].completeness;
-    if (OutputInventory.data[i].item.type != "SET") OutputCompleteness = "X";
+    if (OutputInventory.data[i].item.type == "PART" || (OutputInventory.data[i].item.type != "MINIFIG" && OutputInventory.data[i].item.type != "SET")){
+      var OutputIndex = OutputInventory.data[i].item.type + "_" + OutputInventory.data[i].item.no + "_" + OutputInventory.data[i].color_id + "_" + OutputInventory.data[i].new_or_used + "_" + OutputStockRoom
+    } else if (OutputInventory.data[i].item.type == "MINIFIG"){
+      var OutputIndex = OutputInventory.data[i].item.type + "_" + OutputInventory.data[i].item.no + "_" + OutputInventory.data[i].new_or_used + "_" + OutputStockRoom
+    } else if (OutputInventory.data[i].item.type == "SET"){
+      var OutputIndex = OutputInventory.data[i].item.type + "_" + OutputInventory.data[i].item.no + "_" + OutputInventory.data[i].new_or_used + "_" + OutputInventory.data[i].completeness + "_" + OutputStockRoom
+    }
     
     Inventory[i] = [i,
                     OutputInventory.data[i].item.type,
@@ -57,13 +62,13 @@ function LoadInventory(){
                     OutputInventory.data[i].item.name,
                     OutputInventory.data[i].color_id,
                     OutputInventory.data[i].color_name,
-                    OutputInventory.data[i].item.type + "_" + OutputInventory.data[i].item.no + "_" + OutputInventory.data[i].color_id + "_" + OutputInventory.data[i].new_or_used + "_" + OutputCompleteness + "_" + OutputStockRoom,
+                    OutputIndex,
                     OutputInventory.data[i].quantity,
                     OutputInventory.data[i].unit_price,
                     OutputInventory.data[i].description,
                     OutputInventory.data[i].remarks,
                     OutputInventory.data[i].new_or_used,
-                    OutputCompleteness,
+                    OutputInventory.data[i].completeness,
                     OutputInventory.data[i].is_stock_room,
                     OutputStockRoom,
                     OutputInventory.data[i].inventory_id,

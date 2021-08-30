@@ -18,11 +18,11 @@ function RegenerateSettings() {
 
   SheetSettings.getRange("A1:B9").setBackground('#D9D9D9');
   SheetSettings.getRange("B3:B6").setBackground('#A4C2F4');
-  SheetSettings.getRange("B9").setBackground('#A4C2F4');
+  SheetSettings.getRange("B8:B9").setBackground('#A4C2F4');
   SpreadsheetApp.flush();
 
   // Text  
-  var ColumnA = [["API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"],["Lab"],["Lab Active"],["Prices Row Max (Bulk/Batch)"]];
+  var ColumnA = [["API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"], ["Lab"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
   SheetSettings.getRange("A1:A9").setValues(ColumnA);
   SheetSettings.getRange("B9").setValue("1000");
 
@@ -47,7 +47,7 @@ function RegenerateDBColors() {
   SheetDBColors.setColumnWidths(2,3,75);
   SheetDBColors.setRowHeights(1, SheetDBColors.getMaxRows(), 21);
   SheetDBColors.setFrozenRows(1);
-  SheetDBColors.getRange(1,1, SheetDBColors.getMaxRows()-1, SheetDBColors.getMaxColumns()).setNumberFormat("@");
+  SheetDBColors.getRange(1,1, SheetDBColors.getMaxRows(), SheetDBColors.getMaxColumns()).setNumberFormat("@");
   SpreadsheetApp.flush();
 
   // Text
@@ -104,7 +104,7 @@ function RegenerateDBCategories() {
   SheetDBCategory.setColumnWidth(3, 100);
   SheetDBCategory.setRowHeights(1, SheetDBCategory.getMaxRows(), 21);
   SheetDBCategory.setFrozenRows(1);
-  SheetDBCategory.getRange(1,1, SheetDBCategory.getMaxRows()-1, SheetDBCategory.getMaxColumns()).setNumberFormat("@");
+  SheetDBCategory.getRange(1,1, SheetDBCategory.getMaxRows(), SheetDBCategory.getMaxColumns()).setNumberFormat("@");
   SpreadsheetApp.flush();
   
   // Text
@@ -160,6 +160,7 @@ function RegenerateDBItems() {
   SheetDBPart.setColumnWidth(4, 2000);
   SheetDBPart.setRowHeights(1, SheetDBPart.getMaxRows(), 21);
   SheetDBPart.setFrozenRows(1);
+  SheetDBPart.getRange(1,1, SheetDBPart.getMaxRows(), SheetDBPart.getMaxColumns()).setNumberFormat("@");
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBPart.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
@@ -172,6 +173,7 @@ function RegenerateDBItems() {
   SheetDBMinifigure.setColumnWidth(4, 1000);
   SheetDBMinifigure.setRowHeights(1, SheetDBMinifigure.getMaxRows(), 21);
   SheetDBMinifigure.setFrozenRows(1);
+  SheetDBMinifigure.getRange(1,1, SheetDBMinifigure.getMaxRows(), SheetDBMinifigure.getMaxColumns()).setNumberFormat("@");
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBMinifigure.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
@@ -184,6 +186,7 @@ function RegenerateDBItems() {
   SheetDBSet.setColumnWidth(4, 7500);
   SheetDBSet.setRowHeights(1, SheetDBSet.getMaxRows(), 21);
   SheetDBSet.setFrozenRows(1);
+  SheetDBSet.getRange(1,1, SheetDBSet.getMaxRows(), SheetDBSet.getMaxColumns()).setNumberFormat("@");
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBSet.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
@@ -218,6 +221,9 @@ function RegenerateInventory() {
   SheetInventory.getRange("A3:R3").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetInventory.getRange("A1:R3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
 
+  SheetInventory.getRange(1,1, SheetInventory.getMaxRows(), SheetInventory.getMaxColumns()).setNumberFormat("@");
+  SheetInventory.getRange(4, 10, SheetLab.SheetInventory()-4, 1).setNumberFormat("##0.00[$€]");
+
   SheetInventory.getRange("A1:R2").setBackground('#D9D9D9');
   SheetInventory.getRange("A2:E2").setBackground('#A4C2F4');
   SheetInventory.getRange("G2:H2").setBackground('#A4C2F4');
@@ -228,7 +234,7 @@ function RegenerateInventory() {
   var TitlesA = ["Part", "Minifig", "Set", "All", "Category Name", "=IFERROR(VLOOKUP(E2, 'DB-Categories'!B2:C,2,FALSE),\"-1\")", "Color Name", "StockRoom", "", "", "", "", "", "", "", "", "","Last Download"];
   SheetInventory.getRange("A1:R1").setValues([TitlesA]);
   
-  var TitlesC = ["i", "Item Type", "Item Code", "Category ID", "Item Name", "Color ID", "Color Name", "INDEX (Type + Cod + ColID + Cond + Completeness + StockID)", "Qty", "Price", "Description", "Remarks",	"Condition", "Completeness", "Is Stock?", "Stock ID", "Inventory ID", "Date Created"];
+  var TitlesC = ["i", "Item Type", "Item Code", "Category ID", "Item Name", "Color ID", "Color Name", "Index", "Qty", "Price", "Description", "Remarks",	"Condition", "Completeness", "Is Stock?", "Stock ID", "Inventory ID", "Date Created"];
   SheetInventory.getRange("A3:R3").setValues([TitlesC]);
 
   // Dropdowns
@@ -276,6 +282,8 @@ function RegeneratePartOut() {
   SheetPartOut.getRange("A3:I3").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetPartOut.getRange("A1:I3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
 
+   SheetPartOut.getRange(1,1, SheetPartOut.getMaxRows(), SheetPartOut.getMaxColumns()).setNumberFormat("@");
+
   SheetPartOut.getRange("A1:I2").setBackground('#D9D9D9');
   SheetPartOut.getRange("A2:D2").setBackground('#A4C2F4');
   SheetPartOut.getRange("I2").setBackground('#A4C2F4');
@@ -302,6 +310,9 @@ function RegeneratePartOut() {
 
   // Formula
   SheetPartOut.getRange("D2").setValue("=IFERROR(VLOOKUP(CONCATENATE(A2 & B2), 'DB-Set'!C:D, 2, FALSE),\"\")");
+
+  SheetPartOut.getRange("I4").setValue("=IF(ISBLANK(A4),\"\",IFERROR(VLOOKUP(F4, 'DB-Colors'!$B$2:$E,4,FALSE),\"\"))");
+  SheetPartOut.getRange("I4").copyTo(SheetPartOut.getRange("I5:I"));
 
   // UI
   var Ui = SpreadsheetApp.getUi();
@@ -356,7 +367,7 @@ function RegenerateLab() {
   SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
   SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
   SheetLab.getRange(LabMinRow, 12, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0.00[$€]");
-  SheetLab.getRange(LabMinRow, 13, SheetLab.getMaxRows()-LabMinRow, 2).setNumberFormat("##.##%"); 
+  SheetLab.getRange(LabMinRow, 13, SheetLab.getMaxRows()-LabMinRow, 2).setNumberFormat("##0.##%"); 
   SheetLab.getRange(LabMinRow, 15, SheetLab.getMaxRows()-LabMinRow, 5).setNumberFormat("#,##0.00[$€]");  
   SpreadsheetApp.flush();
 
@@ -374,7 +385,7 @@ function RegenerateLab() {
   var TitlesA = ["Mode", "Item Type", "Category", "ID", "Color","","", "ID", "Angle", "Last Worked Row", "Zone", "","Price Guide"];
   SheetLab.getRange("A1:M1").setValues([TitlesA]);
 
-  var TitlesC = ["Item Type", "Code", "Color Name", "Qty", "N / U", "Complete?", "Stock?", "IDCol", "Immagine", "Item Name", "On BL", "Price Inv.", "%Avg", "% Avg/Qty", "Prezzo (O)", "Min", "Avg", "Avg/Qty", "Max", "Lotti", "Item Avaiable", "Link: LotID", "Link: Catalogo", "Link: Inventario", "Descrizione", "Remarks", "Descrizione (O)", "Remark (O)", "Date Created", "INDEX"];
+  var TitlesC = ["Item Type", "Code", "Color Name", "Qty", "N / U", "Complete?", "Stock?", "IDCol", "Immagine", "Item Name", "On BL", "Price Inv.", "%Avg", "% Avg/Qty", "Prezzo (O)", "Min", "Avg", "Avg/Qty", "Max", "Lotti", "Item Avaiable", "Link: LotID", "Link: Catalogo", "Link: Inventario", "Descrizione", "Remarks", "Descrizione (O)", "Remark (O)", "Date Created", "Index"];
   SheetLab.getRange("A3:AD3").setValues([TitlesC]);
 
   // Dropdowns
@@ -473,7 +484,7 @@ function RegenerateLab() {
   SheetLab.getRange("AC4").setValue("=IFERROR(VLOOKUP(AD4, Inventory!$H:$R,11,FALSE),\"\")");
   SheetLab.getRange("AC4").copyTo(SheetLab.getRange("AC5:AC"));
 
-  SheetLab.getRange("AD4").setValue("=A4 & \"_\" & B4 & \"_\" & H4 & \"_\" & E4 & \"_\" & F4 & \"_\" & G4");
+  SheetLab.getRange("AD4").setValue("=IFERROR(IFS(A4 = \"PART\", A4 & \"_\" & B4 & \"_\" & H4 & \"_\" & E4 & \"_\" & G4, A4 = \"MINIFIG\", A4 & \"_\" & B4 & \"_\" & E4 & \"_\" & G4, A4 = \"SET\", A4 & \"_\" & B4 & \"_\" & E4 & \"_\" & F4 & \"_\" & G4),\"\")");
   SheetLab.getRange("AD4").copyTo(SheetLab.getRange("AD5:AD"));
   SpreadsheetApp.flush();
 
@@ -490,6 +501,8 @@ function RegenerateXML() {
   var SheetXML = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("XML")
   SheetXML.setColumnWidths(1, 2, 850);
   SheetXML.setRowHeights(1, SheetXML.getMaxRows(), 21)
+  SheetXML.getRange("A1:B1").setBackground('#D9D9D9').setFontWeight("bold");
+  SheetXML.setFrozenRows(1);
 
   // UI
   var Ui = SpreadsheetApp.getUi();
