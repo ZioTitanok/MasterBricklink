@@ -222,7 +222,7 @@ function RegenerateInventory() {
   SheetInventory.getRange("A1:R3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
 
   SheetInventory.getRange(1,1, SheetInventory.getMaxRows(), SheetInventory.getMaxColumns()).setNumberFormat('@STRING@');
-  SheetInventory.getRange(4, 10, SheetLab.SheetInventory()-4, 1).setNumberFormat("##0.00[$€]");
+  SheetInventory.getRange(4, 10, SheetInventory.getMaxRows()-4, 1).setNumberFormat("##0.00[$€]");
 
   SheetInventory.getRange("A1:R2").setBackground('#D9D9D9');
   SheetInventory.getRange("A2:E2").setBackground('#A4C2F4');
