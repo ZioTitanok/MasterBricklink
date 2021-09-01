@@ -21,6 +21,7 @@ Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare
 
 ## Changelog
 ### da 1.0.0 ad oggi (GitHub)
+v1.1.3: Introdotto in Lab funzione per il suggerimento e l'aggiornamento dei prezzi. (ZioTitanok) <br>
 v1.1.2: Aggiornamento minore di Lab. (ZioTitanok)<br>
 v1.1.1: Miglioramento delle performance degli Import. Aggiornamento minore di PartOut. (ZioTitanok)<br>
 v1.1.0: Miglioramento delle performance nella generazione degli XML e nel download delle Price Guide. (ZioTitanok)<br>

@@ -13,7 +13,7 @@ function XMLWanted(){
 
   var Input = [];
   var LabUsedRows = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
-  Input = SheetLab.getRange(LabMinRow, 1, LabUsedRows.filter(Boolean).length, 28).getValues();
+  Input = SheetLab.getRange(LabMinRow, 1, LabUsedRows.filter(Boolean).length, 30).getValues();
 
   var OutputWanted = [];
   for (var i in Input){
@@ -72,7 +72,7 @@ function XMLUploadUpdate(){
 
   var Input = [];
   var LabUsedRows = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
-  Input = SheetLab.getRange(LabMinRow, 1, LabUsedRows.filter(Boolean).length, 28).getValues();
+  Input = SheetLab.getRange(LabMinRow, 1, LabUsedRows.filter(Boolean).length, 30).getValues();
 
   var OutputUpdate = [];
   var OutputUpload = [];
@@ -99,7 +99,7 @@ function XMLUploadUpdate(){
             StringUpdate += "<QTY>" + Sign + Input[i][LabColumnQty-1] + "</QTY>";
           }
         }
-        if (Input[i][LabColumnPrice-1] != ""){
+        if (Input[i][LabColumnPrice-1] !=""){
           StringUpdate += "<PRICE>" + +Input[i][LabColumnPrice-1].toFixed(2) + "</PRICE>";
         }
         if (Input[i][LabColumnDescription-1] != ""){
@@ -134,6 +134,7 @@ function XMLUploadUpdate(){
         StringUpload += "<PRICE>" + +Input[i][LabColumnPriceAvg-1].toFixed(2) + "</PRICE>";
       } else {
         StringUpload += "<PRICE>" + +Input[i][LabColumnPrice-1].toFixed(2) + "</PRICE>";
+        console.log(Input[i][LabColumnPrice-1].toFixed(2))
       }
           
       if (Input[i][LabColumnDescription-1] != ""){
