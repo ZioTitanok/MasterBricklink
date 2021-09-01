@@ -7,8 +7,7 @@ var LabColumnQty = 4;
 var LabColumnCondition = 5;
 var LabColumnCompleteness = 6;
 var LabColumnStock = 7;
-var LabColumnColorID = 8;
-var LabColumQtyInventory = 11;
+var LabColumQtyInventory = 10;
 var LabColumnPrice = 15;
 var LabColumnPriceMin = 16;
 var LabColumnPriceAvg = 17;
@@ -17,6 +16,7 @@ var LabColumnPriceMax = 19;
 var LabColumnLotID = 22;
 var LabColumnDescription = 27;
 var LabColumnRemarks = 28;
+var LabColumnColorID = 30;
 
 // Function: Download Prices (Bulk)
 function LoadPricesBulk(){
@@ -30,8 +30,8 @@ function LoadPricesBulk(){
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
 
   // Data
-  var PriceType = SheetLab.getRange("M2").getValue();
-  var PriceRegion = SheetLab.getRange("K2").getValue();
+  var PriceType = SheetLab.getRange("L2").getValue();
+  var PriceRegion = SheetLab.getRange("J2").getValue();
   if (PriceRegion=="Worldwide") PriceRegion="";
   var Cell = SpreadsheetApp.getActiveSheet().getActiveCell();
   var StartingRow = Cell.getRow();
@@ -40,9 +40,9 @@ function LoadPricesBulk(){
   
   var LabUsedRows = SheetLab.getRange(StartingRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
   if (LabUsedRows.filter(Boolean).length <= MaxRow) {
-    Input = SheetLab.getRange(StartingRow, 1, LabUsedRows.filter(Boolean).length, 8).getValues();
+    Input = SheetLab.getRange(StartingRow, 1, LabUsedRows.filter(Boolean).length, 30).getValues();
   } else {
-    Input = SheetLab.getRange(StartingRow, 1, MaxRow, 8).getValues();
+    Input = SheetLab.getRange(StartingRow, 1, MaxRow, 30).getValues();
   }
 
   var Output = [];
@@ -71,9 +71,10 @@ function LoadPricesBulk(){
         currency_code: 'EUR',
         vat: 'Y'
       }; 
-              
+
       urlFetch = OAuth1.withAccessToken(ConsumerKey, ConsumerSecret, TokenValue, TokenSecret);
 
+      console.log(Params)
       var PriceGuide = JSON.parse(urlFetch.fetch(Url, Params, Options));
       Output[i] = [PriceGuide.data.min_price, 
                   PriceGuide.data.avg_price, 
@@ -82,7 +83,7 @@ function LoadPricesBulk(){
                   PriceGuide.data.unit_quantity, 
                   PriceGuide.data.total_quantity];
   }
- 
+
   SheetLab.getRange(StartingRow, LabColumnPriceMin, Output.length, 6).setValues(Output);  
   
   // UI
@@ -105,8 +106,8 @@ function LoadPricesRows(){
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
 
   // Data
-  var PriceType = SheetLab.getRange("M2").getValue();
-  var PriceRegion = SheetLab.getRange("K2").getValue();
+  var PriceType = SheetLab.getRange("L2").getValue();
+  var PriceRegion = SheetLab.getRange("J2").getValue();
   if (PriceRegion=="Worldwide") PriceRegion="";
   var Selection = SheetLab.getDataRange();
   var Cell = SpreadsheetApp.getActiveSheet().getActiveCell();
@@ -142,8 +143,8 @@ function LoadPricesRow(){
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
 
   // Data
-  var PriceType = SheetLab.getRange("M2").getValue();
-  var PriceRegion = SheetLab.getRange("K2").getValue();
+  var PriceType = SheetLab.getRange("L2").getValue();
+  var PriceRegion = SheetLab.getRange("J2").getValue();
   if (PriceRegion=="Worldwide") PriceRegion="";
   var Selection = SheetLab.getDataRange();
   var Cell = SpreadsheetApp.getActiveSheet().getActiveCell();
@@ -219,8 +220,8 @@ function ImportInventory() {
 
   // Data
   var ItemType =  SheetLab.getRange("B2").getValue();
-  var CategoryId = SheetLab.getRange("D2").getValue();
-  var ColorId = SheetLab.getRange("H2").getValue();
+  var CategoryId = SheetLab.getRange("D1").getValue();
+  var ColorId = SheetLab.getRange("D2").getValue();
   var Mode = SheetLab.getRange("A2").getValue();
 
   if (Mode == "ADD"){
@@ -236,7 +237,7 @@ function ImportInventory() {
   var j = 0;
   for (var i in Data){
     if (Data[i][1] == ItemType || ItemType == ""){
-      if (Data[i][3] == CategoryId || CategoryId == "-1"){
+      if (Data[i][3] == CategoryId || CategoryId == ""){
         if (Data[i][5] == ColorId || ColorId == ""){
           Output[j] = [Data[i][1], Data[i][2], Data[i][6], "", Data[i][12], Data[i][13], Data[i][15]];
           j++
@@ -261,8 +262,8 @@ function ImportPartOut() {
 
   // Data
   var ItemType =  SheetLab.getRange("B2").getValue();
-  var CategoryId = SheetLab.getRange("D2").getValue();
-  var ColorName = SheetLab.getRange("E2").getValue();
+  var CategoryId = SheetLab.getRange("D1").getValue();
+  var ColorId = SheetLab.getRange("D2").getValue();
   var Mode = SheetLab.getRange("A2").getValue();
   var Conditions = SheetPartOut.getRange("E2").getValue();
   var StockRoom = SheetPartOut.getRange("F2").getValue()
@@ -280,8 +281,8 @@ function ImportPartOut() {
   var j = 0;
   for (var i in Data){
     if (Data[i][1] == ItemType || ItemType == ""){
-      if (Data[i][4] == CategoryId || CategoryId == "-1"){
-        if (Data[i][8] == ColorName || ColorName == ""){
+      if (Data[i][4] == CategoryId || CategoryId == ""){
+        if (Data[i][5] == ColorId || ColorId == ""){
           Output[j] = [Data[i][1], Data[i][2], Data[i][8], Data[i][6], Conditions, "", StockRoom];
           j++
         }
@@ -306,7 +307,7 @@ function ClearLab(){
   ClearLabPrices()
   SheetLab.getRange("J2").clear({contentsOnly: true});
   SheetLab.getRange(LabMinRow, 1, LabMaxRow, 7).clear({contentsOnly: true});
-  SheetLab.getRange(LabMinRow, 15, LabMaxRow, 1).clear({contentsOnly: true});
+  SheetLab.getRange(LabMinRow, 14, LabMaxRow, 1).clear({contentsOnly: true}).insertCheckboxes().setNumberFormat("General");
   SheetLab.getRange(LabMinRow, 27, LabMaxRow, 2).clear({contentsOnly: true});
 }
 
