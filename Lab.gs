@@ -123,7 +123,7 @@ function LoadPricesRows(){
     } else {
       LoadPriceHistory(SheetLab, Row, PriceType, PriceRegion, ConsumerKey, ConsumerSecret, TokenValue, TokenSecret);
     }
-    SheetLab.getRange("J2").setValue(Row);
+    SheetLab.getRange("I2").setValue(Row);
   }
   
   // UI

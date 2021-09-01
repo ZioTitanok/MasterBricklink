@@ -356,7 +356,7 @@ function RegenerateLab() {
   SheetLab.getRange("A1:M2").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetLab.getRange("A3:AE3").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
 
-  SheetLab.getRange("A1:AD2").setBackground('#D9D9D9');
+  SheetLab.getRange("A1:AE2").setBackground('#D9D9D9');
   SheetLab.getRange("A2:C2").setBackground('#A4C2F4');
   SheetLab.getRange("E2").setBackground('#A4C2F4');
   SheetLab.getRange("H2").setBackground('#A4C2F4');
@@ -370,8 +370,8 @@ function RegenerateLab() {
   SheetLab.getRange(4, 1, SheetLab.getMaxRows()-3, 31).getBandings().forEach(function (banding) {banding.remove()});
   SheetLab.getRange(4, 1, SheetLab.getMaxRows()-3, 31).applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY, false, false);
 
-  SheetLab.getRange("A1:AD3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
-  SheetLab.getRange("A4:AD").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
+  SheetLab.getRange("A1:AE3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
+  SheetLab.getRange("A4:AE").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
   SheetLab.getRange(1,1, SheetLab.getMaxRows(), SheetLab.getMaxColumns()).setNumberFormat('@STRING@');
   SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
   SheetLab.getRange(LabMinRow, 9, SheetLab.getMaxRows()-LabMinRow, 1).setWrap(true);
@@ -385,7 +385,7 @@ function RegenerateLab() {
     .setGradientMaxpointWithValue('#FFAFAF', SpreadsheetApp.InterpolationType.NUMBER, "100%")
     .setGradientMidpointWithValue('#FFFFFF', SpreadsheetApp.InterpolationType.NUMBER, "0")
     .setGradientMinpointWithValue('#AFAFFF', SpreadsheetApp.InterpolationType.NUMBER, "-100%")
-    .setRanges([SheetLab.getRange(LabMinRow, 13, SheetLab.getMaxRows(), 2)])
+    .setRanges([SheetLab.getRange(LabMinRow, 12, SheetLab.getMaxRows(), 2)])
     .build();
   var PercentagesConditional = SheetLab.getConditionalFormatRules();
   PercentagesConditional.push(PercentageConditional);
@@ -462,10 +462,10 @@ function RegenerateLab() {
   SheetLab.getRange("K4").copyTo(SheetLab.getRange("K5:K"));
   SpreadsheetApp.flush();
 
-  SheetLab.getRange("L4").setValue("=IF(O4*Q4>0,(O4-Q4)/Q4,\"\")");
+  SheetLab.getRange("L4").setValue("=IF(K4*Q4>0,(K4-Q4)/Q4,\"\")");
   SheetLab.getRange("L4").copyTo(SheetLab.getRange("L5:L"));
 
-  SheetLab.getRange("M4").setValue("=IF(O4*R4>0,(O4-R4)/R4,\"\")");
+  SheetLab.getRange("M4").setValue("=IF(K4*R4>0,(K4-R4)/R4,\"\")");
   SheetLab.getRange("M4").copyTo(SheetLab.getRange("M5:M"));
   SpreadsheetApp.flush();
 
