@@ -359,9 +359,9 @@ function RegenerateLab() {
   SheetLab.getRange("A1:AD2").setBackground('#D9D9D9');
   SheetLab.getRange("A2:C2").setBackground('#A4C2F4');
   SheetLab.getRange("E2").setBackground('#A4C2F4');
-  SheetLab.getRange("I2").setBackground('#A4C2F4');
-  SheetLab.getRange("K2").setBackground('#A4C2F4');
-  SheetLab.getRange("M2").setBackground('#A4C2F4');
+  SheetLab.getRange("H2").setBackground('#A4C2F4');
+  SheetLab.getRange("J2").setBackground('#A4C2F4');
+  SheetLab.getRange("L2").setBackground('#A4C2F4');
   SheetLab.getRange("A3:AE3").setBackground('#FFF2CC').setTextRotation(45).setWrap(true);
   SheetLab.getRange("A3:G3").setBackground('#B6D7A8');
   SheetLab.getRange("N3:O3").setBackground('#B6D7A8');

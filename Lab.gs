@@ -88,7 +88,7 @@ function LoadPricesBulk(){
   
   // UI
   var WorkedRows = Output.length;
-  SheetLab.getRange("J2").setValue(StartingRow+Output.length-1);
+  SheetLab.getRange("I2").setValue(StartingRow+Output.length-1);
   var Ui = SpreadsheetApp.getUi()
   Ui.alert('Lab', 'Updated ' + WorkedRows + ' rows!', Ui.ButtonSet.OK);
 }
@@ -156,11 +156,8 @@ function LoadPricesRow(){
     if (CellCode==""){
        return;
     } else {
-      Cell.setBackground("Red");
       LoadPriceHistory(SheetLab, StartingRow, PriceType, PriceRegion, ConsumerKey, ConsumerSecret, TokenValue, TokenSecret)
     }
-   Cell.setBackground("White");
-
 }
 
 // Function: Download Price (Core)
@@ -305,7 +302,7 @@ function ClearLab(){
   var LabMaxRow = SheetLab.getMaxRows();
 
   ClearLabPrices()
-  SheetLab.getRange("J2").clear({contentsOnly: true});
+  SheetLab.getRange("I2").clear({contentsOnly: true});
   SheetLab.getRange(LabMinRow, 1, LabMaxRow, 7).clear({contentsOnly: true});
   SheetLab.getRange(LabMinRow, 14, LabMaxRow, 1).clear({contentsOnly: true}).insertCheckboxes().setNumberFormat("General");
   SheetLab.getRange(LabMinRow, 27, LabMaxRow, 2).clear({contentsOnly: true});
