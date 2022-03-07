@@ -50,6 +50,7 @@ function onOpen() {
 }
 
 // Function: Credits
+// Function: Credits
 function Credits(){
   var Ui = SpreadsheetApp.getUi();
   Ui.alert('Credits', 'MASTERBRICKLINK: TOOLS FOR AFOLs.\n\r\n\r\Developed by Nico Mascagni (ZioTitanok) and Gianluca Cannalire (GianCann).\n\r\Docs on gitub: https://github.com/ZioTitanok/MasterBricklink.', Ui.ButtonSet.OK);

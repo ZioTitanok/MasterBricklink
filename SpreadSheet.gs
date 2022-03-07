@@ -373,7 +373,6 @@ function RegenerateLab() {
   SheetLab.getRange(4, 1, SheetLab.getMaxRows()-3, 31).applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY, false, false);
 
   SheetLab.getRange("A1:AE3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
-  SheetLab.getRange("O2:P2").setNumberFormat("##0.##%"); 
   SheetLab.getRange("A4:AE").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
   SheetLab.getRange(1,1, SheetLab.getMaxRows(), SheetLab.getMaxColumns()).setNumberFormat('@STRING@');
   SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
@@ -450,8 +449,8 @@ function RegenerateLab() {
 
   // Parameters
 
-  var ParametersB = ["20%", "0%"];
-  SheetLab.getRange("O2:P2").setValues([ParametersB])
+  var ParametersB = ["0", "0"];
+  SheetLab.getRange("O2:P2").setValues([ParametersB]).setNumberFormat("##0.##%"); 
 
   SpreadsheetApp.flush()
 
