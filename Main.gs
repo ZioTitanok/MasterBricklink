@@ -17,6 +17,8 @@ function onOpen() {
                 .addItem('Update Prices (Rows)', 'LoadPricesRows')
                 .addItem('Update Prices (Row)', 'LoadPricesRow')
                 .addSeparator()
+                .addItem('Hint Prices','HintPrices')
+                .addSeparator()
                 .addItem('Import Inventory','ImportInventory')
                 .addItem('Import PartOut', 'ImportPartOut')
                 .addSeparator()

@@ -353,7 +353,7 @@ function RegenerateLab() {
   SheetLab.getRange("L1:M1").mergeAcross()
   SheetLab.getRange("L2:M2").mergeAcross()
 
-  SheetLab.getRange("A1:M2").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
+  SheetLab.getRange("A1:P2").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetLab.getRange("A3:AE3").setBorder(true, true, true, true, true, null, "black", SpreadsheetApp.BorderStyle.SOLID);
 
   SheetLab.getRange("A1:AE2").setBackground('#D9D9D9');
@@ -362,6 +362,8 @@ function RegenerateLab() {
   SheetLab.getRange("H2").setBackground('#A4C2F4');
   SheetLab.getRange("J2").setBackground('#A4C2F4');
   SheetLab.getRange("L2").setBackground('#A4C2F4');
+  SheetLab.getRange("O2").setBackground('#A4C2F4');
+  SheetLab.getRange("P2").setBackground('#A4C2F4');
   SheetLab.getRange("A3:AE3").setBackground('#FFF2CC').setTextRotation(45).setWrap(true);
   SheetLab.getRange("A3:G3").setBackground('#B6D7A8');
   SheetLab.getRange("N3:O3").setBackground('#B6D7A8');
@@ -371,6 +373,7 @@ function RegenerateLab() {
   SheetLab.getRange(4, 1, SheetLab.getMaxRows()-3, 31).applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY, false, false);
 
   SheetLab.getRange("A1:AE3").setFontWeight("bold").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
+  SheetLab.getRange("O2:P2").setNumberFormat("##0.##%"); 
   SheetLab.getRange("A4:AE").setHorizontalAlignment("Center").setVerticalAlignment("Middle");
   SheetLab.getRange(1,1, SheetLab.getMaxRows(), SheetLab.getMaxColumns()).setNumberFormat('@STRING@');
   SheetLab.getRange(LabMinRow, 4, SheetLab.getMaxRows()-LabMinRow, 1).setNumberFormat("##0");
@@ -392,8 +395,8 @@ function RegenerateLab() {
   SheetLab.setConditionalFormatRules(PercentagesConditional);
 
   // Text
-  var TitlesA = ["Mode", "Item Type", "Category", "", "Color", "", "", "Angle", "Last Worked Row", "Zone", "","Price Guide", ""];
-  SheetLab.getRange("A1:M1").setValues([TitlesA]);
+  var TitlesA = ["Mode", "Item Type", "Category", "", "Color", "", "", "Angle", "Last Worked Row", "Zone", "","Price Guide", "", "", "Tolerance", "VarPrice"];
+  SheetLab.getRange("A1:P1").setValues([TitlesA]);
 
   var TitlesC = ["Item Type", "Code", "Color Name", "Qty", "N / U", "Complete?", "Stock?", "Immagine", "Item Name", "On BL", "Price Inv.", "%Avg", "% Avg/Qty","Check", "Prezzo (O)", "Min", "Avg", "Avg/Qty", "Max", "Lotti", "Item Avaiable", "Link: LotID", "Link: Catalogo", "Link: Inventario", "Descrizione", "Remarks", "Descrizione (O)", "Remark (O)", "Date Created", "IDCol", "Index"];
   SheetLab.getRange("A3:AE3").setValues([TitlesC]);
@@ -409,6 +412,7 @@ function RegenerateLab() {
   /* if (!SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Categories")) GenerateDBCategory();
    * Should be done before to avoid time-out, assumed already ready
   */ 
+
   SheetDBCategory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Categories");
   var CategoryRule = SpreadsheetApp.newDataValidation().requireValueInRange(SheetDBCategory.getRange("B2:B")).build();
   SheetLab.getRange("C2").setDataValidation(CategoryRule);
@@ -417,6 +421,7 @@ function RegenerateLab() {
   /* if (!SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Colors")) GenerateDBColors();
   * Should be done before to avoid time-out, assumed already ready
   */ 
+
   SheetDBColors = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Colors");
   var ColorsRule = SpreadsheetApp.newDataValidation().requireValueInRange(SheetDBColors.getRange("A2:A")).build();
   SheetLab.getRange("E2").setDataValidation(ColorsRule);
@@ -443,6 +448,11 @@ function RegenerateLab() {
   var StockRule = SpreadsheetApp.newDataValidation().requireValueInList(["NO", "A", "B", "C"]).build();
   SheetLab.getRange("G4:G").setDataValidation(StockRule);
 
+  // Parameters
+
+  var ParametersB = ["20%", "0%"];
+  SheetLab.getRange("O2:P2").setValues([ParametersB])
+
   SpreadsheetApp.flush()
 
   // Formulas
@@ -464,9 +474,14 @@ function RegenerateLab() {
 
   SheetLab.getRange("L4").setValue("=IF(K4*Q4>0,(K4-Q4)/Q4,\"\")");
   SheetLab.getRange("L4").copyTo(SheetLab.getRange("L5:L"));
+  SpreadsheetApp.flush();
 
   SheetLab.getRange("M4").setValue("=IF(K4*R4>0,(K4-R4)/R4,\"\")");
   SheetLab.getRange("M4").copyTo(SheetLab.getRange("M5:M"));
+  SpreadsheetApp.flush();
+
+  SheetLab.getRange("O4").setValue("=IFERROR(IFS(((R4+Q4)/2)/K4>(1+$O$2), ((R4+Q4)/2)*(1+$P$2), K4/((R4+Q4)/2)>(1+$O$2), ((R4+Q4)/2)*(1+$P$2)), \"\")");
+  SheetLab.getRange("O4").copyTo(SheetLab.getRange("O5:O"));
   SpreadsheetApp.flush();
 
   SheetLab.getRange("V4").setValue("=IFERROR(HYPERLINK(CONCATENATE(\"https://www.bricklink.com/inventory_detail.asp?invID=\" & VLOOKUP(AE4, Inventory!$H:$Q,10,FALSE)),(VLOOKUP(AE4,Inventory!$H:$Q,10,FALSE))))");

@@ -207,6 +207,19 @@ function LoadPriceHistory(SheetLab, Row, PriceType, PriceRegion, ConsumerKey, Co
 
 }
 
+// Function: Hint Prices
+function HintPrices() {
+  var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
+  var LabActive = SheetSettings.getRange("B8").getValue()
+  var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
+
+  var SheetInventory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Inventory');
+
+  SheetLab.getRange("O4").setValue("=IFERROR(IFS(((R4+Q4)/2)/K4>(1+$O$2), ((R4+Q4)/2)*(1+$P$2), K4/((R4+Q4)/2)>(1+$O$2), ((R4+Q4)/2)*(1+$P$2)), \"\")");
+  SheetLab.getRange("O4").copyTo(SheetLab.getRange("O5:O"));
+  SpreadsheetApp.flush();
+}
+
 // Function: Import Inventory in Lab
 function ImportInventory() {
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
@@ -317,4 +330,5 @@ function ClearLabPrices(){
   var LabMaxRow = SheetLab.getMaxRows();
 
   SheetLab.getRange(LabMinRow, 15, LabMaxRow, 7).clear({contentsOnly: true});
+  HintPrices();
 }
