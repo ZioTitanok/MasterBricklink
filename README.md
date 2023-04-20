@@ -4,10 +4,11 @@
 ## Installazione
 La procedura di "installazione", o meglio di "generazione" del foglio di lavoro richiede il completamento di pochi passi:
 1. Creare una cartella di lavoro in Google Sheets;
-2. Importare (per esempio copiando) i vari script utilizzando Editor di Script/App Script;
-3. Dopo aver ricaricato il foglio, nel menù Bricklink Tool, in Regenerate, scegliere Regenerate Settings;
-4. Nel foglio Settings inserire le chiavi per le API Bricklink e per le API TurboBricksManager;
-5. Proseguire con la generazione degli altri foglio procedendo dall'alto verso il basso sempre nel menù Bricklink Tool, Regenerate.
+2. Importare (per esempio, copiando) i vari script utilizzando Editor di Script/App Script;
+3. Dopo aver ricaricato il foglio, nel menù Bricklink Tool/Regenerate, scegliere "Regenerate Settings";
+4. Nel foglio Settings inserire le chiavi delle API TurboBricksManager (necessarie per la generazione dei database);
+5. Sempre in Settings, inserire le chiavi delle API Bricklink (necessarie per Inventory/Part Out e alcune funzioni in Lab)
+6. Proseguire con la generazione degli altri fogli procedendo, dall'alto verso il basso, nel menù Bricklink Tool/Regenerate.
 
 ## To Do List
 Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare</b></i>:
@@ -21,6 +22,7 @@ Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare
 
 ## Changelog
 ### da 1.0.0 ad oggi (GitHub)
+v1.2.1: I database Colors e Category non dipendono più dalle API Bricklink.<br>
 v1.2.0: Introdotto aggiornamento automatico dei Database Parts, Minifigures e Sets grazie a TurboBricksManager.<br>
 v1.1.3: Introdotto in Lab funzione per il suggerimento e l'aggiornamento dei prezzi <br>
 v1.1.2: Aggiornamento minore di Lab.<br>

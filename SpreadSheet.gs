@@ -27,7 +27,7 @@ function RegenerateSettings() {
   SpreadsheetApp.flush();
 
   // Text  
-  var ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"], ["TurboBricksManager API Token"], ["https://ziotitanok.it/tbm"], ["Token Value"], [""], ["Lab"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
+  var ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"], ["TurboBrickManager API Token"], ["https://ziotitanok.it/tbm"], ["Token Value"], [""], ["Lab"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
   SheetSettings.getRange("A1:A13").setValues(ColumnA);
   SheetSettings.getRange("B13").setValue("750");
 
@@ -61,32 +61,28 @@ function RegenerateDBColors() {
 
   // Data
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  var ConsumerKey = SheetSettings.getRange("B3").getValue();
-  var ConsumerSecret = SheetSettings.getRange("B4").getValue();
-  var TokenValue = SheetSettings.getRange("B5").getValue();
-  var TokenSecret = SheetSettings.getRange("B6").getValue();
+  var TBMToken = SheetSettings.getRange("B9").getValue();
 
   // API Request
-  var Url = 'https://api.bricklink.com/api/store/v1' + '/colors';
-  var Options = {method: 'GET', contentType: 'application/json'};
+  var url = 'https://django.ziotitanok.it/api/' + 'BricklinkCatalogColors/';
+  var headers = {'Authorization': 'Token ' + TBMToken};
    
-  urlFetch = OAuth1.withAccessToken(ConsumerKey, ConsumerSecret, TokenValue, TokenSecret);
-  var OutputColorGuide = JSON.parse(urlFetch.fetch(Url, Options));
+  var response = UrlFetchApp.fetch(url, {headers: headers});
+  var OutputColorGuide = JSON.parse(response.getContentText());
   
   // Output, For Loop
   var i = 0;
   ColorGuide = [];
 
-  for (i in OutputColorGuide.data){
-    ColorGuide[i] = [OutputColorGuide.data[i].color_name,
-                    OutputColorGuide.data[i].color_id,
-                    OutputColorGuide.data[i].color_code,
-                    OutputColorGuide.data[i].color_type
+  for (i in OutputColorGuide){
+    ColorGuide[i] = [OutputColorGuide[i].colorname,
+                    OutputColorGuide[i].colorid,
+                    OutputColorGuide[i].rgb,
+                    OutputColorGuide[i].colortype
                     ]
   }
 
-  SheetDBColors.getRange("A3:D3").setValues([["(Not Applicable)", "0", "-", "N/A"]])
-  SheetDBColors.getRange(4, 1, ColorGuide.length, 4).setValues(ColorGuide);
+  SheetDBColors.getRange(3, 1, ColorGuide.length, 4).setValues(ColorGuide);
   SheetDBColors.deleteRows(4+ColorGuide.length, SheetDBColors.getMaxRows()-ColorGuide.length-4);
   SpreadsheetApp.flush();
 
@@ -99,7 +95,7 @@ function RegenerateDBColors() {
 
 // Function: Regenerate DB-Category
 function RegenerateDBCategories() {
-  RegenerateSheet("DB-Categories", '#727272', 1000, 2)
+  RegenerateSheet("DB-Categories", '#727272', 1200, 2)
   SheetDBCategory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Categories");
 
   // Style
@@ -116,25 +112,22 @@ function RegenerateDBCategories() {
 
   // Data
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  var ConsumerKey = SheetSettings.getRange("B3").getValue();
-  var ConsumerSecret = SheetSettings.getRange("B4").getValue();
-  var TokenValue = SheetSettings.getRange("B5").getValue();
-  var TokenSecret = SheetSettings.getRange("B6").getValue();
+  var TBMToken = SheetSettings.getRange("B9").getValue();
 
   // API Request
-  var Url = 'https://api.bricklink.com/api/store/v1' + '/categories';
-  var Options = {method: 'GET', contentType: 'application/json'};
+  var url = 'https://django.ziotitanok.it/api/' + 'BricklinkCatalogCategory/';
+  var headers = {'Authorization': 'Token ' + TBMToken};
    
-  urlFetch = OAuth1.withAccessToken(ConsumerKey, ConsumerSecret, TokenValue, TokenSecret);
-  var OutputCategoryGuide = JSON.parse(urlFetch.fetch(Url, Options));
+  var response = UrlFetchApp.fetch(url, {headers: headers});
+  var OutputCategoryGuide = JSON.parse(response.getContentText());
   
   // Output, For Loop
   var i = 0;
   CategoryGuide = [];
 
-  for (i in OutputCategoryGuide.data){
-    CategoryGuide[i] = [OutputCategoryGuide.data[i].category_id,
-                    OutputCategoryGuide.data[i].category_name
+  for (i in OutputCategoryGuide){
+    CategoryGuide[i] = [OutputCategoryGuide[i].categoryid,
+                        OutputCategoryGuide[i].categoryname
                     ]
   }
 
