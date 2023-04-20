@@ -25,8 +25,8 @@ function LoadPricesBulk(){
   var ConsumerSecret = SheetSettings.getRange("B4").getValue();
   var TokenValue = SheetSettings.getRange("B5").getValue();
   var TokenSecret = SheetSettings.getRange("B6").getValue();
-  var LabActive = SheetSettings.getRange("B8").getValue();
-  var MaxRow = SheetSettings.getRange("B9").getValue()
+  var LabActive = SheetSettings.getRange("B12").getValue();
+  var MaxRow = SheetSettings.getRange("B13").getValue()
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
 
   // Data
@@ -101,8 +101,8 @@ function LoadPricesRows(){
   var ConsumerSecret = SheetSettings.getRange("B4").getValue();
   var TokenValue = SheetSettings.getRange("B5").getValue();
   var TokenSecret = SheetSettings.getRange("B6").getValue();
-  var LabActive = SheetSettings.getRange("B8").getValue();
-  var MaxRow = SheetSettings.getRange("B9").getValue();
+  var LabActive = SheetSettings.getRange("B12").getValue();
+  var MaxRow = SheetSettings.getRange("B13").getValue();
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
 
   // Data
@@ -139,7 +139,7 @@ function LoadPricesRow(){
   var ConsumerSecret = SheetSettings.getRange("B4").getValue();
   var TokenValue = SheetSettings.getRange("B5").getValue();
   var TokenSecret = SheetSettings.getRange("B6").getValue();
-  var LabActive = SheetSettings.getRange("B8").getValue();
+  var LabActive = SheetSettings.getRange("B12").getValue();
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
 
   // Data
@@ -210,7 +210,7 @@ function LoadPriceHistory(SheetLab, Row, PriceType, PriceRegion, ConsumerKey, Co
 // Function: Hint Prices
 function HintPrices() {
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  var LabActive = SheetSettings.getRange("B8").getValue()
+  var LabActive = SheetSettings.getRange("B12").getValue()
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
 
   var SheetInventory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Inventory');
@@ -223,7 +223,7 @@ function HintPrices() {
 // Function: Import Inventory in Lab
 function ImportInventory() {
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  var LabActive = SheetSettings.getRange("B8").getValue()
+  var LabActive = SheetSettings.getRange("B12").getValue()
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
 
   var SheetInventory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Inventory');
@@ -265,7 +265,7 @@ function ImportInventory() {
 // Function: Import PartOut in Lab
 function ImportPartOut() {
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  var LabActive = SheetSettings.getRange("B8").getValue()
+  var LabActive = SheetSettings.getRange("B12").getValue()
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
   
   var SheetPartOut = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("PartOut");
@@ -309,7 +309,7 @@ function ImportPartOut() {
 // Function: Clear Lab
 function ClearLab(){
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  var LabActive = SheetSettings.getRange("B8").getValue()
+  var LabActive = SheetSettings.getRange("B12").getValue()
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
   var LabMinRow = 4;
   var LabMaxRow = SheetLab.getMaxRows();
@@ -324,7 +324,7 @@ function ClearLab(){
 // Function: Clear Lab (Prices)
 function ClearLabPrices(){
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  var LabActive = SheetSettings.getRange("B8").getValue()
+  var LabActive = SheetSettings.getRange("B12").getValue()
   var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
   var LabMinRow = 4;
   var LabMaxRow = SheetLab.getMaxRows();

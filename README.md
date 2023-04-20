@@ -1,15 +1,16 @@
 # MasterBricklink
 <b><i>MasterBricklink, AFOL Tools for Bricklink on Google SpreadSheet</b></i>, nasce dalla mente di <b>GianCann</b> (tra il 2018 e il 2019) per semplificare la gestione dell'inventario di mattoncini LEGO. Dopo aver ereditato il progetto, ho migliorato le funzionalità esistenti e ne ho introdotte di nuove, cercando di rendere la cartella di lavoro il più stand-alone possibile e fruibile anche ai meno pratici.<br></br>
 
-
 ## Installazione
-Per iniziare, in una cartella di lavoro di Google Sheets, è necessario importare i vari script utilizzando Editor di Script/App Script.
-Generato Settings, da compilarsi correttamente con i dati necessari per le API Bricklink, e dopo aver importato manualmente i Database di Parts, Minifigures e Sets (scaricabili da Bricklink), si possono generare i Database di Categorie e Colori. E' ora possibile generare tutti gli altri fogli della cartella di lavoro: Inventory, PartOut, XML e Lab.
-
+La procedura di "installazione", o meglio di "generazione" del foglio di lavoro richiede il completamento di pochi passi:
+<ol>Creare una cartella di lavoro in Google Sheets;<br>
+<ol>Importare (per esempio copiando) i vari script utilizzando Editor di Script/App Script;<br>
+<ol>Dopo aver ricaricato il foglio, nel menù Bricklink Tool, in Regenerate, scegliere Regenerate Settings;<br>
+<ol>Nel foglio Settings inserire le chiavi per le API Bricklink e per le API TurboBricksManager;<br>
+<ol>Proseguire con la generazione degli altri foglio procedendo dall'alto verso il basso sempre nel menù Bricklink Tool, Regenerate.
 
 ## To Do List
 Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare</b></i>:
-<li>Automatizzare l'aggiornamento dei Database di Parts, Minifigures e Sets (ad oggi, manuali);</li>
 <li>Error Handling e miglioramenti della user experience;</li>
 <li>Multi Part-Out di Sets e relativi filtri;</li>
 <li>Multipiattaforma: sincronizzazione con Brickowl, Rebrickable;</li>
@@ -18,9 +19,9 @@ Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare
 <li>Miglioramento generale degli script per ottimizzare le performance e la comprensibilità;</li>
 <li>Scrivere qualche riga per spiegare le varie funzionalità della cartella di lavoro!</li>
 
-
 ## Changelog
 ### da 1.0.0 ad oggi (GitHub)
+v1.2.0: Introdotto aggiornamento automatico dei Database Parts, Minifigures e Sets grazie a TurboBricksManager. (ZioTitanok)<br>
 v1.1.3: Introdotto in Lab funzione per il suggerimento e l'aggiornamento dei prezzi. (ZioTitanok) <br>
 v1.1.2: Aggiornamento minore di Lab. (ZioTitanok)<br>
 v1.1.1: Miglioramento delle performance degli Import. Aggiornamento minore di PartOut. (ZioTitanok)<br>

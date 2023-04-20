@@ -1,6 +1,6 @@
 // Function: Regenerate Settings
 function RegenerateSettings() {
-  RegenerateSheet("Settings", '#000000', 9, 2)
+  RegenerateSheet("Settings", '#000000', 13, 2)
   SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Settings");
 
   // Style
@@ -12,23 +12,28 @@ function RegenerateSettings() {
   SheetSettings.getRange("A1:B2").setBorder(true, true, true, true, null, null, "black", SpreadsheetApp.BorderStyle.SOLID);
   SheetSettings.getRange("A1:B1").mergeAcross().setHorizontalAlignment("Center").setFontWeight("bold");
   SheetSettings.getRange("A2:B2").mergeAcross().setHorizontalAlignment("Center");
-  
-  SheetSettings.getRange("A7:B7").setBorder(true, true, true, true, null, null, "black", SpreadsheetApp.BorderStyle.SOLID);
-  SheetSettings.getRange("A7:B7").mergeAcross().setHorizontalAlignment("Center").setFontWeight("bold").setValue("Lab");
 
-  SheetSettings.getRange("A1:B9").setBackground('#D9D9D9');
+  SheetSettings.getRange("A7:B8").setBorder(true, true, true, true, null, null, "black", SpreadsheetApp.BorderStyle.SOLID);
+  SheetSettings.getRange("A7:B7").mergeAcross().setHorizontalAlignment("Center").setFontWeight("bold");
+  SheetSettings.getRange("A8:B8").mergeAcross().setHorizontalAlignment("Center");
+  
+  SheetSettings.getRange("A11:B11").setBorder(true, true, true, true, null, null, "black", SpreadsheetApp.BorderStyle.SOLID);
+  SheetSettings.getRange("A11:B11").mergeAcross().setHorizontalAlignment("Center").setFontWeight("bold");
+
+  SheetSettings.getRange("A1:B13").setBackground('#D9D9D9');
   SheetSettings.getRange("B3:B6").setBackground('#A4C2F4');
-  SheetSettings.getRange("B8:B9").setBackground('#A4C2F4');
+  SheetSettings.getRange("B9:B10").setBackground('#A4C2F4');
+  SheetSettings.getRange("B12:B13").setBackground('#A4C2F4');
   SpreadsheetApp.flush();
 
   // Text  
-  var ColumnA = [["API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"], ["Lab"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
-  SheetSettings.getRange("A1:A9").setValues(ColumnA);
-  SheetSettings.getRange("B9").setValue("1000");
+  var ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"], ["TurboBrickManager API Token"], ["https://ziotitanok.it/tbm"], ["Token Value"], [""], ["Lab"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
+  SheetSettings.getRange("A1:A13").setValues(ColumnA);
+  SheetSettings.getRange("B13").setValue("750");
 
   // Dropdowns
   var LabActiveRule = SpreadsheetApp.newDataValidation().requireValueInList(["Lab"]).build();
-  SheetSettings.getRange("B8").setDataValidation(LabActiveRule).setValue("Lab");
+  SheetSettings.getRange("B12").setDataValidation(LabActiveRule).setValue("Lab");
   SpreadsheetApp.flush();
   
   // UI
@@ -38,25 +43,23 @@ function RegenerateSettings() {
 
 // Function: Regenerate DB-Colors
 function RegenerateDBColors() {
-  RegenerateSheet("DB-Colors", '#727272', 250, 5)
+  RegenerateSheet("DB-Colors", '#727272', 250, 4)
   SheetDBColors = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Colors");
 
   // Style
-  SheetDBColors.setColumnWidth(1, 175);
-  SheetDBColors.setColumnWidth(5, 175);
+  SheetDBColors.setColumnWidth(1,175);
   SheetDBColors.setColumnWidths(2,3,75);
+  SheetDBColors.setColumnWidth(4,100);
   SheetDBColors.setRowHeights(1, SheetDBColors.getMaxRows(), 21);
   SheetDBColors.setFrozenRows(1);
   SheetDBColors.getRange(1,1, SheetDBColors.getMaxRows(), SheetDBColors.getMaxColumns()).setNumberFormat('@STRING@');
   SpreadsheetApp.flush();
 
   // Text
-  var TitlesA = ["Color Name", "Color ID", "RGB", "Type", "Color Name"];
-  SheetDBColors.getRange("A1:E1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
+  var TitlesA = ["Color Name", "Color ID", "RGB", "Type"];
+  SheetDBColors.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
   // Data
-  if (!SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Settings")) RegenerateSettings();
-
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
   var ConsumerKey = SheetSettings.getRange("B3").getValue();
   var ConsumerSecret = SheetSettings.getRange("B4").getValue();
@@ -78,15 +81,16 @@ function RegenerateDBColors() {
     ColorGuide[i] = [OutputColorGuide.data[i].color_name,
                     OutputColorGuide.data[i].color_id,
                     OutputColorGuide.data[i].color_code,
-                    OutputColorGuide.data[i].color_type,
-                    OutputColorGuide.data[i].color_name
+                    OutputColorGuide.data[i].color_type
                     ]
   }
 
-  SheetDBColors.getRange("A3:E3").setValues([["(Not Applicable)", "0", "-", "N/A",	"(Not Applicable)"]])
-  SheetDBColors.getRange(4, 1, ColorGuide.length, 5).setValues(ColorGuide);
+  SheetDBColors.getRange("A3:D3").setValues([["(Not Applicable)", "0", "-", "N/A"]])
+  SheetDBColors.getRange(4, 1, ColorGuide.length, 4).setValues(ColorGuide);
   SheetDBColors.deleteRows(4+ColorGuide.length, SheetDBColors.getMaxRows()-ColorGuide.length-4);
   SpreadsheetApp.flush();
+
+  SheetDBColors.hideSheet();
 
   // UI
   var Ui = SpreadsheetApp.getUi();
@@ -95,25 +99,22 @@ function RegenerateDBColors() {
 
 // Function: Regenerate DB-Category
 function RegenerateDBCategories() {
-  RegenerateSheet("DB-Categories", '#727272', 1000, 3)
+  RegenerateSheet("DB-Categories", '#727272', 1000, 2)
   SheetDBCategory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Categories");
 
   // Style
   SheetDBCategory.setColumnWidth(1, 100);
   SheetDBCategory.setColumnWidth(2, 300);
-  SheetDBCategory.setColumnWidth(3, 100);
   SheetDBCategory.setRowHeights(1, SheetDBCategory.getMaxRows(), 21);
   SheetDBCategory.setFrozenRows(1);
   SheetDBCategory.getRange(1,1, SheetDBCategory.getMaxRows(), SheetDBCategory.getMaxColumns()).setNumberFormat('@STRING@');
   SpreadsheetApp.flush();
   
   // Text
-  var TitlesA = ["Category ID", "Category Name", "Category ID"];
-  SheetDBCategory.getRange("A1:C1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
+  var TitlesA = ["Category ID", "Category Name"];
+  SheetDBCategory.getRange("A1:B1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
   // Data
-  if (!SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Settings")) GenerateSettings();
-  
   var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
   var ConsumerKey = SheetSettings.getRange("B3").getValue();
   var ConsumerSecret = SheetSettings.getRange("B4").getValue();
@@ -133,40 +134,80 @@ function RegenerateDBCategories() {
 
   for (i in OutputCategoryGuide.data){
     CategoryGuide[i] = [OutputCategoryGuide.data[i].category_id,
-                    OutputCategoryGuide.data[i].category_name,
-                    OutputCategoryGuide.data[i].category_id
+                    OutputCategoryGuide.data[i].category_name
                     ]
   }
 
-  SheetDBCategory.getRange(3, 1, CategoryGuide.length, 3).setValues(CategoryGuide);
+  SheetDBCategory.getRange(3, 1, CategoryGuide.length, 2).setValues(CategoryGuide);
   SheetDBCategory.deleteRows(3+CategoryGuide.length, SheetDBCategory.getMaxRows()-CategoryGuide.length-3);
   SpreadsheetApp.flush();
+
+  SheetDBCategory.hideSheet();
 
   // UI
   var Ui = SpreadsheetApp.getUi();
   Ui.alert('DB-Category', 'DB-Category is ready again!', Ui.ButtonSet.OK);  
 }
 
-
-RegenerateDBItems
-// Function: Regenerate DB-Part, DB-Minifigure, DB-Set
-function RegenerateDBItems() {
-  // DB-Part
+// Function: Regenerate DB-Part
+function RegenerateDBPart() {
   RegenerateSheet("DB-Part", '#727272', 100000, 4)
   SheetDBPart = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Part");
+
+  // Style
   SheetDBPart.setColumnWidth(1, 100);
   SheetDBPart.setColumnWidth(2, 200);
   SheetDBPart.setColumnWidth(3, 100);
-  SheetDBPart.setColumnWidth(4, 2000);
+  SheetDBPart.setColumnWidth(4, 1600);
   SheetDBPart.setRowHeights(1, SheetDBPart.getMaxRows(), 21);
   SheetDBPart.setFrozenRows(1);
   SheetDBPart.getRange(1,1, SheetDBPart.getMaxRows(), SheetDBPart.getMaxColumns()).setNumberFormat('@STRING@');
+  SpreadsheetApp.flush();
+  
+  // Text
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBPart.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
-  // DB-Minifigure
+  // Data
+  var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
+  var TBMToken = SheetSettings.getRange("B9").getValue();
+
+  // API Request
+  var url = 'https://django.ziotitanok.it/api/' + 'BricklinkCatalogPart/';
+  var headers = {'Authorization': 'Token ' + TBMToken};
+  
+  var response = UrlFetchApp.fetch(url, {headers: headers});
+  var OutputPartGuide = JSON.parse(response.getContentText());
+  
+  // Output, For Loop
+  var i = 0;
+  PartGuide = [];
+
+  for (i in OutputPartGuide){
+    PartGuide[i] = [OutputPartGuide[i].categoryid,
+                    OutputPartGuide[i].categoryname,
+                    OutputPartGuide[i].partcode,
+                    OutputPartGuide[i].partname
+                    ]
+  }
+
+  SheetDBPart.getRange(2, 1, PartGuide.length, 4).setValues(PartGuide);
+  SheetDBPart.deleteRows(3+PartGuide.length, SheetDBPart.getMaxRows()-PartGuide.length-3);
+  SpreadsheetApp.flush();
+
+  SheetDBPart.hideSheet();
+
+  // UI
+  var Ui = SpreadsheetApp.getUi();
+  Ui.alert('DB-Part', 'DB-Part is ready again!', Ui.ButtonSet.OK); 
+}
+
+// Function: DB-Minifigure
+function RegenerateDBMinifigure() {
   RegenerateSheet("DB-Minifigure", '#727272', 20000, 4)
   SheetDBMinifigure = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Minifigure");
+
+  // Style
   SheetDBMinifigure.setColumnWidth(1, 100);
   SheetDBMinifigure.setColumnWidth(2, 200);
   SheetDBMinifigure.setColumnWidth(3, 100);
@@ -174,12 +215,52 @@ function RegenerateDBItems() {
   SheetDBMinifigure.setRowHeights(1, SheetDBMinifigure.getMaxRows(), 21);
   SheetDBMinifigure.setFrozenRows(1);
   SheetDBMinifigure.getRange(1,1, SheetDBMinifigure.getMaxRows(), SheetDBMinifigure.getMaxColumns()).setNumberFormat('@STRING@');
+  SpreadsheetApp.flush();
+  
+  // Text
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBMinifigure.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
-  // DB-Set
-  RegenerateSheet("DB-Set", '#727272', 20000, 5)
+  // Data
+  var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
+  var TBMToken = SheetSettings.getRange("B9").getValue();
+
+  // API Request
+  var url = 'https://django.ziotitanok.it/api/' + 'BricklinkCatalogMinifigure/';
+  var headers = {'Authorization': 'Token ' + TBMToken};
+  
+  var response = UrlFetchApp.fetch(url, {headers: headers});
+  var OutputMinifigureGuide = JSON.parse(response.getContentText());
+  
+  // Output, For Loop
+  var i = 0;
+  MinifigureGuide = [];
+
+  for (i in OutputMinifigureGuide){
+    MinifigureGuide[i] = [OutputMinifigureGuide[i].categoryid,
+                    OutputMinifigureGuide[i].categoryname,
+                    OutputMinifigureGuide[i].minifigcode,
+                    OutputMinifigureGuide[i].minifigname
+                    ]
+  }
+
+  SheetDBMinifigure.getRange(2, 1, MinifigureGuide.length, 4).setValues(MinifigureGuide);
+  SheetDBMinifigure.deleteRows(3+MinifigureGuide.length, SheetDBMinifigure.getMaxRows()-MinifigureGuide.length-3);
+  SpreadsheetApp.flush();
+
+  SheetDBMinifigure.hideSheet();
+
+  // UI
+  var Ui = SpreadsheetApp.getUi();
+  Ui.alert('DB-Minifigure', 'DB-Minifigure is ready again!', Ui.ButtonSet.OK); 
+}
+
+// Function: DB-Set
+function RegenerateDBSet() {
+  RegenerateSheet("DB-Set", '#727272', 20000, 4)
   SheetDBSet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Set");
+
+  // Style
   SheetDBSet.setColumnWidth(1, 100);
   SheetDBSet.setColumnWidth(2, 500);
   SheetDBSet.setColumnWidth(3, 100);
@@ -187,14 +268,100 @@ function RegenerateDBItems() {
   SheetDBSet.setRowHeights(1, SheetDBSet.getMaxRows(), 21);
   SheetDBSet.setFrozenRows(1);
   SheetDBSet.getRange(1,1, SheetDBSet.getMaxRows(), SheetDBSet.getMaxColumns()).setNumberFormat('@STRING@');
+  SpreadsheetApp.flush();
+  
+  // Text
   var TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBSet.getRange("A1:D1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
 
+  // Data
+  var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
+  var TBMToken = SheetSettings.getRange("B9").getValue();
+
+  // API Request
+  var url = 'https://django.ziotitanok.it/api/' + 'BricklinkCatalogSet/';
+  var headers = {'Authorization': 'Token ' + TBMToken};
+  
+  var response = UrlFetchApp.fetch(url, {headers: headers});
+  var OutputSetGuide = JSON.parse(response.getContentText());
+  
+  // Output, For Loop
+  var i = 0;
+  SetGuide = [];
+
+  for (i in OutputSetGuide){
+    SetGuide[i] = [OutputSetGuide[i].categoryid,
+                    OutputSetGuide[i].categoryname,
+                    OutputSetGuide[i].setcode,
+                    OutputSetGuide[i].setname
+                    ]
+  }
+
+  SheetDBSet.getRange(2, 1, SetGuide.length, 4).setValues(SetGuide);
+  SheetDBSet.deleteRows(3+SetGuide.length, SheetDBSet.getMaxRows()-SetGuide.length-3);
+  SpreadsheetApp.flush();
+
+  SheetDBSet.hideSheet();
+
   // UI
   var Ui = SpreadsheetApp.getUi();
-  Ui.alert('DB-Items', 'DB-Part, DB-Minifigure and DB-Set are ready again (for the manual import)!', Ui.ButtonSet.OK);  
+  Ui.alert('DB-Set', 'DB-Set is ready again!', Ui.ButtonSet.OK); 
+
+  SheetDBSet.hideSheet();
 }
 
+// Function: DB-Codes
+function RegenerateDBCodes() {
+  RegenerateSheet("DB-Codes", '#727272', 100000, 3)
+  SheetDBCodes = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Codes");
+
+  // Style
+  SheetDBCodes.setColumnWidth(1, 100);
+  SheetDBCodes.setColumnWidth(2, 125);
+  SheetDBCodes.setColumnWidth(3, 200);
+  SheetDBCodes.setRowHeights(1, SheetDBCodes.getMaxRows(), 21);
+  SheetDBCodes.setFrozenRows(1);
+  SheetDBCodes.getRange(1,1, SheetDBCodes.getMaxRows(), SheetDBCodes.getMaxColumns()).setNumberFormat('@STRING@');
+  SpreadsheetApp.flush();
+  
+  // Text
+  var TitlesA = ["Code", "Item No", "Color"];
+  SheetDBCodes.getRange("A1:C1").setBackground('#D9D9D9').setFontWeight("bold").setValues([TitlesA]);
+
+  // Data
+  var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
+  var TBMToken = SheetSettings.getRange("B9").getValue();
+
+  // API Request
+  var url = 'https://django.ziotitanok.it/api/' + 'BricklinkCatalogCodes/';
+  var headers = {'Authorization': 'Token ' + TBMToken};
+  
+  var response = UrlFetchApp.fetch(url, {headers: headers});
+  var OutputCodesGuide = JSON.parse(response.getContentText());
+  
+  // Output, For Loop
+  var i = 0;
+  CodesGuide = [];
+
+  for (i in OutputCodesGuide){
+    CodesGuide[i] = [OutputCodesGuide[i].legoid,
+                    OutputCodesGuide[i].itemid,
+                    OutputCodesGuide[i].colorname
+                    ]
+  }
+
+  SheetDBCodes.getRange(2, 1, CodesGuide.length, 3).setValues(CodesGuide);
+  SheetDBCodes.deleteRows(3+CodesGuide.length, SheetDBCodes.getMaxRows()-CodesGuide.length-3);
+  SpreadsheetApp.flush();
+
+  SheetDBCodes.hideSheet();
+
+  // UI
+  var Ui = SpreadsheetApp.getUi();
+  Ui.alert('DB-Codes', 'DB-Codes is ready again!', Ui.ButtonSet.OK); 
+
+  SheetDBCodes.hideSheet();
+}
 
 // Function: Regenerate Inventory
 function RegenerateInventory() {
@@ -231,7 +398,7 @@ function RegenerateInventory() {
   SpreadsheetApp.flush();
 
   // Text
-  var TitlesA = ["Part", "Minifig", "Set", "All", "Category Name", "=IFERROR(VLOOKUP(E2, 'DB-Categories'!B2:C,2,FALSE),\"-1\")", "Color Name", "StockRoom", "", "", "", "", "", "", "", "", "","Last Download"];
+  var TitlesA = ["Part", "Minifig", "Set", "All", "Category Name","", "Color Name", "StockRoom", "", "", "", "", "", "", "", "", "","Last Download"];
   SheetInventory.getRange("A1:R1").setValues([TitlesA]);
   
   var TitlesC = ["i", "Item Type", "Item Code", "Category ID", "Item Name", "Color ID", "Color Name", "Index", "Qty", "Price", "Description", "Remarks",	"Condition", "Completeness", "Is Stock?", "Stock ID", "Inventory ID", "Date Created"];
@@ -242,7 +409,7 @@ function RegenerateInventory() {
   SheetDBCategory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Categories");
   var CategoryRule = SpreadsheetApp.newDataValidation().requireValueInRange(SheetDBCategory.getRange("B2:B")).build();
   SheetInventory.getRange("E2").setDataValidation(CategoryRule);
-  SheetInventory.getRange("F1").setValue("=IFERROR(VLOOKUP(E2, 'DB-Categories'!B2:C,2,FALSE),\"\")")
+  SheetInventory.getRange("F1").setValue("=XLOOKUP(E2, 'DB-Categories'!B:B,'DB-Categories'!A:A,\"\",1)")
 
   if (!SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Colors")) GenerateDBColors();
   SheetDBColors = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Colors");
@@ -415,7 +582,7 @@ function RegenerateLab() {
   SheetDBCategory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Categories");
   var CategoryRule = SpreadsheetApp.newDataValidation().requireValueInRange(SheetDBCategory.getRange("B2:B")).build();
   SheetLab.getRange("C2").setDataValidation(CategoryRule);
-  SheetLab.getRange("D1").setValue("=IFERROR(VLOOKUP(C2, 'DB-Categories'!B2:C,2,FALSE),\"\")")
+  SheetLab.getRange("D1").setValue("=XLOOKUP(C2, 'DB-Categories'!B:B,'DB-Categories'!A:A,\"\",1)");
 
   /* if (!SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Colors")) GenerateDBColors();
   * Should be done before to avoid time-out, assumed already ready
@@ -501,11 +668,11 @@ function RegenerateLab() {
   SheetLab.getRange("Z4").setValue("=IFERROR(VLOOKUP(AE4, Inventory!$H:$M,5,FALSE),\"\")");
   SheetLab.getRange("Z4").copyTo(SheetLab.getRange("Z5:Z"));
 
-  SheetLab.getRange("AC4").setValue("=IFERROR(VLOOKUP(AE4,'DB-Colors'!$A:$B,2,FALSE),\"\")");
+  SheetLab.getRange("AC4").setValue("=IFERROR(VLOOKUP(AE4, Inventory!$H:$R,11,FALSE),\"\")");
   SheetLab.getRange("AC4").copyTo(SheetLab.getRange("AC5:AC"));
   SpreadsheetApp.flush();
 
-  SheetLab.getRange("AD4").setValue("=IFERROR(VLOOKUP(C4, 'DB-Colors'!A:B,2,FALSE),\"\")");
+  SheetLab.getRange("AD4").setValue("=XLOOKUP(C4, 'DB-Colors'!A:A,'DB-Colors'!B:B ,\"\",1)");
   SheetLab.getRange("AD4").copyTo(SheetLab.getRange("AD5:AD"));
 
   SheetLab.getRange("AE4").setValue("=IFERROR(IFS(A4 = \"PART\", A4 & \"_\" & B4 & \"_\" & AD4 & \"_\" & E4 & \"_\" & G4, A4 = \"MINIFIG\", A4 & \"_\" & B4 & \"_\" & E4 & \"_\" & G4, A4 = \"SET\", A4 & \"_\" & B4 & \"_\" & E4 & \"_\" & F4 & \"_\" & G4),\"\")");
