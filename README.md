@@ -3,11 +3,11 @@
 
 ## Installazione
 La procedura di "installazione", o meglio di "generazione" del foglio di lavoro richiede il completamento di pochi passi:
-<ol>Creare una cartella di lavoro in Google Sheets;<br>
-<ol>Importare (per esempio copiando) i vari script utilizzando Editor di Script/App Script;<br>
-<ol>Dopo aver ricaricato il foglio, nel menù Bricklink Tool, in Regenerate, scegliere Regenerate Settings;<br>
-<ol>Nel foglio Settings inserire le chiavi per le API Bricklink e per le API TurboBricksManager;<br>
-<ol>Proseguire con la generazione degli altri foglio procedendo dall'alto verso il basso sempre nel menù Bricklink Tool, Regenerate.
+<ol>Creare una cartella di lavoro in Google Sheets;</ol>
+<ol>Importare (per esempio copiando) i vari script utilizzando Editor di Script/App Script;</ol>
+<ol>Dopo aver ricaricato il foglio, nel menù Bricklink Tool, in Regenerate, scegliere Regenerate Settings;</ol>
+<ol>Nel foglio Settings inserire le chiavi per le API Bricklink e per le API TurboBricksManager;</ol>
+<ol>Proseguire con la generazione degli altri foglio procedendo dall'alto verso il basso sempre nel menù Bricklink Tool, Regenerate.</ol>
 
 ## To Do List
 Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare</b></i>:
