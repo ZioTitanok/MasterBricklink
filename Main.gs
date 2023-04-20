@@ -36,7 +36,10 @@ function onOpen() {
                 .addSeparator()
                 .addItem('Regenerate DB-Colors',"RegenerateDBColors")
                 .addItem('Regenerate DB-Categories',"RegenerateDBCategories")
-                .addItem('Regenerate DB-Items (Manual Import)', 'RegenerateDBItems')
+                .addItem('Regenerate DB-Part', 'RegenerateDBPart')
+                .addItem('Regenerate DB-Minifigure', 'RegenerateDBMinifigure')
+                .addItem('Regenerate DB-Set', 'RegenerateDBSet')
+                .addItem('Regenerate DB-Codes', 'RegenerateDBCodes')
                 .addSeparator()
                 .addItem('Regenerate Inventory','RegenerateInventory')
                 .addItem('Regenerate PartOut', 'RegeneratePartOut')
@@ -50,7 +53,7 @@ function onOpen() {
 }
 
 // Function: Credits
-// Function: Credits
+
 function Credits(){
   var Ui = SpreadsheetApp.getUi();
   Ui.alert('Credits', 'MASTERBRICKLINK: TOOLS FOR AFOLs.\n\r\n\r\Developed by Nico Mascagni (ZioTitanok) and Gianluca Cannalire (GianCann).\n\r\Docs on gitub: https://github.com/ZioTitanok/MasterBricklink.', Ui.ButtonSet.OK);
