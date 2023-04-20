@@ -21,24 +21,24 @@ Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare
 
 ## Changelog
 ### da 1.0.0 ad oggi (GitHub)
-v1.2.0: Introdotto aggiornamento automatico dei Database Parts, Minifigures e Sets grazie a TurboBricksManager. (ZioTitanok)<br>
-v1.1.3: Introdotto in Lab funzione per il suggerimento e l'aggiornamento dei prezzi. (ZioTitanok) <br>
-v1.1.2: Aggiornamento minore di Lab. (ZioTitanok)<br>
-v1.1.1: Miglioramento delle performance degli Import. Aggiornamento minore di PartOut. (ZioTitanok)<br>
-v1.1.0: Miglioramento delle performance nella generazione degli XML e nel download delle Price Guide. (ZioTitanok)<br>
-v1.0.1: ReadMe e Minor Fixes. (ZioTitanok)<br>
-v1.0.0: Introdotte funzionalità di creazione/ripristino dei fogli della cartella di lavoro. (ZioTitanok)<br>
+v1.2.0: Introdotto aggiornamento automatico dei Database Parts, Minifigures e Sets grazie a TurboBricksManager.<br>
+v1.1.3: Introdotto in Lab funzione per il suggerimento e l'aggiornamento dei prezzi <br>
+v1.1.2: Aggiornamento minore di Lab.<br>
+v1.1.1: Miglioramento delle performance degli Import. Aggiornamento minore di PartOut.<br>
+v1.1.0: Miglioramento delle performance nella generazione degli XML e nel download delle Price Guide.<br>
+v1.0.1: ReadMe e Minor Fixes.<br>
+v1.0.0: Introdotte funzionalità di creazione/ripristino dei fogli della cartella di lavoro.<br>
 
 ### da 0.0.1 a 0.9.0 (pre-GitHub)
-v0.9.0: Aggiornamento automatico dei Database Categorie e Colori. (ZioTitanok)<br>
-v0.8.0: Introdotti i filtri in Inventory, PartOut e Lab. (ZioTitanok)<br>
-v0.7.0: Introduzione dei Settings e di altre funzioni minori per al user experience. (ZioTitanok)<br>
-v0.6.0: Non solo Parts: Minifigures, Sets e tutto il resto possono essere gestiti. (ZioTitanok)<br>
-v0.5.0: Introdotte le funzionalità di Import tra Inventory, PartOut e Lab. (ZioTitanok)<br>
-v0.4.0: Introdotto PartOut per il download dei part-out dei Sets. (ZioTitanok)<br>
-v0.3.1: Introdotto XML Export (Upload/Upgrade) per la sincronizzazione manuale dell'Inventario su Bricklink. (ZioTitanok)<br>
+v0.9.0: Aggiornamento automatico dei Database Categorie e Colori.<br>
+v0.8.0: Introdotti i filtri in Inventory, PartOut e Lab.<br>
+v0.7.0: Introduzione dei Settings e di altre funzioni minori per al user experience.<br>
+v0.6.0: Non solo Parts: Minifigures, Sets e tutto il resto possono essere gestiti.<br>
+v0.5.0: Introdotte le funzionalità di Import tra Inventory, PartOut e Lab.<br>
+v0.4.0: Introdotto PartOut per il download dei part-out dei Sets.<br>
+v0.3.1: Introdotto XML Export (Upload/Upgrade) per la sincronizzazione manuale dell'Inventario su Bricklink.<br>
 v0.3.0: Introdotto XML Export (Wanted) per la creazione manuale di WantedList su Bricklink (GianCann)<br>
-v0.2.0: Miglioramento di Lab ed introduzione dei Database di Parts, Minifigures e Sets. (ZioTitanok)<br>
+v0.2.0: Miglioramento di Lab ed introduzione dei Database di Parts, Minifigures e Sets.<br>
 v0.1.0: Introdotto OAuth1 negli script (eliminato il PHP esterno). (GianCann)<br>
 v0.0.2: Introdotto Inventory con download dell'Inventory da Bricklink (via PHP esterno). (GianCann)<br>
 v0.0.1: Introdotto Lab con download delle Price Guide delle Parts (via PHP esterno). (GianCann)<br>
