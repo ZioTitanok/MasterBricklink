@@ -7,7 +7,7 @@ La procedura di "installazione", o meglio di "generazione" del foglio di lavoro 
 2. Importare (per esempio, copiando) i vari script utilizzando Editor di Script/App Script;
 3. Dopo aver ricaricato il foglio, nel menù Bricklink Tool/Regenerate, scegliere "Regenerate Settings";
 4. Nel foglio Settings inserire le chiavi delle API TurboBricksManager (necessarie per la generazione dei database);
-5. Sempre in Settings, inserire le chiavi delle API Bricklink (necessarie per Inventory/Part Out e alcune funzioni in Lab)
+5. Sempre in Settings, inserire le chiavi delle API Bricklink (necessarie per Inventory/Part Out e alcune funzioni in Lab). Questo punto è facoltativo ma consigliato per sfruttare le piene potenzialità della cartella di lavoro;
 6. Proseguire con la generazione degli altri fogli procedendo, dall'alto verso il basso, nel menù Bricklink Tool/Regenerate.
 
 ## To Do List
