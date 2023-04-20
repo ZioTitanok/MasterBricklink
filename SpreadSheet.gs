@@ -27,7 +27,7 @@ function RegenerateSettings() {
   SpreadsheetApp.flush();
 
   // Text  
-  var ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"], ["TurboBrickManager API Token"], ["https://ziotitanok.it/tbm"], ["Token Value"], [""], ["Lab"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
+  var ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["Consumer Key"], ["Consumer Secret"], ["Token Value"], ["Token Secret"], ["TurboBricksManager API Token"], ["https://ziotitanok.it/tbm"], ["Token Value"], [""], ["Lab"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
   SheetSettings.getRange("A1:A13").setValues(ColumnA);
   SheetSettings.getRange("B13").setValue("750");
 
