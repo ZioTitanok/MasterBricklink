@@ -422,7 +422,6 @@ function RegenerateInventory() {
   Ui.alert('Inventory', 'Inventory is ready again!', Ui.ButtonSet.OK); 
 }
 
-// Function: Regenerate PartOut
 function RegeneratePartOut() {
   RegenerateSheet("PartOut", '#FF0000', 5000, 9)
 
@@ -470,9 +469,9 @@ function RegeneratePartOut() {
   SpreadsheetApp.flush();
 
   // Formula
-  SheetPartOut.getRange("D2").setValue("=IFERROR(VLOOKUP(CONCATENATE(A2 & B2), 'DB-Set'!C:D, 2, FALSE),\"\")");
+  SheetPartOut.getRange("D2").setValue("=XLOOKUP(CONCATENATE(A2 & B2), 'DB-Set'!C:C, 'DB-Set'!D:D, \"\", 1)");
 
-  SheetPartOut.getRange("I4").setValue("=IF(ISBLANK(A4),\"\",IFERROR(VLOOKUP(F4, 'DB-Colors'!$B$2:$E,4,FALSE),\"\"))");
+  SheetPartOut.getRange("I4").setValue("XLOOKUP(F4, 'DB-Colors'!$B:B, 'DB-Colors'!$A:A, \"\",1)");
   SheetPartOut.getRange("I4").copyTo(SheetPartOut.getRange("I5:I"));
 
   // UI

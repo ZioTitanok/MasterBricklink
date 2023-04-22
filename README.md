@@ -22,6 +22,7 @@ Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare
 
 ## Changelog
 ### da 1.0.0 ad oggi (GitHub)
+v1.2.2: Miglioramento di PartOut.<br>
 v1.2.1: I database Colors e Category non dipendono più dalle API Bricklink.<br>
 v1.2.0: Introdotto aggiornamento automatico dei Database Parts, Minifigures e Sets grazie a TurboBricksManager.<br>
 v1.1.3: Introdotto in Lab funzione per il suggerimento e l'aggiornamento dei prezzi <br>
