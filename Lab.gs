@@ -272,8 +272,7 @@ function ClearLab(){
 
 // Function: Clear Lab (Prices)
 function ClearLabPrices(){
-  const SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  const LabActive = SheetSettings.getRange("B12").getValue()
+  const {LabActive} = GetSettings();
   const SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
   const LabMaxRow = SheetLab.getMaxRows();
 
@@ -283,7 +282,8 @@ function ClearLabPrices(){
 
 // Function: Get Price Type And Region
 function GetPriceTypeAndRegion() {
-  const SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Lab');
+  const {LabActive} = GetSettings();
+  const SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
   const PriceType = SheetLab.getRange("L2").getValue();
   const PriceRegion = SheetLab.getRange("J2").getValue();
   if (PriceRegion == "Worldwide") PriceRegion = "";

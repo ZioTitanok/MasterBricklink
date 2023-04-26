@@ -45,14 +45,13 @@ function RegenerateSettings() {
   // Text  
   const ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["BL Consumer Key"], ["BL Consumer Secret"], ["BL Token Value"], ["BL Token Secret"], ["TurboBrickManager API Token"], ["https://ziotitanok.it/tbm"], ["TBM Token Value"], [""], ["Settings"], ["Database Auto Hide"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
   SheetSettings.getRange("A1:A14").setValues(ColumnA);
+  SheetSettings.getRange("B13").setValue("Lab");
   SheetSettings.getRange("B14").setValue("750");
 
   // Dropdowns
   const CheckBoxes = SpreadsheetApp.newDataValidation().requireValueInList(["YES", "NO"]).build();
   SheetSettings.getRange("B12").setDataValidation(CheckBoxes).setValue("YES");
 
-  const LabActiveRule = SpreadsheetApp.newDataValidation().requireValueInList(["Lab"]).build();
-  SheetSettings.getRange("B13").setDataValidation(LabActiveRule).setValue("Lab");
   SpreadsheetApp.flush();
   
   // UI
