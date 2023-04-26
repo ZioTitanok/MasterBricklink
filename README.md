@@ -6,9 +6,18 @@ La procedura di "installazione", o meglio di "generazione" del foglio di lavoro 
 1. Creare una cartella di lavoro in Google Sheets;
 2. Importare (per esempio, copiando) i vari script utilizzando Editor di Script/App Script;
 3. Dopo aver ricaricato il foglio, nel menù Bricklink Tool/Regenerate, scegliere "Regenerate Settings";
-4. Nel foglio Settings inserire le chiavi delle API TurboBricksManager (necessarie per la generazione dei database);
-5. Sempre in Settings, inserire le chiavi delle API Bricklink (necessarie per Inventory/Part Out e alcune funzioni in Lab). Questo punto è facoltativo ma consigliato per sfruttare le piene potenzialità della cartella di lavoro;
+4. Nel foglio Settings inserire le chiavi delle API TurboBricksManager (necessarie per la generazione dei DB);
+5. Sempre in Settings, inserire le chiavi delle API Bricklink (necessarie per Inventory, PartOut e alcune funzioni in Lab). Questo punto è facoltativo ma consigliato per sfruttare le piene potenzialità della cartella di lavoro;
 6. Proseguire con la generazione degli altri fogli procedendo, dall'alto verso il basso, nel menù Bricklink Tool/Regenerate.
+
+## (Breve) Introduzione alle funzionalità
+Qualche breve accenno allo scopo e alle funzionalità dei diversi fogli.
+<li><i>Settings</i>: ospita i parametri necessari al funzionamento della cartella di lavoro, nonché alcune configurazioni generiche per Lab;</li>
+<li><i>DB</i>: contengono i database necessari al corretto funzionamento della cartella di lavoro;</li>
+<li><i>Inventory</i><li>: scarica l'inventario dal proprio account Bricklink, in base ai filtri impostati nel foglio;</li>
+<li><i>PartOut</i><li>: scarica il part-out del Set scelto, in base ai filtri impostati nel foglio;</li>
+<li><i>Lab</i><li>: volto all'analisi degli elementi, importabili automaticamente da Inventory e/o da PartOut in base ai filtri impostati nel foglio o inseribili manualmente;</li>
+<li><i>XML</i>: effettua la generazione degli XML, partendo dai dati contenuti in Lab, per esportare manualmente verso Bricklink.<li>
 
 ## To Do List
 Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare</b></i>:
@@ -16,12 +25,11 @@ Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare
 <li>Multi Part-Out di Sets e relativi filtri;</li>
 <li>Multipiattaforma: sincronizzazione con Brickowl, Rebrickable;</li>
 <li>Introduzione di auto Export verso Bricklink, senza bisogno di XML;</li>
-<li>Introduzione di Backup/Ripristino per migrazioni sicure dei dati tra le versioni;</li>
-<li>Miglioramento generale degli script per ottimizzare le performance e la comprensibilità;</li>
 <li>Scrivere qualche riga per spiegare le varie funzionalità della cartella di lavoro!</li>
 
 ## Changelog
 ### da 1.0.0 ad oggi (GitHub)
+v1.2.3: Generale miglioramento del codice e miglioramento di Lab.<br>
 v1.2.2: Miglioramento di PartOut.<br>
 v1.2.1: I database Colors e Category non dipendono più dalle API Bricklink.<br>
 v1.2.0: Introdotto aggiornamento automatico dei Database Parts, Minifigures e Sets grazie a TurboBricksManager.<br>
@@ -35,7 +43,7 @@ v1.0.0: Introdotte funzionalità di creazione/ripristino dei fogli della cartell
 ### da 0.0.1 a 0.9.0 (pre-GitHub)
 v0.9.0: Aggiornamento automatico dei Database Categorie e Colori.<br>
 v0.8.0: Introdotti i filtri in Inventory, PartOut e Lab.<br>
-v0.7.0: Introduzione dei Settings e di altre funzioni minori per al user experience.<br>
+v0.7.0: Introduzione dei Settings e di altre funzioni minori per la user experience.<br>
 v0.6.0: Non solo Parts: Minifigures, Sets e tutto il resto possono essere gestiti.<br>
 v0.5.0: Introdotte le funzionalità di Import tra Inventory, PartOut e Lab.<br>
 v0.4.0: Introdotto PartOut per il download dei part-out dei Sets.<br>
