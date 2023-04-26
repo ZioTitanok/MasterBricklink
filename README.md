@@ -12,21 +12,21 @@ La procedura di "installazione", o meglio di "generazione" del foglio di lavoro 
 
 ## (Breve) Introduzione alle funzionalità
 Qualche breve accenno allo scopo e alle funzionalità dei diversi fogli.
-*<i>Settings</i>: ospita i parametri necessari al funzionamento della cartella di lavoro e alcune configurazioni per Lab;
-*<i>DB</i>: contengono i database necessari al corretto funzionamento della cartella di lavoro;
-*<i>Inventory</i>: scarica l'inventario dal proprio account Bricklink, in base ai filtri impostati nel foglio;
-*<i>PartOut</i>: scarica il part-out del Set scelto, in base ai filtri impostati nel foglio;
-*<i>XML</i>: effettua la generazione degli XML, partendo dai dati contenuti in Lab, per esportare manualmente verso Bricklink.
-*<i>Lab</i>: volto all'analisi degli elementi, importabili automaticamente da Inventory e/o da PartOut in base ai filtri impostati nel foglio o inseribili manualmente;
+* <i>Settings</i>: ospita i parametri necessari al funzionamento della cartella di lavoro e alcune configurazioni per Lab;
+* <i>DB</i>: contengono i database necessari al corretto funzionamento della cartella di lavoro;
+* <i>Inventory</i>: scarica l'inventario dal proprio account Bricklink, in base ai filtri impostati nel foglio;
+* <i>PartOut</i>: scarica il part-out del Set scelto, in base ai filtri impostati nel foglio;
+* <i>XML</i>: effettua la generazione degli XML, partendo dai dati contenuti in Lab, per esportare manualmente verso Bricklink.
+* <i>Lab</i>: volto all'analisi degli elementi, importabili automaticamente da Inventory e/o da PartOut in base ai filtri impostati nel foglio o inseribili manualmente;
 
 
 ## To Do List
 Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare</b></i>:
-<li>Error Handling e miglioramenti della user experience;</li>
-<li>Multi Part-Out di Sets e relativi filtri;</li>
-<li>Multipiattaforma: sincronizzazione con Brickowl, Rebrickable;</li>
-<li>Introduzione di auto Export verso Bricklink, senza bisogno di XML;</li>
-<li>Scrivere qualche riga per spiegare le varie funzionalità della cartella di lavoro!</li>
+* Error Handling e miglioramenti della user experience;
+* Multi Part-Out di Sets e relativi filtri;
+* Multipiattaforma: sincronizzazione con Brickowl, Rebrickable;
+* Introduzione di auto Export verso Bricklink, senza bisogno di XML;
+* Scrivere qualche riga per spiegare le varie funzionalità della cartella di lavoro!
 
 ## Changelog
 ### da 1.0.0 ad oggi (GitHub)
