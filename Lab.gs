@@ -22,7 +22,7 @@ const LabColumnColorID = 30;
 function LoadPricesBulk(){
   const {BLConsumerKey, BLConsumerSecret, BLTokenValue, BLTokenSecret, LabActive, LabRowMaxPrice} = GetSettings();
   const {PriceType, PriceRegion} = GetPriceTypeAndRegion();
-  const SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Lab');
+  const SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
 
   // Data
   const Cell = SpreadsheetApp.getActiveSheet().getActiveCell();
