@@ -12,12 +12,12 @@ La procedura di "installazione", o meglio di "generazione" del foglio di lavoro 
 
 ## (Breve) Introduzione alle funzionalità
 Qualche breve accenno allo scopo e alle funzionalità dei diversi fogli.
--<i>Settings</i>: ospita i parametri necessari al funzionamento della cartella di lavoro e alcune configurazioni per Lab;
--<i>DB</i>: contengono i database necessari al corretto funzionamento della cartella di lavoro;
--<i>Inventory</i>: scarica l'inventario dal proprio account Bricklink, in base ai filtri impostati nel foglio;
--<i>PartOut</i>: scarica il part-out del Set scelto, in base ai filtri impostati nel foglio;
--<i>XML</i>: effettua la generazione degli XML, partendo dai dati contenuti in Lab, per esportare manualmente verso Bricklink.
--<i>Lab</i>: volto all'analisi degli elementi, importabili automaticamente da Inventory e/o da PartOut in base ai filtri impostati nel foglio o inseribili manualmente;
+*<i>Settings</i>: ospita i parametri necessari al funzionamento della cartella di lavoro e alcune configurazioni per Lab;
+*<i>DB</i>: contengono i database necessari al corretto funzionamento della cartella di lavoro;
+*<i>Inventory</i>: scarica l'inventario dal proprio account Bricklink, in base ai filtri impostati nel foglio;
+*<i>PartOut</i>: scarica il part-out del Set scelto, in base ai filtri impostati nel foglio;
+*<i>XML</i>: effettua la generazione degli XML, partendo dai dati contenuti in Lab, per esportare manualmente verso Bricklink.
+*<i>Lab</i>: volto all'analisi degli elementi, importabili automaticamente da Inventory e/o da PartOut in base ai filtri impostati nel foglio o inseribili manualmente;
 
 
 ## To Do List
