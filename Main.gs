@@ -53,8 +53,26 @@ function onOpen() {
 }
 
 // Function: Credits
-
 function Credits(){
-  var Ui = SpreadsheetApp.getUi();
-  Ui.alert('Credits', 'MASTERBRICKLINK: TOOLS FOR AFOLs.\n\r\n\r\Developed by Nico Mascagni (ZioTitanok) and Gianluca Cannalire (GianCann).\n\r\Docs on gitub: https://github.com/ZioTitanok/MasterBricklink.', Ui.ButtonSet.OK);
+  const Ui = SpreadsheetApp.getUi();
+  Ui.alert('Credits', 'MasterBricklink: Tools For AFOLs.\n\r\n\r\Developed by Nico Mascagni (ZioTitanok) and Gianluca Cannalire (GianCann).\n\r\Docs on gitub: https://github.com/ZioTitanok/MasterBricklink.', Ui.ButtonSet.OK);
+}
+
+// Constants
+const BrickLinkBaseUrl = "https://api.bricklink.com/api/store/v1";
+const BrickLinkOptions = {method: 'GET', contentType: 'application/json'};
+const TBMBaseUrl = "https://django.ziotitanok.it/api";
+
+// Function : Get Settings
+function GetSettings() {
+  const SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
+
+  const [BLConsumerKey, BLConsumerSecret, BLTokenValue, BLTokenSecret] = SheetSettings.getRange("B3:B6").getValues();
+  
+  const TBMTokenValue = SheetSettings.getRange("B9").getValue();
+  const TBMHeaders = {'Authorization': 'Token ' + TBMTokenValue};
+  
+  const [DBAutoHide, LabActive, LabRowMaxPrice] = SheetSettings.getRange("B12:B14").getValues();
+
+  return {BLConsumerKey, BLConsumerSecret, BLTokenValue, BLTokenSecret, TBMTokenValue, TBMHeaders, DBAutoHide, LabActive, LabRowMaxPrice};
 }

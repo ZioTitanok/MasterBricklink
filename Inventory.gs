@@ -1,26 +1,34 @@
+// Constants: Inventory
+const InventoryRowMin = 4;
+
 // Function: Download Inventory from Bricklink
 function LoadInventory(){
-  var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  var ConsumerKey = SheetSettings.getRange("B3").getValue();
-  var ConsumerSecret = SheetSettings.getRange("B4").getValue();
-  var TokenValue = SheetSettings.getRange("B5").getValue();
-  var TokenSecret = SheetSettings.getRange("B6").getValue();
-
-  var SheetInventory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Inventory');
-  var InventoryMinRow = 4;
-  var InventoryMaxRow = SheetInventory.getMaxRows();
-
-  SheetInventory.getRange(InventoryMinRow, 1, InventoryMaxRow, 18).clear({contentsOnly: true});
+  const SheetInventory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Inventory');
+  const InventoryRowMax = SheetInventory.getMaxRows();
+  SheetInventory.getRange(InventoryRowMin, 1, InventoryRowMax, 18).clearContent();
 
   // Data
-  var ItemType = []
-  if (SheetInventory.getRange("A2").getValue() == "YES") ItemType.push("PART");
-  if (SheetInventory.getRange("B2").getValue() == "YES") ItemType.push("MINIFIG");
-  if (SheetInventory.getRange("C2").getValue() == "YES") ItemType.push("SET");
-  if (SheetInventory.getRange("D2").getValue() == "YES") ItemType = "";
+  const ItemTypeValues = SheetInventory.getRange("A2:D2").getValues()[0];
+  const ItemTypeLables = ["PART", "MINIFIG", "SET", "BOOK, GEAR, CATALOG, INSTRUCTION, UNSORTED_LOT, ORIGINAL_BOX"];
 
-  var CategoryId = SheetInventory.getRange("F1").getValue();
-  var ColorId = SheetInventory.getRange("F2").getValue();
+  var ItemType = [];
+  for (var i = 0; i < ItemTypeLables.length; i++) {
+    if (ItemTypeValues[i] == "YES") {
+      ItemType.push(ItemTypeLables[i]);
+    } else {
+      if (i == ItemTypeLables.length - 1) {
+        var Words = ItemTypeLables[i].split(", ");
+        for (var j = 0; j < Words.length; j++) {
+          ItemType.push("-" + Words[j]);
+        }
+      } else {
+        ItemType.push("-" + ItemTypeLables[i]);
+      }
+    }
+  }
+
+  const CategoryId = SheetInventory.getRange("F1").getValue();
+  const ColorId = SheetInventory.getRange("F2").getValue();
   var StockRoom = SheetInventory.getRange("H2").getValue();
   if (StockRoom == "NO") StockRoom = "Y";
   if (StockRoom == "A") StockRoom = "S";
@@ -28,73 +36,68 @@ function LoadInventory(){
   if (StockRoom == "C") StockRoom = "C";
 
   // API Request
-  var Url = 'https://api.bricklink.com/api/store/v1' + '/inventories';
-  var Options = {method: 'GET',contentType: 'application/json'};
+  const {BLConsumerKey, BLConsumerSecret, BLTokenValue, BLTokenSecret} = GetSettings();
+  const Url = `${BrickLinkBaseUrl}/inventories`;
+  urlFetch = OAuth1.withAccessToken(BLConsumerKey, BLConsumerSecret, BLTokenValue, BLTokenSecret);
   var Params = {
      item_type: ItemType,
      category_id: CategoryId,
      color_id: ColorId,
      status: StockRoom
   }; 
-  urlFetch = OAuth1.withAccessToken(ConsumerKey, ConsumerSecret, TokenValue, TokenSecret);
-  
+
   // Output 
-  var OutputInventory = JSON.parse(urlFetch.fetch(Url, Params, Options));
-  var Inventory = [];
-  var i = 0;
-
-  for (i in OutputInventory.data){
-    var OutputStockRoom = OutputInventory.data[i].stock_room_id;
-    if (OutputInventory.data[i].stock_room_id == undefined) OutputStockRoom = "NO";
-
-    if (OutputInventory.data[i].item.type == "PART" || (OutputInventory.data[i].item.type != "MINIFIG" && OutputInventory.data[i].item.type != "SET")){
-      var OutputIndex = OutputInventory.data[i].item.type + "_" + OutputInventory.data[i].item.no + "_" + OutputInventory.data[i].color_id + "_" + OutputInventory.data[i].new_or_used + "_" + OutputStockRoom
-    } else if (OutputInventory.data[i].item.type == "MINIFIG"){
-      var OutputIndex = OutputInventory.data[i].item.type + "_" + OutputInventory.data[i].item.no + "_" + OutputInventory.data[i].new_or_used + "_" + OutputStockRoom
-    } else if (OutputInventory.data[i].item.type == "SET"){
-      var OutputIndex = OutputInventory.data[i].item.type + "_" + OutputInventory.data[i].item.no + "_" + OutputInventory.data[i].new_or_used + "_" + OutputInventory.data[i].completeness + "_" + OutputStockRoom
+  const OutputInventory = JSON.parse(urlFetch.fetch(Url, Params, BrickLinkOptions));
+  var Inventory = OutputInventory.data.map((Item, Index) => {
+    var OutputStockRoom = Item.stock_room_id || "NO";
+    var OutputIndex = "";
+    
+    if (Item.item.type === "PART" || (Item.item.type !== "MINIFIG" && Item.item.type !== "SET")) {
+      OutputIndex = `${Item.item.type}_${Item.item.no}_${Item.color_id}_${Item.new_or_used}_${OutputStockRoom}`;
+    } else if (Item.item.type === "MINIFIG") {
+      OutputIndex = `${Item.item.type}_${Item.item.no}_${Item.new_or_used}_${OutputStockRoom}`;
+    } else if (Item.item.type === "SET") {
+      OutputIndex = `${Item.item.type}_${Item.item.no}_${Item.new_or_used}_${Item.completeness}_${OutputStockRoom}`;
     }
     
-    Inventory[i] = [i,
-                    OutputInventory.data[i].item.type,
-                    OutputInventory.data[i].item.no,
-                    OutputInventory.data[i].item.category_id,
-                    OutputInventory.data[i].item.name,
-                    OutputInventory.data[i].color_id,
-                    OutputInventory.data[i].color_name,
-                    OutputIndex,
-                    OutputInventory.data[i].quantity,
-                    OutputInventory.data[i].unit_price,
-                    OutputInventory.data[i].description,
-                    OutputInventory.data[i].remarks,
-                    OutputInventory.data[i].new_or_used,
-                    OutputInventory.data[i].completeness,
-                    OutputInventory.data[i].is_stock_room,
-                    OutputStockRoom,
-                    OutputInventory.data[i].inventory_id,
-                    OutputInventory.data[i].date_created
-                   ]
-  }
-  i++;
+    return [
+      Index+1,
+      Item.item.type,
+      Item.item.no,
+      Item.item.category_id,
+      Item.item.name,
+      Item.color_id,
+      Item.color_name,
+      OutputIndex,
+      Item.quantity,
+      Item.unit_price,
+      Item.description,
+      Item.remarks,
+      Item.new_or_used,
+      Item.completeness,
+      Item.is_stock_room,
+      OutputStockRoom,
+      Item.inventory_id,
+      Item.date_created
+    ];
+  });
   
-  SheetInventory.getRange(InventoryMinRow, 1, Inventory.length, 18).setValues(Inventory);
-  SheetInventory.getRange(InventoryMinRow, 1, Inventory.length, 18).sort([2, 7, 5]);
-  SheetInventory.getRange(InventoryMinRow, 18).setValue(new Date());
+  SheetInventory.getRange(InventoryRowMin, 1, Inventory.length, 18).setValues(Inventory).sort([2, 7, 5]);
+  SheetInventory.getRange("R2").setValue(new Date());
 
   // UI
-  var Ui = SpreadsheetApp.getUi();
-  Ui.alert('Inventory', 'Downloaded ' + i + ' items from your Bricklink inventory.', Ui.ButtonSet.OK);
+  const Ui = SpreadsheetApp.getUi();
+  Ui.alert('Inventory', 'Downloaded ' + Inventory.length + ' items from your Bricklink inventory.', Ui.ButtonSet.OK);
 }
-
+  
 // Function: Clear Inventory
 function ClearInventory(){
-  var SheetInventory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Inventory');
-  var InventoryMinRow = 4;
-  var InventoryMaxRow = SheetInventory.getMaxRows();
-
-  SheetInventory.getRange(InventoryMinRow, 1, InventoryMaxRow, 18).clear({contentsOnly: true});
+  const SheetInventory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Inventory');
+  const InventoryRowMax = SheetInventory.getMaxRows();
+  SheetInventory.getRange(InventoryRowMin, 1, InventoryRowMax, 18).clearContent();
+  SheetInventory.getRange("R2").clearContent();
   
   // UI
-  var Ui = SpreadsheetApp.getUi();
+  const Ui = SpreadsheetApp.getUi();
   Ui.alert('Inventory', 'Inventory is ready for new adventures!', Ui.ButtonSet.OK);
 }
