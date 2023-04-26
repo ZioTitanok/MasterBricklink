@@ -1,9 +1,11 @@
+// Constants: XML
+const SheetXmlRowMin = 1;
+
 // Function: XML Wanted
 function XMLWanted(){
-  var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  var LabActive = SheetSettings.getRange("B8").getValue()
-  var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
-  var SheetXml = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('XML');
+  const {LabActive} = GetSettings();
+  const SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
+  const SheetXml = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('XML');
  
   ClearXML()
 
@@ -11,9 +13,8 @@ function XMLWanted(){
   SheetXml.getRange(1,1).setValue('XML Wanted');
   SheetXml.getRange(2,1).setValue('<INVENTORY>');  
 
-  var Input = [];
-  var LabUsedRows = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
-  Input = SheetLab.getRange(LabMinRow, 1, LabUsedRows.filter(Boolean).length, 30).getValues();
+  const LabRowUsed = SheetLab.getRange(LabRowMin, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
+  const Input = SheetLab.getRange(LabRowMin, 1, LabRowUsed.filter(Boolean).length, 30).getValues();
 
   var OutputWanted = [];
   for (var i in Input){
@@ -49,18 +50,16 @@ function XMLWanted(){
   SheetXml.getRange(OutputWanted.length+3,1).setValue('</INVENTORY>');
 
   // UI
-  var Ui = SpreadsheetApp.getUi();
+  const Ui = SpreadsheetApp.getUi();
   Ui.alert('XML', 'XML Wanted created.' , Ui.ButtonSet.OK);
   
 }
 
 // Function: XML Upload and Update
 function XMLUploadUpdate(){
-  var SheetSettings = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
-  var LabActive = SheetSettings.getRange("B8").getValue()
-  var SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);  
-  var SheetXml = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('XML');
-
+  const {LabActive} = GetSettings();
+  const SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);  
+  const SheetXml = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('XML');
 
   ClearXML()
   
@@ -70,9 +69,8 @@ function XMLUploadUpdate(){
   SheetXml.getRange(2,1).setValue('<INVENTORY>');
   SheetXml.getRange(2,2).setValue('<INVENTORY>');
 
-  var Input = [];
-  var LabUsedRows = SheetLab.getRange(LabMinRow, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
-  Input = SheetLab.getRange(LabMinRow, 1, LabUsedRows.filter(Boolean).length, 30).getValues();
+  const LabRowUsed = SheetLab.getRange(LabRowMin, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
+  const Input = SheetLab.getRange(LabRowMin, 1, LabRowUsed.filter(Boolean).length, 30).getValues();
 
   var OutputUpdate = [];
   var OutputUpload = [];
@@ -167,15 +165,14 @@ function XMLUploadUpdate(){
   } else { SheetXml.getRange(3,2).setValue('</INVENTORY>') };
 
   // UI
-  var Ui = SpreadsheetApp.getUi();
+  const Ui = SpreadsheetApp.getUi();
   Ui.alert('XML', 'XML Upload and Update created.', Ui.ButtonSet.OK);
 }
 
 // Function: Clear XML
 function ClearXML(){
-  var SheetXml = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('XML');
-  var SheetXmlMinRow = 1;
-  var SheetXmlMaxRow = SheetXml.getMaxRows();
+  const SheetXml = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('XML');
+  const SheetXmlRowMax = SheetXml.getMaxRows();
 
-  SheetXml.getRange(SheetXmlMinRow, 1, SheetXmlMaxRow, 2).clear({contentsOnly: true});
+  SheetXml.getRange(SheetXmlRowMin, 1, SheetXmlRowMax, 2).clearContent();
 }
