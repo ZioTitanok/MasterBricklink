@@ -131,7 +131,7 @@ function RegenerateDBCategories() {
   SpreadsheetApp.flush();
 
   // AutoHide
-  if (DBAutoHide == "YES") SheetDBColors.hideSheet();
+  if (DBAutoHide == "YES") SheetDBCategory.hideSheet();
 
   // UI
   const Ui = SpreadsheetApp.getUi();
@@ -172,7 +172,7 @@ function RegenerateDBPart() {
   SpreadsheetApp.flush();
 
   // AutoHide
-  if (DBAutoHide == "YES") SheetDBColors.hideSheet();
+  if (DBAutoHide == "YES") SheetDBPart.hideSheet();
 
   // UI
   const Ui = SpreadsheetApp.getUi();
@@ -213,7 +213,7 @@ function RegenerateDBMinifigure() {
   SpreadsheetApp.flush();
 
   // AutoHide
-  if (DBAutoHide == "YES") SheetDBColors.hideSheet();
+  if (DBAutoHide == "YES") SheetDBMinifigure.hideSheet();
 
   // UI
   const Ui = SpreadsheetApp.getUi();
@@ -254,7 +254,7 @@ function RegenerateDBSet() {
   SpreadsheetApp.flush();
 
   // AutoHide
-  if (DBAutoHide == "YES") SheetDBColors.hideSheet();
+  if (DBAutoHide == "YES") SheetDBSet.hideSheet();
 
   // UI
   const Ui = SpreadsheetApp.getUi();
@@ -294,7 +294,7 @@ function RegenerateDBCodes() {
   SpreadsheetApp.flush();
 
   // AutoHide
-  if (DBAutoHide == "YES") SheetDBColors.hideSheet();
+  if (DBAutoHide == "YES") SheetDBCodes.hideSheet();
 
   // UI
   const Ui = SpreadsheetApp.getUi();
