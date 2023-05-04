@@ -180,7 +180,7 @@ function ImportInventory() {
 
   if (Mode == "ADD"){
     const LabUsedRows = SheetLab.getRange(LabRowMin, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
-    const RealLabRowMin = LabRowMin + LabUsedRows.filter(Boolean).length;
+    var RealLabRowMin = LabRowMin + LabUsedRows.filter(Boolean).length;
   } else if (Mode == "CLEAR"){ 
     ClearLab();
     var RealLabRowMin = LabRowMin
@@ -287,7 +287,7 @@ function GetPriceTypeAndRegion() {
   const {LabActive} = GetSettings();
   const SheetLab = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LabActive);
   const PriceType = SheetLab.getRange("L2").getValue();
-  const PriceRegion = SheetLab.getRange("J2").getValue();
+  var PriceRegion = SheetLab.getRange("J2").getValue();
   if (PriceRegion == "Worldwide") PriceRegion = "";
   
   return {PriceType, PriceRegion};

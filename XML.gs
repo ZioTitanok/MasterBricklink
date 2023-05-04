@@ -132,7 +132,6 @@ function XMLUploadUpdate(){
         StringUpload += "<PRICE>" + +Input[i][LabColumnPriceAvg-1].toFixed(2) + "</PRICE>";
       } else {
         StringUpload += "<PRICE>" + +Input[i][LabColumnPrice-1].toFixed(2) + "</PRICE>";
-        console.log(Input[i][LabColumnPrice-1].toFixed(2))
       }
           
       if (Input[i][LabColumnDescription-1] != ""){

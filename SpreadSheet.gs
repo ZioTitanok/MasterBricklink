@@ -351,7 +351,7 @@ function RegenerateInventory() {
   SheetDBColors = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Colors");
   const ColorsRule = SpreadsheetApp.newDataValidation().requireValueInRange(SheetDBColors.getRange("A2:A")).build();
   SheetInventory.getRange("G2").setDataValidation(ColorsRule);
-  SheetInventory.getRange("F2").setValue("=xLOOKUP(G2,'DB-Colors'!A:A,'DB-Colors'!B:B,\"\")")
+  SheetInventory.getRange("F2").setValue("=XLOOKUP(G2,'DB-Colors'!A:A,'DB-Colors'!B:B,\"\")")
 
   const StockRoomRule = SpreadsheetApp.newDataValidation().requireValueInList(["NO", "A", "B", "C"]).build();
   SheetInventory.getRange("H2").setDataValidation(StockRoomRule);
