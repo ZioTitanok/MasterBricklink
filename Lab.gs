@@ -176,11 +176,12 @@ function ImportInventory() {
   const CategoryId = SheetLab.getRange("D1").getValue();
   const ColorId = SheetLab.getRange("D2").getValue();
   const Conditions = SheetLab.getRange("H2").getValue();
+  const StockRoom = SheetLab.getRange("I2").getValue()
 
   if (Mode == "ADD"){
     const LabUsedRows = SheetLab.getRange(LabRowMin, 2, SheetLab.getLastRow(), 1).getValues().join('@').split('@');
-    var RealLabRowMin = LabRowMin + LabUsedRows.filter(Boolean).length;
-  } else if (Mode = "CLEAR"){ 
+    const RealLabRowMin = LabRowMin + LabUsedRows.filter(Boolean).length;
+  } else if (Mode == "CLEAR"){ 
     ClearLab();
     var RealLabRowMin = LabRowMin
   }
@@ -196,8 +197,10 @@ function ImportInventory() {
       if (Data[i][3] == CategoryId || CategoryId == ""){
         if (Data[i][5] == ColorId || ColorId == ""){
           if (Data[i][12] == Conditions || Conditions == ""){
-            Output[j] = [Data[i][1], Data[i][2], Data[i][6], "", Data[i][12], Data[i][13], Data[i][15]];
-            j++
+            if (Data[i][15] == StockRoom || StockRoom == ""){
+              Output[j] = [Data[i][1], Data[i][2], Data[i][6], "", Data[i][12], Data[i][13], Data[i][15]];
+              j++
+            }
           }
         }
       }
@@ -264,7 +267,6 @@ function ClearLab(){
   const LabMaxRow = SheetLab.getMaxRows();
 
   ClearLabPrices()
-  SheetLab.getRange("I2").clearContent();
   SheetLab.getRange(LabRowMin, 1, LabMaxRow, 7).clearContent();
   SheetLab.getRange(LabRowMin, 14, LabMaxRow, 1).clearContent().insertCheckboxes().setNumberFormat("General");
   SheetLab.getRange(LabRowMin, 27, LabMaxRow, 2).clearContent();
