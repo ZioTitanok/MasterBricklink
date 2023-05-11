@@ -546,7 +546,7 @@ function RegenerateLab() {
   SheetLab.getRange("H4").copyTo(SheetLab.getRange("H5:H"));
   SpreadsheetApp.flush();
 
-  SheetLab.getRange("I4").setValue("=IFERROR(IFS(A4 = \"PART\",XLOOKUP(B4,'DB-Part'!$C:$C, 'DB-Part'!$D:$D,\"\",1), A4 = \"MINIFIG\", XLOOKUP(B4,'DB-Minifigure'!$C:$C, 'DB-Minifigure'!$D:$D, \"\", 1), A4 = \"SET\", XLOOKUP(B4,'DB-Set'!$C:$C,'DB-Set'!$D:$D, \"\",1)), \"\")");
+  SheetLab.getRange("I4").setValue("=IFERROR(IFS(A4 = \"PART\",XLOOKUP(B4,'DB-Part'!$C:$C, 'DB-Part'!$D:$D,\"\"), A4 = \"MINIFIG\", XLOOKUP(B4,'DB-Minifigure'!$C:$C, 'DB-Minifigure'!$D:$D, \"\"), A4 = \"SET\", XLOOKUP(B4,'DB-Set'!$C:$C,'DB-Set'!$D:$D, \"\")), \"\")");
   SheetLab.getRange("I4").copyTo(SheetLab.getRange("I5:I"));
   SpreadsheetApp.flush();
 
@@ -592,7 +592,7 @@ function RegenerateLab() {
   SheetLab.getRange("AC4").copyTo(SheetLab.getRange("AC5:AC"));
   SpreadsheetApp.flush();
 
-  SheetLab.getRange("AD4").setValue("=XLOOKUP(C4, 'DB-Colors'!A:A,'DB-Colors'!B:B ,\"\",1)");
+  SheetLab.getRange("AD4").setValue("=XLOOKUP(C4, 'DB-Colors'!A:A,'DB-Colors'!B:B ,\"\")");
   SheetLab.getRange("AD4").copyTo(SheetLab.getRange("AD5:AD"));
 
   SheetLab.getRange("AE4").setValue("=IFERROR(IFS(A4 = \"PART\", A4 & \"_\" & B4 & \"_\" & AD4 & \"_\" & E4 & \"_\" & G4, A4 = \"MINIFIG\", A4 & \"_\" & B4 & \"_\" & E4 & \"_\" & G4, A4 = \"SET\", A4 & \"_\" & B4 & \"_\" & E4 & \"_\" & F4 & \"_\" & G4),\"\")");
