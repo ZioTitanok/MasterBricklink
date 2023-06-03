@@ -1,3 +1,7 @@
+////////////////////////////////////////
+/////        SpreadSheet.gs        /////
+////////////////////////////////////////
+
 // Constants
 const SheetColorSetting = "#000000";
 const SheetColorDatabase = "#727272";
@@ -43,7 +47,7 @@ function RegenerateSettings() {
   SpreadsheetApp.flush();
 
   // Text  
-  const ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["BL Consumer Key"], ["BL Consumer Secret"], ["BL Token Value"], ["BL Token Secret"], ["TurboBrickManager API Token"], ["https://ziotitanok.it/tbm"], ["TBM Token Value"], [""], ["Settings"], ["Database Auto Hide"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
+  const ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["BL Consumer Key"], ["BL Consumer Secret"], ["BL Token Value"], ["BL Token Secret"], ["TurboBrickManager API Token"], ["https://tbm.ziotitanok.it/api"], ["TBM Token Value"], [""], ["Settings"], ["Database Auto Hide"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
   SheetSettings.getRange("A1:A14").setValues(ColumnA);
   SheetSettings.getRange("B13").setValue("Lab");
   SheetSettings.getRange("B14").setValue("750");
@@ -79,12 +83,12 @@ function RegenerateDBColors() {
   SheetDBColors.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request & Output
-  const Url = `${TBMBaseUrl}/BricklinkCatalogColors/`;
+  const Url = `${TBMBaseUrl}/BricklinkColors/`;
   const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
   const OutputColorGuide = JSON.parse(Response.getContentText());
   
   const ColorGuide = OutputColorGuide.map((Item) => {
-    return [Item.colorname, Item.colorid, Item.rgb, Item.colortype];
+    return [Item.color_name, Item.color_id, Item.color_rgb, Item.color_type];
   });
 
   SheetDBColors.getRange(3, 1, ColorGuide.length, 4).setValues(ColorGuide).sort([4,1]);
@@ -118,12 +122,12 @@ function RegenerateDBCategories() {
   SheetDBCategory.getRange("A1:B1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request & Output
-  const Url = `${TBMBaseUrl}/BricklinkCatalogCategory/`;
+  const Url = `${TBMBaseUrl}/BricklinkCategories/`;
   const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
   const OutputCategoryGuide = JSON.parse(Response.getContentText());
   
   const CategoryGuide = OutputCategoryGuide.map((Item) => {
-    return [Item.categoryid, Item.categoryname];
+    return [Item.category_id, Item.category_name];
   });
 
   SheetDBCategory.getRange(3, 1, CategoryGuide.length, 2).setValues(CategoryGuide).sort([2]);
@@ -159,12 +163,17 @@ function RegenerateDBPart() {
   SheetDBPart.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request & Output
-  const Url = `${TBMBaseUrl}/BricklinkCatalogPart/`;
-  const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
+  const Url = `${TBMBaseUrl}/BricklinkItems/`;
+  var Params = {item_type: 'P'};
+  var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
+  var UrlWithParams = Url + '?' + queryString;
+  var Response = UrlFetchApp.fetch(UrlWithParams, {
+    method: 'get',
+    headers: TBMHeaders
+  });
   const OutputPartGuide = JSON.parse(Response.getContentText());
-
   const PartGuide = OutputPartGuide.map((Item) => {
-    return [Item.categoryid, Item.categoryname, Item.partcode, Item.partname];
+    return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
   });
 
   SheetDBPart.getRange(2, 1, PartGuide.length, 4).setValues(PartGuide);
@@ -200,12 +209,17 @@ function RegenerateDBMinifigure() {
   SheetDBMinifigure.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request
-  const Url = `${TBMBaseUrl}/BricklinkCatalogMinifigure/`;
-  const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
+  const Url = `${TBMBaseUrl}/BricklinkItems/`;
+  var Params = {item_type: 'M'};
+  var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
+  var UrlWithParams = Url + '?' + queryString;
+  var Response = UrlFetchApp.fetch(UrlWithParams, {
+    method: 'get',
+    headers: TBMHeaders
+  });
   const OutputMinifigureGuide = JSON.parse(Response.getContentText());
-  
   const MinifigureGuide = OutputMinifigureGuide.map((Item) => {
-    return [Item.categoryid, Item.categoryname, Item.minifigcode, Item.minifigname];
+    return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
   });
 
   SheetDBMinifigure.getRange(2, 1, MinifigureGuide.length, 4).setValues(MinifigureGuide);
@@ -241,12 +255,17 @@ function RegenerateDBSet() {
   SheetDBSet.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request
-  const Url = `${TBMBaseUrl}/BricklinkCatalogSet/`;
-  const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
+  const Url = `${TBMBaseUrl}/BricklinkItems/`;
+  var Params = {item_type: 'S'};
+  var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
+  var UrlWithParams = Url + '?' + queryString;
+  var Response = UrlFetchApp.fetch(UrlWithParams, {
+    method: 'get',
+    headers: TBMHeaders
+  });
   const OutputSetGuide = JSON.parse(Response.getContentText());
-  
   const SetGuide = OutputSetGuide.map((Item) => {
-    return [Item.categoryid, Item.categoryname, Item.setcode, Item.setname];
+    return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
   });
 
   SheetDBSet.getRange(2, 1, SetGuide.length, 4).setValues(SetGuide);
@@ -281,12 +300,12 @@ function RegenerateDBCodes() {
   SheetDBCodes.getRange("A1:C1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request & Output
-  const Url = `${TBMBaseUrl}/BricklinkCatalogCodes/`;
+  const Url = `${TBMBaseUrl}/ConversionBLTLG/`;
   const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
   const OutputCodesGuide = JSON.parse(Response.getContentText());
   
   const CodesGuide = OutputCodesGuide.map((Item) => {
-    return [Item.legoid, Item.itemid, Item.colorname];
+    return [Item.lego_id, Item.item_id, Item.color_name];
   });
 
   SheetDBCodes.getRange(2, 1, CodesGuide.length, 3).setValues(CodesGuide);
