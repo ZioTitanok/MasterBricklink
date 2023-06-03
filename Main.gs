@@ -61,7 +61,7 @@ function Credits(){
 // Constants
 const BrickLinkBaseUrl = "https://api.bricklink.com/api/store/v1";
 const BrickLinkOptions = {method: 'GET', contentType: 'application/json'};
-const TBMBaseUrl = "https://django.ziotitanok.it/api";
+const TBMBaseUrl = "https://ziotitanok.it/api";
 
 // Function : Get Settings
 function GetSettings() {
