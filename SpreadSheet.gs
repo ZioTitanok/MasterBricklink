@@ -84,7 +84,7 @@ function RegenerateDBColors() {
   const OutputColorGuide = JSON.parse(Response.getContentText());
   
   const ColorGuide = OutputColorGuide.map((Item) => {
-    return [Item.colorname, Item.colorid, Item.rgb, Item.colortype];
+    return [Item.color_name, Item.color_id, Item.color_rgb, Item.color_type];
   });
 
   SheetDBColors.getRange(3, 1, ColorGuide.length, 4).setValues(ColorGuide).sort([4,1]);
@@ -118,12 +118,12 @@ function RegenerateDBCategories() {
   SheetDBCategory.getRange("A1:B1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request & Output
-  const Url = `${TBMBaseUrl}/BricklinkCatalogCategory/`;
+  const Url = `${TBMBaseUrl}/BricklinkCatalogCategories/`;
   const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
   const OutputCategoryGuide = JSON.parse(Response.getContentText());
   
   const CategoryGuide = OutputCategoryGuide.map((Item) => {
-    return [Item.categoryid, Item.categoryname];
+    return [Item.category_id, Item.category_name];
   });
 
   SheetDBCategory.getRange(3, 1, CategoryGuide.length, 2).setValues(CategoryGuide).sort([2]);
@@ -159,12 +159,12 @@ function RegenerateDBPart() {
   SheetDBPart.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request & Output
-  const Url = `${TBMBaseUrl}/BricklinkCatalogPart/`;
+  const Url = `${TBMBaseUrl}/BricklinkCatalogParts/`;
   const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
   const OutputPartGuide = JSON.parse(Response.getContentText());
 
   const PartGuide = OutputPartGuide.map((Item) => {
-    return [Item.categoryid, Item.categoryname, Item.partcode, Item.partname];
+    return [Item.category_id, Item.category_name, Item.part_code, Item.part_name];
   });
 
   SheetDBPart.getRange(2, 1, PartGuide.length, 4).setValues(PartGuide);
@@ -200,12 +200,12 @@ function RegenerateDBMinifigure() {
   SheetDBMinifigure.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request
-  const Url = `${TBMBaseUrl}/BricklinkCatalogMinifigure/`;
+  const Url = `${TBMBaseUrl}/BricklinkCatalogMinifigures/`;
   const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
   const OutputMinifigureGuide = JSON.parse(Response.getContentText());
   
   const MinifigureGuide = OutputMinifigureGuide.map((Item) => {
-    return [Item.categoryid, Item.categoryname, Item.minifigcode, Item.minifigname];
+    return [Item.category_id, Item.category_name, Item.minifigure_code, Item.minifigure_name];
   });
 
   SheetDBMinifigure.getRange(2, 1, MinifigureGuide.length, 4).setValues(MinifigureGuide);
@@ -241,12 +241,12 @@ function RegenerateDBSet() {
   SheetDBSet.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request
-  const Url = `${TBMBaseUrl}/BricklinkCatalogSet/`;
+  const Url = `${TBMBaseUrl}/BricklinkCatalogSets/`;
   const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
   const OutputSetGuide = JSON.parse(Response.getContentText());
   
   const SetGuide = OutputSetGuide.map((Item) => {
-    return [Item.categoryid, Item.categoryname, Item.setcode, Item.setname];
+    return [Item.category_id, Item.category_name, Item.set_code, Item.set_name];
   });
 
   SheetDBSet.getRange(2, 1, SetGuide.length, 4).setValues(SetGuide);
@@ -286,7 +286,7 @@ function RegenerateDBCodes() {
   const OutputCodesGuide = JSON.parse(Response.getContentText());
   
   const CodesGuide = OutputCodesGuide.map((Item) => {
-    return [Item.legoid, Item.itemid, Item.colorname];
+    return [Item.lego_id, Item.item_id, Item.color_name];
   });
 
   SheetDBCodes.getRange(2, 1, CodesGuide.length, 3).setValues(CodesGuide);
