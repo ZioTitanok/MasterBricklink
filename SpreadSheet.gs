@@ -164,7 +164,7 @@ function RegenerateDBPart() {
   const OutputPartGuide = JSON.parse(Response.getContentText());
 
   const PartGuide = OutputPartGuide.map((Item) => {
-    return [Item.category_id, Item.category_name, Item.part_code, Item.part_name];
+    return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
   });
 
   SheetDBPart.getRange(2, 1, PartGuide.length, 4).setValues(PartGuide);
@@ -205,7 +205,7 @@ function RegenerateDBMinifigure() {
   const OutputMinifigureGuide = JSON.parse(Response.getContentText());
   
   const MinifigureGuide = OutputMinifigureGuide.map((Item) => {
-    return [Item.category_id, Item.category_name, Item.minifigure_code, Item.minifigure_name];
+    return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
   });
 
   SheetDBMinifigure.getRange(2, 1, MinifigureGuide.length, 4).setValues(MinifigureGuide);
@@ -246,7 +246,7 @@ function RegenerateDBSet() {
   const OutputSetGuide = JSON.parse(Response.getContentText());
   
   const SetGuide = OutputSetGuide.map((Item) => {
-    return [Item.category_id, Item.category_name, Item.set_code, Item.set_name];
+    return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
   });
 
   SheetDBSet.getRange(2, 1, SetGuide.length, 4).setValues(SetGuide);
