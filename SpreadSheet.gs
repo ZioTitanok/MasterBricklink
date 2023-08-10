@@ -1,3 +1,7 @@
+////////////////////////////////////////
+/////        SpreadSheet.gs        /////
+////////////////////////////////////////
+
 // Constants
 const SheetColorSetting = "#000000";
 const SheetColorDatabase = "#727272";
@@ -43,7 +47,7 @@ function RegenerateSettings() {
   SpreadsheetApp.flush();
 
   // Text  
-  const ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["BL Consumer Key"], ["BL Consumer Secret"], ["BL Token Value"], ["BL Token Secret"], ["TurboBrickManager API Token"], ["https://ziotitanok.it/tbm"], ["TBM Token Value"], [""], ["Settings"], ["Database Auto Hide"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
+  const ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["BL Consumer Key"], ["BL Consumer Secret"], ["BL Token Value"], ["BL Token Secret"], ["TurboBrickManager API Token"], ["https://tbm.ziotitanok.it/api"], ["TBM Token Value"], [""], ["Settings"], ["Database Auto Hide"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
   SheetSettings.getRange("A1:A14").setValues(ColumnA);
   SheetSettings.getRange("B13").setValue("Lab");
   SheetSettings.getRange("B14").setValue("750");
@@ -79,7 +83,7 @@ function RegenerateDBColors() {
   SheetDBColors.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request & Output
-  const Url = `${TBMBaseUrl}/BricklinkCatalogColors/`;
+  const Url = `${TBMBaseUrl}/BricklinkColors/`;
   const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
   const OutputColorGuide = JSON.parse(Response.getContentText());
   
@@ -118,7 +122,7 @@ function RegenerateDBCategories() {
   SheetDBCategory.getRange("A1:B1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request & Output
-  const Url = `${TBMBaseUrl}/BricklinkCatalogCategories/`;
+  const Url = `${TBMBaseUrl}/BricklinkCategories/`;
   const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
   const OutputCategoryGuide = JSON.parse(Response.getContentText());
   
@@ -159,10 +163,15 @@ function RegenerateDBPart() {
   SheetDBPart.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request & Output
-  const Url = `${TBMBaseUrl}/BricklinkCatalogParts/`;
-  const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
+  const Url = `${TBMBaseUrl}/BricklinkItems/`;
+  var Params = {item_type: 'P'};
+  var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
+  var UrlWithParams = Url + '?' + queryString;
+  var Response = UrlFetchApp.fetch(UrlWithParams, {
+    method: 'get',
+    headers: TBMHeaders
+  });
   const OutputPartGuide = JSON.parse(Response.getContentText());
-
   const PartGuide = OutputPartGuide.map((Item) => {
     return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
   });
@@ -200,10 +209,15 @@ function RegenerateDBMinifigure() {
   SheetDBMinifigure.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request
-  const Url = `${TBMBaseUrl}/BricklinkCatalogMinifigures/`;
-  const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
+  const Url = `${TBMBaseUrl}/BricklinkItems/`;
+  var Params = {item_type: 'M'};
+  var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
+  var UrlWithParams = Url + '?' + queryString;
+  var Response = UrlFetchApp.fetch(UrlWithParams, {
+    method: 'get',
+    headers: TBMHeaders
+  });
   const OutputMinifigureGuide = JSON.parse(Response.getContentText());
-  
   const MinifigureGuide = OutputMinifigureGuide.map((Item) => {
     return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
   });
@@ -241,10 +255,15 @@ function RegenerateDBSet() {
   SheetDBSet.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request
-  const Url = `${TBMBaseUrl}/BricklinkCatalogSets/`;
-  const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
+  const Url = `${TBMBaseUrl}/BricklinkItems/`;
+  var Params = {item_type: 'S'};
+  var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
+  var UrlWithParams = Url + '?' + queryString;
+  var Response = UrlFetchApp.fetch(UrlWithParams, {
+    method: 'get',
+    headers: TBMHeaders
+  });
   const OutputSetGuide = JSON.parse(Response.getContentText());
-  
   const SetGuide = OutputSetGuide.map((Item) => {
     return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
   });
@@ -281,7 +300,7 @@ function RegenerateDBCodes() {
   SheetDBCodes.getRange("A1:C1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // API Request & Output
-  const Url = `${TBMBaseUrl}/BricklinkCatalogCodes/`;
+  const Url = `${TBMBaseUrl}/ConversionBLTLG/`;
   const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
   const OutputCodesGuide = JSON.parse(Response.getContentText());
   

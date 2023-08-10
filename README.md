@@ -1,59 +1,61 @@
 # MasterBricklink
-<b><i>MasterBricklink, AFOL Tools for Bricklink on Google SpreadSheet</b></i>, nasce dalla mente di <b>GianCann</b> (tra il 2018 e il 2019) per semplificare la gestione dell'inventario di mattoncini LEGO. Dopo aver ereditato il progetto, ho migliorato le funzionalità esistenti e ne ho introdotte di nuove, cercando di rendere la cartella di lavoro il più stand-alone possibile e fruibile anche ai meno pratici.<br></br>
+<b><i>MasterBricklink, AFOL Tools for Bricklink on Google Spreadsheet</b></i>, was conceived by <b>GianCann</b> (between 2018 and 2019) to simplify the management of LEGO brick inventories. After inheriting the project, I improved existing features and introduced new ones, aiming to make the spreadsheet as standalone and user-friendly as possible.<br></br>
 
-## Installazione
-La procedura di "installazione", o meglio di "generazione" del foglio di lavoro richiede il completamento di pochi passi:
-1. Creare una cartella di lavoro in Google Sheets;
-2. Importare (per esempio, copiando) i vari script utilizzando Editor di Script/App Script;
-3. Dopo aver ricaricato il foglio, nel menù Bricklink Tool/Regenerate, scegliere "Regenerate Settings";
-4. Nel foglio Settings inserire le chiavi delle API TurboBricksManager (necessarie per la generazione dei DB);
-5. Sempre in Settings, inserire le chiavi delle API Bricklink (necessarie per Inventory, PartOut e alcune funzioni in Lab). Questo punto è facoltativo ma consigliato per sfruttare le piene potenzialità della cartella di lavoro;
-6. Proseguire con la generazione degli altri fogli procedendo, dall'alto verso il basso, nel menù Bricklink Tool/Regenerate.
+## Installation
+The "installation" process, or rather the "generation" of the spreadsheet, requires completing a few steps:
 
-## (Breve) Introduzione alle funzionalità
-Qualche breve accenno allo scopo e alle funzionalità dei diversi fogli.
-* <i>Settings</i>: ospita i parametri necessari al funzionamento della cartella di lavoro e alcune configurazioni per Lab;
-* <i>DB</i>: contengono i database necessari al corretto funzionamento della cartella di lavoro;
-* <i>Inventory</i>: scarica l'inventario dal proprio account Bricklink, in base ai filtri impostati nel foglio;
-* <i>PartOut</i>: scarica il part-out del Set scelto, in base ai filtri impostati nel foglio;
-* <i>XML</i>: effettua la generazione degli XML, partendo dai dati contenuti in Lab, per esportare manualmente verso Bricklink.
-* <i>Lab</i>: volto all'analisi degli elementi, importabili automaticamente da Inventory e/o da PartOut in base ai filtri impostati nel foglio o inseribili manualmente;
+1. Create a Google Sheets workbook.
+2. Import (by copying) various scripts using the Script Editor/App Script.
+3. After reloading the sheet, in the Bricklink Tool menu, choose "Regenerate" and then "Regenerate Settings".
+4. In the Settings sheet, insert TurboBricksManager API key, needed for generating the databases.
+5. Optionally, in Settings, insert Bricklink API keys (recommended for utilizing the full potential of the spreadsheet).
+6. Proceed with generating the other sheets, moving from top to bottom in the Bricklink Tool menu.
 
+## Introduction to Features
+Here's a brief overview of the purpose and functionalities of the different sheets:
 
-## To Do List
-Come ogni progetto che si rispetti <b><i>sono ancora molte le idee da realizzare</b></i>:
-* Error Handling e miglioramenti della user experience;
-* Multi Part-Out di Sets e relativi filtri;
-* Multipiattaforma: sincronizzazione con Brickowl, Rebrickable;
-* Introduzione di auto Export verso Bricklink, senza bisogno di XML;
-* Scrivere qualche riga per spiegare le varie funzionalità della cartella di lavoro!
+* <i>Settings</i>: Hosts parameters needed by the spreadsheet and some configurations for Lab.
+* <i>DBs</i>: Databases needed by the spreadsheet.
+* <i>Inventory</i>: Downloads inventory from your Bricklink account based on the filters set in the sheet.
+* <i>PartOut</i>: Downloads the part-out of the selected set based on the filters set in the sheet.
+* <i>XML</i>: Generates XML files from Lab data for manual export to Bricklink.
+* <i>Lab</i>: Designed for element analysis, data can be automatically imported from Inventory and/or PartOut based on sheet filters, or manually input.
+
+## To-Do List
+As with any respectable project, there are still many ideas to be realized:
+
+* Error handling and user experience improvements.
+* Multi-part-out for sets and related filters.
+* Multi-platform support: synchronization with Brickowl, Rebrickable.
+* Introduction of automatic export to Bricklink without the need for XML.
+* Write explanations for various functionalities of the spreadsheet.
 
 ## Changelog
-### da 1.0.0 ad oggi (GitHub)
-v1.2.3: Generale miglioramento del codice e miglioramento di Lab.<br>
-v1.2.2: Miglioramento di PartOut.<br>
-v1.2.1: I database Colors e Category non dipendono più dalle API Bricklink.<br>
-v1.2.0: Introdotto aggiornamento automatico dei Database Parts, Minifigures e Sets grazie a TurboBricksManager.<br>
-v1.1.3: Introdotto in Lab funzione per il suggerimento e l'aggiornamento dei prezzi <br>
-v1.1.2: Aggiornamento minore di Lab.<br>
-v1.1.1: Miglioramento delle performance degli Import. Aggiornamento minore di PartOut.<br>
-v1.1.0: Miglioramento delle performance nella generazione degli XML e nel download delle Price Guide.<br>
-v1.0.1: ReadMe e Minor Fixes.<br>
-v1.0.0: Introdotte funzionalità di creazione/ripristino dei fogli della cartella di lavoro.<br>
+From 1.0.0 to present (GitHub)
+v1.2.3: General code improvement and Lab enhancement.<br>
+v1.2.2: PartOut improvement.<br>
+v1.2.1: Colors and Category databases no longer depend on Bricklink APIs.<br>
+v1.2.0: Introduced automatic update of Parts, Minifigures, and Sets Databases through TurboBricksManager.<br>
+v1.1.3: Introduced Lab function for price suggestions and updates.<br>
+v1.1.2: Minor Lab update.<br>
+v1.1.1: Improved import performance. Minor PartOut update.<br>
+v1.1.0: Enhanced performance in XML generation and Price Guide download.<br>
+v1.0.1: ReadMe and minor fixes.<br>
+v1.0.0: Introduced creation/restoration functionalities for the spreadsheet sheets.<br>
 
-### da 0.0.1 a 0.9.0 (pre-GitHub)
-v0.9.0: Aggiornamento automatico dei Database Categorie e Colori.<br>
-v0.8.0: Introdotti i filtri in Inventory, PartOut e Lab.<br>
-v0.7.0: Introduzione dei Settings e di altre funzioni minori per la user experience.<br>
-v0.6.0: Non solo Parts: Minifigures, Sets e tutto il resto possono essere gestiti.<br>
-v0.5.0: Introdotte le funzionalità di Import tra Inventory, PartOut e Lab.<br>
-v0.4.0: Introdotto PartOut per il download dei part-out dei Sets.<br>
-v0.3.1: Introdotto XML Export (Upload/Upgrade) per la sincronizzazione manuale dell'Inventario su Bricklink.<br>
-v0.3.0: Introdotto XML Export (Wanted) per la creazione manuale di WantedList su Bricklink (GianCann)<br>
-v0.2.0: Miglioramento di Lab ed introduzione dei Database di Parts, Minifigures e Sets.<br>
-v0.1.0: Introdotto OAuth1 negli script (eliminato il PHP esterno). (GianCann)<br>
-v0.0.2: Introdotto Inventory con download dell'Inventory da Bricklink (via PHP esterno). (GianCann)<br>
-v0.0.1: Introdotto Lab con download delle Price Guide delle Parts (via PHP esterno). (GianCann)<br>
+From 0.0.1 to 0.9.0 (pre-GitHub)
+v0.9.0: Automatic update of Categories and Colors databases.<br>
+v0.8.0: Introduced filters in Inventory, PartOut, and Lab.<br>
+v0.7.0: Introduced Settings and other minor user experience functions.<br>
+v0.6.0: Beyond Parts: Management of Minifigures, Sets, and more.<br>
+v0.5.0: Introduced Import functionalities between Inventory, PartOut, and Lab.<br>
+v0.4.0: Introduced PartOut for downloading Sets' part-outs.<br>
+v0.3.1: Introduced XML Export (Upload/Upgrade) for manual inventory synchronization with Bricklink.<br>
+v0.3.0: Introduced XML Export (Wanted) for manual creation of WantedLists on Bricklink (GianCann).<br>
+v0.2.0: Lab improvement and introduction of Parts, Minifigures, and Sets Databases.<br>
+v0.1.0: Introduced OAuth1 in scripts (eliminated external PHP). (GianCann)<br>
+v0.0.2: Introduced Inventory with inventory download from Bricklink (via external PHP). (GianCann)<br>
+v0.0.1: Introduced Lab with Price Guide download for Parts (via external PHP). (GianCann)<br>
 
-## Dedica
-Alla memoria di GianCann, che sicuramente avrebbe fatto un lavoro migliore del mio nel portare avanti questo progetto.
+## Dedication
+To the memory of <b>GianCann</b>, who undoubtedly would have done a better job than me in advancing this project.
