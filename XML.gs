@@ -220,7 +220,7 @@ function XMLGenerate(){
 
   // UI
   const Ui = SpreadsheetApp.getUi();
-  Ui.alert('XML', 'XML Upload and Update created.', Ui.ButtonSet.OK);
+  Ui.alert('XML', 'XML generated.', Ui.ButtonSet.OK);
 }
 
 // Function: Clear XML
