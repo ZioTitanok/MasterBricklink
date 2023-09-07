@@ -625,18 +625,21 @@ function RegenerateLab() {
 
 // Function: Regenerate XML
 function RegenerateXML() {
-  RegenerateSheet("XML", '#FF00FF', 5000, 2)
+  RegenerateSheet("XML", '#FF00FF', 5000, 3)
 
   // Style
   const SheetXML = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("XML")
-  SheetXML.setColumnWidths(1, 2, 850);
+  SheetXML.setColumnWidths(1, 3, 500);
   SheetXML.setRowHeights(1, SheetXML.getMaxRows(), RowHeightStandard)
-  SheetXML.getRange("A1:B1").setBackground(CellColorPermanent).setFontWeight("bold");
   SheetXML.setFrozenRows(1);
+
+  // Text
+  const TitlesA = ["XML Add", "XML Update", "XML Wanted"];
+  SheetXML.getRange("A1:C1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
   // UI
   const Ui = SpreadsheetApp.getUi();
-  Ui.alert('XML', 'XML is ready again!', Ui.ButtonSet.OK); 
+  Ui.alert('XML', 'XML is ready again!', Ui.ButtonSet.OK);
 }
 
 // Funzione: Generic Sheet

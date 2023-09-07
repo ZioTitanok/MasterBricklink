@@ -2,7 +2,6 @@
 /////       OAuthSupport.gs        /////
 ////////////////////////////////////////
 
-
 /* Adds a OAuth1 object to the global scope. This can be used as follows:
  * var urlFetch = OAuth1.withAccessToken(consumerKey, consumerSecret, accessToken, accessSecret);
  * var response = urlFetch.fetch(url, params, options);
