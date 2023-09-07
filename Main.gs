@@ -2,7 +2,6 @@
 /////           Main.gs            /////
 ////////////////////////////////////////
 
-
 // OnOpen
 function onOpen() {
 
@@ -31,8 +30,7 @@ function onOpen() {
                 .addItem('Clear Lab (Prices)', 'ClearLabPrices'))
 
     .addSubMenu(SpreadsheetApp.getUi().createMenu('XML')
-                .addItem('Generate XML Upload/Update', 'XMLUploadUpdate')
-                .addItem('Generate XML Wanted','XMLWanted')
+                .addItem('Generate XML (Add/Update/Wanted)', 'XMLGenerate')
                 .addItem('Clear XML', 'ClearXML'))
     .addSeparator()
 
