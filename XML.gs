@@ -41,9 +41,7 @@ function XMLGenerate(){
           if (QtyDelta > 0){
             var StringUpdate = "<ITEM>";
             StringUpdate += "<LOTID>" + Input[i][LabColumnLotID-1] + "</LOTID>";
-
-            var Sign = "+";
-            StringUpdate += "<QTY>" + Sign + Input[i][LabColumnQty-1] + "</QTY>";
+            StringUpdate += "<QTY>" + Input[i][LabColumnQty-1] + "</QTY>";
             
             if (Input[i][LabColumnPrice-1] !=""){
               StringUpdate += "<PRICE>" + +Input[i][LabColumnPrice-1].toFixed(2) + "</PRICE>";
@@ -72,7 +70,6 @@ function XMLGenerate(){
           }
 
           if (QtyDelta < 0){
-            console.log('')
             var StringUpdate = "<ITEM>";
             StringUpdate += "<LOTID>" + Input[i][LabColumnLotID-1] + "</LOTID>";
 
