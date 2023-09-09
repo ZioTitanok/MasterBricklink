@@ -187,7 +187,7 @@ function XMLGenerate(){
         StringWanted += "<COLOR>" + Input[i][LabColumnColorID-1] + "</COLOR>";
         StringWanted += "<CONDITION>" + Input[i][LabColumnCondition-1] + "</CONDITION>";
         if (Input[i][LabColumnQty-1] != ""){
-          StringWanted += "<MINQTY>" + Input[i][LabColumnQty-1] + "</MINQTY>";
+          StringWanted += "<MINQTY>" + Math.abs(Input[i][LabColumnQty-1]) + "</MINQTY>";
         }
         if (Input[i][LabColumnCondition-1] != ""){
           StringWanted += "<CONDITION>" + Input[i][LabColumnCondition-1] + "</CONDITION>"
