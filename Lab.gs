@@ -133,29 +133,46 @@ function LoadPriceHistory(SheetLab, Row, PriceType, PriceRegion, BLConsumerKey, 
   var CellColorID = Selection.getCell(Row,LabColumnColorID).getValue();
   var CellCondition = Selection.getCell(Row,LabColumnCondition).getValue();
 
-  // API Request & Output
-  var Url = `${BrickLinkBaseUrl}/items/${CellItemType}/${CellCode}/price`;
-  console.log(Url)
-  urlFetch = OAuth1.withAccessToken(BLConsumerKey, BLConsumerSecret, BLTokenValue, BLTokenSecret);
-  var Params = {
-    no: CellCode,
-    color_id: CellColorID,
-    type: CellItemType,
-    new_or_used: CellCondition,
-    guide_type: PriceType,
-    region: PriceRegion,
-    currency_code: 'EUR',
-    vat: 'Y'
-  }; 
+  var maxRetries = 3;
+  var retryDelay = 1000;
+  
+  for (var attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      // API Request & Output
+      var Url = `${BrickLinkBaseUrl}/items/${CellItemType}/${CellCode}/price`;
+      console.log(`${Url} (attempt ${attempt}/${maxRetries})`);
+      urlFetch = OAuth1.withAccessToken(BLConsumerKey, BLConsumerSecret, BLTokenValue, BLTokenSecret);
+      var Params = {
+        no: CellCode,
+        color_id: CellColorID,
+        type: CellItemType,
+        new_or_used: CellCondition,
+        guide_type: PriceType,
+        region: PriceRegion,
+        currency_code: 'EUR',
+        vat: 'Y'
+      }; 
 
-  var PriceGuide = JSON.parse(urlFetch.fetch(Url, Params, BrickLinkOptions));
-  var Output = [PriceGuide.data.min_price, 
-                PriceGuide.data.avg_price, 
-                PriceGuide.data.qty_avg_price, 
-                PriceGuide.data.max_price, 
-                PriceGuide.data.unit_quantity, 
-                PriceGuide.data.total_quantity];
-  SheetLab.getRange(Row, LabColumnPriceMin, 1, 6).setValues([Output]);
+      var PriceGuide = JSON.parse(urlFetch.fetch(Url, Params, BrickLinkOptions));
+      var Output = [PriceGuide.data.min_price, 
+                    PriceGuide.data.avg_price, 
+                    PriceGuide.data.qty_avg_price, 
+                    PriceGuide.data.max_price, 
+                    PriceGuide.data.unit_quantity, 
+                    PriceGuide.data.total_quantity];
+      SheetLab.getRange(Row, LabColumnPriceMin, 1, 6).setValues([Output]);
+      return;
+      
+    } catch (error) {
+      console.error(`Error fetching price for row ${Row} (attempt ${attempt}/${maxRetries}): ${error.message}`);
+      if (attempt < maxRetries) {
+        console.log(`Retrying in ${retryDelay}ms...`);
+        Utilities.sleep(retryDelay);
+      } else {
+        console.error(`Failed after ${maxRetries} attempts. Error: ${error}`);
+      }
+    }
+  }
 }
 
 // Function: Hint Prices
