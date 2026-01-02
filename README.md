@@ -32,6 +32,7 @@ As with any respectable project, there are still many ideas to be realized:
 
 ## Changelog
 From 1.0.0 to present (GitHub)
+v1.2.5: Try/Catch in price algorithm.<br>
 v1.2.4: XML Export completely redesigned.<br>
 v1.2.3: General code improvement and Lab enhancement.<br>
 v1.2.2: PartOut improvement.<br>
