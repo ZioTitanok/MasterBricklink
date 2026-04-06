@@ -47,7 +47,7 @@ function RegenerateSettings() {
   SpreadsheetApp.flush();
 
   // Text  
-  const ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["BL Consumer Key"], ["BL Consumer Secret"], ["BL Token Value"], ["BL Token Secret"], ["TurboBrickManager API Token"], ["https://tbm.ziotitanok.it/api"], ["TBM Token Value"], [""], ["Settings"], ["Database Auto Hide"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
+  const ColumnA = [["Bricklink API Token"],["https://www.bricklink.com/v2/api/register_consumer.page"],["BL Consumer Key"], ["BL Consumer Secret"], ["BL Token Value"], ["BL Token Secret"], ["TurboBrickManager API Token"], ["https://tbm.ziotitanok.it/api/catalog/"], ["TBM Token Value"], [""], ["Settings"], ["Database Auto Hide"], ["Lab Active"], ["Prices Row Max (Bulk/Batch)"]];
   SheetSettings.getRange("A1:A14").setValues(ColumnA);
   SheetSettings.getRange("B13").setValue("Lab");
   SheetSettings.getRange("B14").setValue("750");
@@ -84,11 +84,19 @@ function RegenerateDBColors() {
 
   // API Request & Output
   const Url = `${TBMBaseUrl}/BricklinkColors/`;
-  const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
-  const OutputColorGuide = JSON.parse(Response.getContentText());
-  
+  var OutputColorGuide = null;
+  for (var attempt = 1; attempt <= 3; attempt++) {
+    try {
+      var Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
+      OutputColorGuide = JSON.parse(Response.getContentText());
+      break;
+    } catch (e) {
+      if (attempt === 3) throw e;
+      Utilities.sleep(2000);
+    }
+  }
   const ColorGuide = OutputColorGuide.map((Item) => {
-    return [Item.color_name, Item.color_id, Item.color_rgb, Item.color_type];
+    return [Item.bricklink_color_name, Item.bricklink_color_id, Item.bricklink_color_rgb, Item.bricklink_color_type];
   });
 
   SheetDBColors.getRange(3, 1, ColorGuide.length, 4).setValues(ColorGuide).sort([4,1]);
@@ -105,7 +113,7 @@ function RegenerateDBColors() {
 
 // Function: Regenerate DB-Category
 function RegenerateDBCategories() {
-  RegenerateSheet("DB-Categories", SheetColorDatabase, 1200, 2)
+  RegenerateSheet("DB-Categories", SheetColorDatabase, 1500, 2)
   SheetDBCategory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Categories");
   const {DBAutoHide, TBMHeaders} = GetSettings();
 
@@ -123,11 +131,19 @@ function RegenerateDBCategories() {
 
   // API Request & Output
   const Url = `${TBMBaseUrl}/BricklinkCategories/`;
-  const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
-  const OutputCategoryGuide = JSON.parse(Response.getContentText());
-  
+  var OutputCategoryGuide = null;
+  for (var attempt = 1; attempt <= 3; attempt++) {
+    try {
+      var Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
+      OutputCategoryGuide = JSON.parse(Response.getContentText());
+      break;
+    } catch (e) {
+      if (attempt === 3) throw e;
+      Utilities.sleep(2000);
+    }
+  }
   const CategoryGuide = OutputCategoryGuide.map((Item) => {
-    return [Item.category_id, Item.category_name];
+    return [Item.bricklink_category_id, Item.bricklink_category_name];
   });
 
   SheetDBCategory.getRange(3, 1, CategoryGuide.length, 2).setValues(CategoryGuide).sort([2]);
@@ -144,7 +160,7 @@ function RegenerateDBCategories() {
 
 // Function: Regenerate DB-Part
 function RegenerateDBPart() {
-  RegenerateSheet("DB-Part", SheetColorDatabase, 100000, 4)
+  RegenerateSheet("DB-Part", SheetColorDatabase, 0, 4)
   SheetDBPart = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Part");
   const {DBAutoHide, TBMHeaders} = GetSettings();
 
@@ -153,31 +169,51 @@ function RegenerateDBPart() {
   SheetDBPart.setColumnWidth(2, 200);
   SheetDBPart.setColumnWidth(3, 100);
   SheetDBPart.setColumnWidth(4, 1600);
-  SheetDBPart.setRowHeights(1, SheetDBPart.getMaxRows(), RowHeightStandard);
   SheetDBPart.setFrozenRows(1);
-  SheetDBPart.getRange(1,1, SheetDBPart.getMaxRows(), SheetDBPart.getMaxColumns()).setNumberFormat('@STRING@');
-  SpreadsheetApp.flush();
-  
+
   // Text
   const TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBPart.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
-  // API Request & Output
+  // API Request & Output (paginated)
   const Url = `${TBMBaseUrl}/BricklinkItems/`;
-  var Params = {item_type: 'P'};
-  var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
-  var UrlWithParams = Url + '?' + queryString;
-  var Response = UrlFetchApp.fetch(UrlWithParams, {
-    method: 'get',
-    headers: TBMHeaders
-  });
-  const OutputPartGuide = JSON.parse(Response.getContentText());
-  const PartGuide = OutputPartGuide.map((Item) => {
-    return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
+  var allItems = [];
+  var sinceId = null;
+  var hasMore = true;
+  while (hasMore) {
+    var Params = {item_type: 'P'};
+    if (sinceId !== null) Params.since_id = sinceId;
+    var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
+    var page = null;
+    for (var attempt = 1; attempt <= 3; attempt++) {
+      try {
+        var Response = UrlFetchApp.fetch(Url + '?' + queryString, {method: 'get', headers: TBMHeaders});
+        page = JSON.parse(Response.getContentText());
+        break;
+      } catch (e) {
+        if (attempt === 3) throw e;
+        Utilities.sleep(2000);
+      }
+    }
+    allItems = allItems.concat(page.results);
+    hasMore = page.has_more;
+    sinceId = page.next_since_id;
+  }
+  const PartGuide = allItems.map((Item) => {
+    return [Item.category_path[0], Item.category_name, Item.bricklink_item_code, Item.bricklink_item_name];
   });
 
+  const targetRows = PartGuide.length + 1;
+  const currentRows = SheetDBPart.getMaxRows();
+  if (targetRows < currentRows) {
+    SheetDBPart.deleteRows(targetRows + 1, currentRows - targetRows);
+  } else if (targetRows > currentRows) {
+    SheetDBPart.insertRowsAfter(currentRows, targetRows - currentRows);
+  }
+  SheetDBPart.getRange(1, 1, targetRows, 4).setNumberFormat('@STRING@');
+  SheetDBPart.setRowHeights(1, targetRows, RowHeightStandard);
+
   SheetDBPart.getRange(2, 1, PartGuide.length, 4).setValues(PartGuide);
-  SheetDBPart.deleteRows(3+PartGuide.length, SheetDBPart.getMaxRows()-PartGuide.length-3);
   SpreadsheetApp.flush();
 
   // AutoHide
@@ -190,7 +226,7 @@ function RegenerateDBPart() {
 
 // Function: DB-Minifigure
 function RegenerateDBMinifigure() {
-  RegenerateSheet("DB-Minifigure", SheetColorDatabase, 20000, 4)
+  RegenerateSheet("DB-Minifigure", SheetColorDatabase, 0, 4)
   SheetDBMinifigure = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Minifigure");
   const {DBAutoHide, TBMHeaders} = GetSettings();
 
@@ -199,31 +235,51 @@ function RegenerateDBMinifigure() {
   SheetDBMinifigure.setColumnWidth(2, 200);
   SheetDBMinifigure.setColumnWidth(3, 100);
   SheetDBMinifigure.setColumnWidth(4, 1000);
-  SheetDBMinifigure.setRowHeights(1, SheetDBMinifigure.getMaxRows(), RowHeightStandard);
   SheetDBMinifigure.setFrozenRows(1);
-  SheetDBMinifigure.getRange(1,1, SheetDBMinifigure.getMaxRows(), SheetDBMinifigure.getMaxColumns()).setNumberFormat('@STRING@');
-  SpreadsheetApp.flush();
-  
+
   // Text
   const TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBMinifigure.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
-  // API Request
+  // API Request (paginated)
   const Url = `${TBMBaseUrl}/BricklinkItems/`;
-  var Params = {item_type: 'M'};
-  var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
-  var UrlWithParams = Url + '?' + queryString;
-  var Response = UrlFetchApp.fetch(UrlWithParams, {
-    method: 'get',
-    headers: TBMHeaders
-  });
-  const OutputMinifigureGuide = JSON.parse(Response.getContentText());
-  const MinifigureGuide = OutputMinifigureGuide.map((Item) => {
-    return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
+  var allItems = [];
+  var sinceId = null;
+  var hasMore = true;
+  while (hasMore) {
+    var Params = {item_type: 'M'};
+    if (sinceId !== null) Params.since_id = sinceId;
+    var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
+    var page = null;
+    for (var attempt = 1; attempt <= 3; attempt++) {
+      try {
+        var Response = UrlFetchApp.fetch(Url + '?' + queryString, {method: 'get', headers: TBMHeaders});
+        page = JSON.parse(Response.getContentText());
+        break;
+      } catch (e) {
+        if (attempt === 3) throw e;
+        Utilities.sleep(2000);
+      }
+    }
+    allItems = allItems.concat(page.results);
+    hasMore = page.has_more;
+    sinceId = page.next_since_id;
+  }
+  const MinifigureGuide = allItems.map((Item) => {
+   return [Item.category_path[0], Item.category_name, Item.bricklink_item_code, Item.bricklink_item_name];
   });
 
+  const targetRows = MinifigureGuide.length + 1;
+  const currentRows = SheetDBMinifigure.getMaxRows();
+  if (targetRows < currentRows) {
+    SheetDBMinifigure.deleteRows(targetRows + 1, currentRows - targetRows);
+  } else if (targetRows > currentRows) {
+    SheetDBMinifigure.insertRowsAfter(currentRows, targetRows - currentRows);
+  }
+  SheetDBMinifigure.getRange(1, 1, targetRows, 4).setNumberFormat('@STRING@');
+  SheetDBMinifigure.setRowHeights(1, targetRows, RowHeightStandard);
+
   SheetDBMinifigure.getRange(2, 1, MinifigureGuide.length, 4).setValues(MinifigureGuide);
-  SheetDBMinifigure.deleteRows(3+MinifigureGuide.length, SheetDBMinifigure.getMaxRows()-MinifigureGuide.length-3);
   SpreadsheetApp.flush();
 
   // AutoHide
@@ -236,40 +292,60 @@ function RegenerateDBMinifigure() {
 
 // Function: DB-Set
 function RegenerateDBSet() {
-  RegenerateSheet("DB-Set", SheetColorDatabase, 20000, 4)
+  RegenerateSheet("DB-Set", SheetColorDatabase, 0, 4)
   SheetDBSet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Set");
   const {DBAutoHide, TBMHeaders} = GetSettings();
-  
+
   // Style
   SheetDBSet.setColumnWidth(1, 100);
   SheetDBSet.setColumnWidth(2, 500);
   SheetDBSet.setColumnWidth(3, 100);
   SheetDBSet.setColumnWidth(4, 7500);
-  SheetDBSet.setRowHeights(1, SheetDBSet.getMaxRows(), RowHeightStandard);
   SheetDBSet.setFrozenRows(1);
-  SheetDBSet.getRange(1,1, SheetDBSet.getMaxRows(), SheetDBSet.getMaxColumns()).setNumberFormat('@STRING@');
-  SpreadsheetApp.flush();
-  
+
   // Text
   const TitlesA = ["Category ID", "Category Name", "Number", "Name"];
   SheetDBSet.getRange("A1:D1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
-  // API Request
+  // API Request (paginated)
   const Url = `${TBMBaseUrl}/BricklinkItems/`;
-  var Params = {item_type: 'S'};
-  var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
-  var UrlWithParams = Url + '?' + queryString;
-  var Response = UrlFetchApp.fetch(UrlWithParams, {
-    method: 'get',
-    headers: TBMHeaders
-  });
-  const OutputSetGuide = JSON.parse(Response.getContentText());
-  const SetGuide = OutputSetGuide.map((Item) => {
-    return [Item.category_id, Item.category_name, Item.item_code, Item.item_name];
+  var allItems = [];
+  var sinceId = null;
+  var hasMore = true;
+  while (hasMore) {
+    var Params = {item_type: 'S'};
+    if (sinceId !== null) Params.since_id = sinceId;
+    var queryString = Object.keys(Params).map(key => key + '=' + encodeURIComponent(Params[key])).join('&');
+    var page = null;
+    for (var attempt = 1; attempt <= 3; attempt++) {
+      try {
+        var Response = UrlFetchApp.fetch(Url + '?' + queryString, {method: 'get', headers: TBMHeaders});
+        page = JSON.parse(Response.getContentText());
+        break;
+      } catch (e) {
+        if (attempt === 3) throw e;
+        Utilities.sleep(2000);
+      }
+    }
+    allItems = allItems.concat(page.results);
+    hasMore = page.has_more;
+    sinceId = page.next_since_id;
+  }
+  const SetGuide = allItems.map((Item) => {
+    return [Item.category_path[0], Item.category_name, Item.bricklink_item_code, Item.bricklink_item_name];
   });
 
+  const targetRows = SetGuide.length + 1;
+  const currentRows = SheetDBSet.getMaxRows();
+  if (targetRows < currentRows) {
+    SheetDBSet.deleteRows(targetRows + 1, currentRows - targetRows);
+  } else if (targetRows > currentRows) {
+    SheetDBSet.insertRowsAfter(currentRows, targetRows - currentRows);
+  }
+  SheetDBSet.getRange(1, 1, targetRows, 4).setNumberFormat('@STRING@');
+  SheetDBSet.setRowHeights(1, targetRows, RowHeightStandard);
+
   SheetDBSet.getRange(2, 1, SetGuide.length, 4).setValues(SetGuide);
-  SheetDBSet.deleteRows(3+SetGuide.length, SheetDBSet.getMaxRows()-SetGuide.length-3);
   SpreadsheetApp.flush();
 
   // AutoHide
@@ -282,7 +358,7 @@ function RegenerateDBSet() {
 
 // Function: DB-Codes
 function RegenerateDBCodes() {
-  RegenerateSheet("DB-Codes", SheetColorDatabase, 100000, 3)
+  RegenerateSheet("DB-Codes", SheetColorDatabase, 0, 3)
   SheetDBCodes = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DB-Codes");
   const {DBAutoHide, TBMHeaders} = GetSettings();
 
@@ -290,26 +366,52 @@ function RegenerateDBCodes() {
   SheetDBCodes.setColumnWidth(1, 100);
   SheetDBCodes.setColumnWidth(2, 125);
   SheetDBCodes.setColumnWidth(3, 200);
-  SheetDBCodes.setRowHeights(1, SheetDBCodes.getMaxRows(), RowHeightStandard);
   SheetDBCodes.setFrozenRows(1);
-  SheetDBCodes.getRange(1,1, SheetDBCodes.getMaxRows(), SheetDBCodes.getMaxColumns()).setNumberFormat('@STRING@');
-  SpreadsheetApp.flush();
-  
+
   // Text
   const TitlesA = ["Code", "Item No", "Color"];
   SheetDBCodes.getRange("A1:C1").setBackground(CellColorPermanent).setFontWeight("bold").setValues([TitlesA]);
 
-  // API Request & Output
-  const Url = `${TBMBaseUrl}/ConversionBLTLG/`;
-  const Response = UrlFetchApp.fetch(Url, {headers: TBMHeaders});
-  const OutputCodesGuide = JSON.parse(Response.getContentText());
-  
-  const CodesGuide = OutputCodesGuide.map((Item) => {
-    return [Item.lego_id, Item.item_id, Item.color_name];
+  // API Request & Output (paginated)
+  const Url = `${TBMBaseUrl}/ConversionTLG/`;
+  var allItems = [];
+  var sinceId = null;
+  var hasMore = true;
+  while (hasMore) {
+    var urlWithParams = sinceId !== null ? Url + '?since_id=' + sinceId : Url;
+    var page = null;
+    for (var attempt = 1; attempt <= 3; attempt++) {
+      try {
+        var Response = UrlFetchApp.fetch(urlWithParams, {headers: TBMHeaders});
+        page = JSON.parse(Response.getContentText());
+        break;
+      } catch (e) {
+        if (attempt === 3) throw e;
+        Utilities.sleep(2000);
+      }
+    }
+    allItems = allItems.concat(page.results);
+    hasMore = page.has_more;
+    sinceId = page.next_since_id;
+  }
+  const CodesGuide = allItems.map((Item) => {
+    return [Item.lego_item_id, Item.bricklink_item_id, Item.bricklink_color_name];
   });
 
+  // Resize and Output
+  const targetRows = CodesGuide.length + 1;
+  const currentRows = SheetDBCodes.getMaxRows();
+  if (targetRows < currentRows) {
+    SheetDBCodes.deleteRows(targetRows + 1, currentRows - targetRows);
+  } else if (targetRows > currentRows) {
+    SheetDBCodes.insertRowsAfter(currentRows, targetRows - currentRows);
+  }
+
+  // Apply formatting only on actual data range
+  SheetDBCodes.getRange(1, 1, targetRows, 3).setNumberFormat('@STRING@');
+  SheetDBCodes.setRowHeights(1, targetRows, RowHeightStandard);
+
   SheetDBCodes.getRange(2, 1, CodesGuide.length, 3).setValues(CodesGuide);
-  SheetDBCodes.deleteRows(3+CodesGuide.length, SheetDBCodes.getMaxRows()-CodesGuide.length-3);
   SpreadsheetApp.flush();
 
   // AutoHide
@@ -653,32 +755,29 @@ function RegenerateSheet(SheetName, SheetColor, Rows, Columns) {
  * @returns {Sheet}               Sheet object for chaining.
  */
 
-  // Check
-  if (!SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SheetName)){
-    SpreadsheetApp.getActiveSpreadsheet().insertSheet(SheetName)};
-  const Sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SheetName);
-  
-  // Color
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  var Sheet = ss.getSheetByName(SheetName);
+
+  if (!Sheet) {
+    Sheet = ss.insertSheet(SheetName);
+  } else {
+    Sheet.clearContents();
+  }
+
   Sheet.setTabColor(SheetColor);
-  
+
   // Rows
   if (Rows !== 0) {
-    const SheetRows = Sheet.getMaxRows();    
-    if (Rows < SheetRows){
-      Sheet.deleteRows(Rows+1, SheetRows-Rows);
-    } else if (Rows > SheetRows) {
-       Sheet.insertRowsAfter(SheetRows, Rows-SheetRows);
-    }
+    const currentRows = Sheet.getMaxRows();
+    if (Rows < currentRows) Sheet.deleteRows(Rows + 1, currentRows - Rows);
+    else if (Rows > currentRows) Sheet.insertRowsAfter(currentRows, Rows - currentRows);
   }
-  
+
   // Columns
   if (Columns !== 0) {
-    const SheetColumns = Sheet.getMaxColumns();
-    if (Columns < SheetColumns) {
-      Sheet.deleteColumns(Columns+1, SheetColumns-Columns);
-    } else if (Columns > SheetColumns) {
-      Sheet.insertColumnsAfter(SheetColumns,Columns-SheetColumns);
-    }
+    const currentCols = Sheet.getMaxColumns();
+    if (Columns < currentCols) Sheet.deleteColumns(Columns + 1, currentCols - Columns);
+    else if (Columns > currentCols) Sheet.insertColumnsAfter(currentCols, Columns - currentCols);
   }
 
   // Return new Sheet object
